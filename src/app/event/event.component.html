@@ -1,0 +1,13 @@
+<div class='container'>	
+	<div class='title left'>
+		<h3>Events</h3>
+		<ul class='filter'>
+			<li><input type="checkbox" name="the flood" id="flood"><label for="flood">Flood</label></li>
+			<li><input type="checkbox" name="the fire" id="fire"><label for="fire">Fire</label></li>
+		</ul>
+	</div>
+	<div class='card-container' >
+		<app-card *ngFor="let event of events" [event]="event">
+		</app-card>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+form{
+	position: absolute;
+	width: 250px;
+	margin: 20px calc((100% - 250px)/2) ;
+	height: 300px;
+	background: #42f4a1;
+	padding: 20px;
+}
+
+form>label{
+	margin: 0 25px;
+}
+
+form>input{
+	border:0;
+	padding: 10px 20px;
+	width: 160px;
+	margin: 10px  calc((100% - 200px)/2);
+}
+
+form>input:hover,form>input:focus{
+	outline:0;
+}
+
+.submit{
+	border:0;
+	/*padding: 10px 20px;*/
+	font-size: 18px;
+	width: 150px;	
+	margin: 10px  calc((100% - 150px)/2);
+}
+
+input{
+	border:0;
+	padding: 10px 20px;
+	width: 160px;
+	margin: 10px  calc((100% - 200px)/2);
+}
