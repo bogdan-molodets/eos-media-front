@@ -12,13 +12,12 @@ import {CoverageComponent} from './coverage/coverage.component';
 import {CardComponent} from './card/card.component';
 import {HeaderComponent} from './header/header.component';
 
-import {getEventsService} from './services/getEvents.service';
+import {EventsService} from './services/events.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthorizationComponent,
-    //MapComponent,
     EventComponent,
     CoverageComponent,
     CardComponent,
@@ -28,7 +27,7 @@ import {getEventsService} from './services/getEvents.service';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ EventsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
