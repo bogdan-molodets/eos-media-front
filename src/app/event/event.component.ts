@@ -1,24 +1,33 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Events } from '../mock-events';
-import { Event } from '../event';
-import { getEventsService} from '../services/getEvents.service'
-import { HttpClient } from '@angular/common/http';
+import {Component, OnInit, Input} from '@angular/core';
+// import {Events} from '../mock-events';
+import {Event} from '../event';
+import {getEventsService} from '../services/getEvents.service';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
+};
 
 @Component({
-  	selector: 'app-event',
-  	templateUrl: './event.component.html',
-  	styleUrls: ['./event.component.css']
+  selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
 })
 
 
 export class EventComponent implements OnInit {
-	@Input() events = Events;
-  	constructor() { }
+  private url = 'https://media-test-service.herokuapp.com/events/';
+  @Input() events;
+  constructor(private httpClient: HttpClient) {
+  }
 
-  	ngOnInit() {
-  		let httpClient:HttpClient;
-  		let getEvents = new getEventsService(httpClient);
-  		//let result:any = getEvents.get('https://eos-eventservice.herokuapp.com/events/');
-  	}
+  ngOnInit(): void {
+    this.httpClient.get<Event>(this.url).subscribe(value => {
+
+          this.events = value;
+        },
+        err => {
+          console.log('error');
+        });
+
+  }
 
 }

@@ -1,24 +1,24 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
 
-import { AppComponent } from './app.component';
-import { AuthorizationComponent } from './authorization/authorization.component';
-import { HttpClientModule } from '@angular/common/http';
-import { MapComponent } from './map/map.component';
+import {AppComponent} from './app.component';
+import {AuthorizationComponent} from './authorization/authorization.component';
+import {HttpClientModule} from '@angular/common/http';
+// import { MapComponent } from './map/map.component';
 
-import { EventComponent } from './event/event.component';
-import { CoverageComponent } from './coverage/coverage.component';
-import { CardComponent } from './card/card.component';
-import { HeaderComponent } from './header/header.component';
+import {EventComponent} from './event/event.component';
+import {CoverageComponent} from './coverage/coverage.component';
+import {CardComponent} from './card/card.component';
+import {HeaderComponent} from './header/header.component';
 
-import { getEventsService } from './services/getEvents.service';
+import {getEventsService} from './services/getEvents.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthorizationComponent,
-    MapComponent,
+    //MapComponent,
     EventComponent,
     CoverageComponent,
     CardComponent,
@@ -31,4 +31,5 @@ import { getEventsService } from './services/getEvents.service';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
