@@ -12,6 +12,7 @@ export class EventComponent implements OnInit {
 
   // @Input() events;
   events: Event[];
+  event: Event;
 
   constructor(private eventService: EventsService) {
   }
@@ -22,7 +23,13 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEvents();
+    console.log(this.getEvent());
+  }
 
+  getEvent(): void {
+    // надо получить айди по клику ты говорил, что знаешь
+    const id = 4;
+    this.eventService.getEvent(id).subscribe(event => this.event = event);
   }
 
 }
