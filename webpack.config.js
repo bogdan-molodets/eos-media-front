@@ -469,7 +469,7 @@ module.exports = {
       "hostReplacementPaths": {
         "environments\\environment.ts": "environments\\environment.ts"
       },
-      "sourceMap": true,
+      "sourceMap": false,
       "tsConfigPath": "src\\tsconfig.app.json",
       "skipCodeGeneration": true,
       "compilerOptions": {}
