@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 
 @Component({
@@ -13,13 +13,14 @@ export class MapBoxComponent implements OnInit {
   /*style = 'mapbox://styles/mapbox/outdoors-v9';
   lat = 37.75;
   lng = -122.41;*/
- // message = 'Hello World!';
+  // message = 'Hello World!';
 
   // data
   source: any;
   markers: any;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.initializeMap();
@@ -31,8 +32,8 @@ export class MapBoxComponent implements OnInit {
     .addTo(this.map);
   }
 
-  private initializeMap() {    
-    this.buildMap()
+  private initializeMap() {
+    this.buildMap();
   }
 
   buildMap() {

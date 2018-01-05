@@ -23,7 +23,7 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEvents();
-    console.log(this.getEvent());
+   // console.log(this.getEvent());
   }
 
   getEvent(): void {
