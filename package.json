@@ -4,19 +4,26 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "webpack-dev-server --port=4200",
-    "build": "webpack",
+    "start": "node app.js",
+    "build": "ng build",
     "test": "karma start ./karma.conf.js",
     "lint": "ng lint",
     "e2e": "protractor ./protractor.conf.js",
-    "pree2e": "webdriver-manager update --standalone false --gecko false --quiet"
+    "pree2e": "webdriver-manager update --standalone false --gecko false --quiet",
+    "postinstall": "ng build --aot --target=production"
+  },
+  "engines": {
+    "node": "6.11.3",
+    "npm": "3.10.10"
   },
   "private": true,
   "dependencies": {
     "@agm/core": "^1.0.0-beta.2",
     "@angular/animations": "^5.0.0",
+    "@angular/cli": "1.5.4",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
+    "@angular/compiler-cli": "^5.0.0",
     "@angular/core": "^5.0.0",
     "@angular/forms": "^5.0.0",
     "@angular/http": "^5.0.0",
@@ -24,6 +31,8 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "core-js": "^2.4.1",
+    "express": "^4.16.2",
+    "typescript": "~2.4.2",
     "mapbox-gl": "^0.43.0",
     "rxjs": "^5.5.2",
     "zone.js": "^0.8.14"
