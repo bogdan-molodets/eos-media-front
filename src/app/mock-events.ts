@@ -1,4 +1,4 @@
-import {Event} from './event';
+/*import {Event} from './event';
 
 export const Events: Event[] = [
 	{id:1,type:'flood',title:'the flood',content:'There was the flood in New Orleans on 10 August 2016.',longtitude:-90.4,latitude:29.57},
@@ -10,3 +10,4 @@ export const Events: Event[] = [
 	{id:8,type:'flood',title:'the flood',content:'There was the fire in Detroit on 11 March 2017.',longtitude:-83.3,latitude:42.20},
 	{id:9,type:'fire',title:'the fire',content:'There was the fire in Boston on 9 July 2017.',longtitude:-71.5,latitude:42.21},
   ];
+*/

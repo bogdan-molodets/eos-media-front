@@ -10,10 +10,10 @@ import { EventComponent } from './event/event.component';
 import { CoverageComponent } from './coverage/coverage.component';
 import { CardComponent } from './card/card.component';
 import { HeaderComponent } from './header/header.component';
-
-
-import { getEventsService } from './services/getEvents.service';
 import { MapBoxComponent } from './map-box/map-box.component';
+
+import {EventsService} from './services/events.service';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { MapBoxComponent } from './map-box/map-box.component';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ EventsService ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
