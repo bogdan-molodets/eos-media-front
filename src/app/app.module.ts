@@ -13,7 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { MapBoxComponent } from './map-box/map-box.component';
 
 import {EventsService} from './services/events.service';
-
+import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,8 @@ import {EventsService} from './services/events.service';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularOpenlayersModule
   ],
   providers: [ EventsService ],
   bootstrap: [AppComponent]
