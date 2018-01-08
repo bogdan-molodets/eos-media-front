@@ -15,12 +15,13 @@ export class MapBoxComponent implements OnInit {
   public zoom = 15;
   public height = 1.0;
   public width = 5;
+  events: Event[];
 
   constructor(private eventService: EventsService) {
   }
 
   ngOnInit(): void {
-
+    this.getEvents();
   }
 
   // /// default settings
@@ -39,9 +40,13 @@ export class MapBoxComponent implements OnInit {
   // }
   //
   //
-  // getEvents(): void {
-  //   this.eventService.getEvents().subscribe(events => this.events$ = events);
-  // }
+  getEvents(): void {
+    this.eventService.getEvents().subscribe(events => {
+      this.events = events;
+
+    });
+  }
+
   //
   // ngOnInit() {
   //   this.initializeMap();
