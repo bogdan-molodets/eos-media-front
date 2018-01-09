@@ -9,7 +9,7 @@ import {Event} from '../event';
 export class CardComponent implements OnInit {
   @Input() event: Event;
 
-  showEvent(id): void {
+  static showEvent(id): void {
     console.log(id);
   }
 
