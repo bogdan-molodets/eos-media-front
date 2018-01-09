@@ -1,5 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Event} from '../event';
+import {MapService} from '../services/map.service';
 
 @Component({
   selector: 'app-card',
@@ -11,9 +12,14 @@ export class CardComponent implements OnInit {
 
   showEvent(id): void {
     console.log(id);
+  }  
+
+  constructor(private mapService: MapService) {
   }
 
-  constructor() {
+  onClick(event:Event){
+    console.log(event.id);
+    this.mapService.OnEventClick(event);
   }
 
   ngOnInit() {

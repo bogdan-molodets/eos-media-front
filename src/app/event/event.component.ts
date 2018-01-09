@@ -16,7 +16,7 @@ export class EventComponent implements OnInit {
 
   constructor(private eventService: EventsService) {
   }
-
+ 
   getEvents(): void {
     this.eventService.getEvents().subscribe(events => this.events = events);
   }
