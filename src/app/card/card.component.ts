@@ -9,10 +9,17 @@ import {Event} from '../event';
 export class CardComponent implements OnInit {
   @Input() event: Event;
 
+  showEvent(id): void {
+    console.log(id);
+  }
+
   constructor() {
   }
 
   ngOnInit() {
+
   }
+
+  // обрабатываем клик и в ивентах находим одно событие
 
 }

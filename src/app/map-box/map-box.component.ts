@@ -16,6 +16,7 @@ export class MapBoxComponent implements OnInit {
   public height = 1.0;
   public width = 5;
   events: Event[];
+  event: Event;
 
   constructor(private eventService: EventsService) {
   }
@@ -46,6 +47,11 @@ export class MapBoxComponent implements OnInit {
 
     });
   }
+
+  getEvent(): void {
+    this.eventService.getEvent(4).subscribe(event => this.event = event);
+  }
+
 
   //
   // ngOnInit() {
