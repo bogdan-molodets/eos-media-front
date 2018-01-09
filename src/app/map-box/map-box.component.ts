@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-// import * as mapboxgl from 'mapbox-gl';
 import {Event} from '../event';
 import {EventsService} from '../services/events.service';
-import {proj, View} from 'openlayers';
-import {catchError, map, tap} from 'rxjs/operators';
-
 import {isUndefined} from 'util';
 
 
@@ -30,22 +26,7 @@ export class MapBoxComponent implements OnInit {
     this.getEvents();
   }
 
-  // /// default settings
-  // map: mapboxgl.Map;
-  // events$: Event[];
-  // /*style = 'mapbox://styles/mapbox/outdoors-v9';
-  // lat = 37.75;
-  // lng = -122.41;*/
-  // // message = 'Hello World!';
-  //
-  // // data
-  // source: any;
-  // markers: any;
-  //
-  // constructor(private eventService: EventsService) {
-  // }
-  //
-  //
+
   getEvents(): void {
     this.eventService.getEvents().subscribe(events => {
       this.events = events;
@@ -53,12 +34,6 @@ export class MapBoxComponent implements OnInit {
     });
   }
 
-  showOne(event: Event): void {
-    console.log(event);
-    this.zoom = 4;
-    this.long = event.event_lon;
-    this.lat = event.event_lat;
-  }
 
   mapOnClick(evn: any): void {
     const mp = evn.map;
