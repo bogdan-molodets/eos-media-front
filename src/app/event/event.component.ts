@@ -9,8 +9,6 @@ import {EventsService} from '../services/events.service';
 
 
 export class EventComponent implements OnInit {
-
-  // @Input() events;
   events: Event[];
   event: Event;
 

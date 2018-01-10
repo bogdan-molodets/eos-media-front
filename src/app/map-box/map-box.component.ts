@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {Event} from '../event';
 import {EventsService} from '../services/events.service';
 import {
-
   MapComponent,
   ViewComponent,
   LayerComponent,
@@ -20,7 +19,7 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./map-box.component.css']
 })
 export class MapBoxComponent implements OnInit {
-
+  @ViewChild('map', {read:ElementRef}) map: ElementRef;
   // zoom: Observable<number>;
   // long: Observable<number>;
   // lat: Observable<number>;
@@ -42,7 +41,10 @@ export class MapBoxComponent implements OnInit {
     // map.instance.setTarget('map');
     // map.instance.addLayer(new SourceComponent(LayerComponent()))
 
-
+   /** console.log(this.map);
+    console.log(this.map.nativeElement.attributes);**/
+    this.mapService.SetMap(this.map);
+    console.log(this.mapService.GetMap());
     this.mapService.currentZoom.subscribe(zoom => this.zoom = zoom);
     this.mapService.currentLong.subscribe(long => this.long = long);
     this.mapService.currentLat.subscribe(lat => this.lat = lat);
