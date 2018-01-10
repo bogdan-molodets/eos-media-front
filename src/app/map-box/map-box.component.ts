@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Event} from '../event';
 import {EventsService} from '../services/events.service';
 import {
@@ -11,6 +11,7 @@ import {
   GeometryPointComponent
 } from 'ngx-openlayers';
 import {MapService} from '../services/map.service';
+
 import {Observable} from 'rxjs/Observable';
 
 
@@ -20,7 +21,7 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./map-box.component.css']
 })
 export class MapBoxComponent implements OnInit {
-
+@ViewChild(ViewComponent) view: ViewComponent;
   // zoom: Observable<number>;
   // long: Observable<number>;
   // lat: Observable<number>;
@@ -32,20 +33,23 @@ export class MapBoxComponent implements OnInit {
   // public lat = 45.210225;
 
   events: Event[];
-  event: Event;
+  evt: Event;
+  visible = false;
 
-  constructor(private eventService: EventsService, private mapService: MapService) {
+  constructor(private elementRef: ElementRef, private eventService: EventsService, private mapService: MapService) {
   }
 
   ngOnInit(): void {
     // const map = new MapComponent(null);
     // map.instance.setTarget('map');
-    // map.instance.addLayer(new SourceComponent(LayerComponent()))
-
-
+    // const mp = this.elementRef.nativeElement.map
+  //this.view.instance.setZoom()
     this.mapService.currentZoom.subscribe(zoom => this.zoom = zoom);
     this.mapService.currentLong.subscribe(long => this.long = long);
     this.mapService.currentLat.subscribe(lat => this.lat = lat);
+    this.mapService.currentVisible.subscribe(v => this.visible = v);
+    this.mapService.currentEvent.subscribe(e => this.evt = e);
+
     // this.zoom = this.mapService.GetZgoom();
     // this.long = this.mapService.GetLong();
     // this.lat = this.mapService.GetLat();
@@ -57,7 +61,6 @@ export class MapBoxComponent implements OnInit {
   getEvents(): void {
     this.eventService.getEvents().subscribe(events => {
       this.events = events;
-
     });
   }
 

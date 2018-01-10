@@ -12,26 +12,33 @@ export class MapService {
   currentLong = this.longSource.asObservable();
   private latSource = new BehaviorSubject<number>(45);
   currentLat = this.latSource.asObservable();
+  private visibleSource = new BehaviorSubject<boolean>(false);
+  currentVisible= this.visibleSource.asObservable();
+  private eventSource = new BehaviorSubject<Event>(null);
+  currentEvent= this.eventSource.asObservable();
   // public long = new BehaviorSubject<number>(5);
   // public lat = new BehaviorSubject<number>(45);
 
   constructor() {
   }
 
-  changeInitMap(z: number, ln: number, lt: number) {
+  changeInitMap(z: number, ln: number, lt: number, v: boolean, e: Event) {
     this.zoomSource.next(z);
     this.longSource.next(ln);
     this.latSource.next(lt);
+    this.visibleSource.next(v);
+    this.eventSource.next(e);
   }
 
-  public OnEventClick(event: Event) {
-    this.changeInitMap(7, event.event_lon, event.event_lat);
+  public OnCardClick(event: Event, v: boolean) {
+    this.changeInitMap(7, event.event_lon, event.event_lat, v, event);
   }
 
   public OnPointClick(evn: any) {
     // get map object from click event
     const mp = evn.map;
-
+    console.log(evn);
+    console.log(evn.map);
     const clicked_feature = mp.forEachFeatureAtPixel(evn.pixel, function (feature, layer) {
       return feature;
     });
