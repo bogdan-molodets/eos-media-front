@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, ElementRef} from '@angular/core';
 import {Event} from '../event';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -6,6 +6,7 @@ import {isUndefined} from 'util';
 
 @Injectable()
 export class MapService {
+  private map:ElementRef
   private zoomSource = new BehaviorSubject<number>(5);
   currentZoom = this.zoomSource.asObservable();
   private longSource = new BehaviorSubject<number>(5);
@@ -28,6 +29,12 @@ export class MapService {
     this.latSource.next(lt);
     this.visibleSource.next(v);
     this.eventSource.next(e);
+  }
+  public GetMap(){
+    return this.map;
+  }
+  public SetMap(map:ElementRef){
+    this.map = map;
   }
 
   public OnCardClick(event: Event, v: boolean) {

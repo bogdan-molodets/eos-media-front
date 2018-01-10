@@ -1,8 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {Event} from '../event';
 import {EventsService} from '../services/events.service';
 import {
-
   MapComponent,
   ViewComponent,
   LayerComponent,
@@ -36,14 +35,15 @@ export class MapBoxComponent implements OnInit {
   evt: Event;
   visible = false;
 
-  constructor(private elementRef: ElementRef, private eventService: EventsService, private mapService: MapService) {
+  constructor(private eventService: EventsService, private mapService: MapService) {
   }
 
   ngOnInit(): void {
     // const map = new MapComponent(null);
     // map.instance.setTarget('map');
-    // const mp = this.elementRef.nativeElement.map
-  //this.view.instance.setZoom()
+    // map.instance.addLayer(new SourceComponent(LayerComponent()))
+
+
     this.mapService.currentZoom.subscribe(zoom => this.zoom = zoom);
     this.mapService.currentLong.subscribe(long => this.long = long);
     this.mapService.currentLat.subscribe(lat => this.lat = lat);

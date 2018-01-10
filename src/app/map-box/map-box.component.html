@@ -1,6 +1,6 @@
 <!--<div class="map" id="map"></div>-->
-<aol-map id="map" [width]="'100%'" [height]="'100%'" (onClick)="mapOnClick($event)">
-    <aol-view [zoom]="zoom">
+<aol-map id="map" [width]="'100%'" [height]="'100%'" (onClick)="mapOnClick($event)" #map>
+    <aol-view [zoom]= "zoom">
         <aol-coordinate [x]="long" [y]="lat" [srid]="'EPSG:4326'"></aol-coordinate>
     </aol-view>
     <aol-layer-tile>
