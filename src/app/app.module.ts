@@ -13,6 +13,7 @@ import { HeaderComponent } from './header/header.component';
 import { MapBoxComponent } from './map-box/map-box.component';
 
 import {EventsService} from './services/events.service';
+import {MapService } from './services/map.service';
 import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 @NgModule({
@@ -30,7 +31,7 @@ import {AngularOpenlayersModule} from 'ngx-openlayers';
     HttpClientModule,
     AngularOpenlayersModule
   ],
-  providers: [ EventsService ],
+  providers: [ EventsService, MapService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
