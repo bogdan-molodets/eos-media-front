@@ -7,11 +7,11 @@ import {isUndefined} from 'util';
 @Injectable()
 export class MapService {
   private map:ElementRef
-  private zoomSource = new BehaviorSubject<number>(5);
+  private zoomSource = new BehaviorSubject<number>(3);
   currentZoom = this.zoomSource.asObservable();
-  private longSource = new BehaviorSubject<number>(5);
+  private longSource = new BehaviorSubject<number>(-102);
   currentLong = this.longSource.asObservable();
-  private latSource = new BehaviorSubject<number>(45);
+  private latSource = new BehaviorSubject<number>(38);
   currentLat = this.latSource.asObservable();
   private visibleSource = new BehaviorSubject<boolean>(false);
   currentVisible= this.visibleSource.asObservable();
