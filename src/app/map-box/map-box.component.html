@@ -1,6 +1,6 @@
 <!--<div class="map" id="map"></div>-->
-<aol-map id="map" [width]="'100%'" [height]="'100%'" (onClick)="mapOnClick($event)" #map>
-    <aol-view [zoom]= "zoom">
+<aol-map id="map" [width]="'100%'" [height]="'100%'"  (onClick)="mapOnClick($event)" #map>
+    <aol-view [zoom]="zoom" >
         <aol-coordinate [x]="long" [y]="lat" [srid]="'EPSG:4326'"></aol-coordinate>
     </aol-view>
     <aol-layer-tile>
@@ -10,7 +10,24 @@
     <aol-control-defaults></aol-control-defaults>
     <aol-layer-vector>
         <aol-source-vector>
-            <aol-feature *ngFor="let event of events">
+            <aol-feature *ngIf="visible">
+                <aol-geometry-polygon>
+                    <aol-collection-coordinates
+                            [coordinates]="evt.affected_area['coordinates'][0][0]"
+                            [srid]="'EPSG:4326'"
+                    >
+                    </aol-collection-coordinates>
+                </aol-geometry-polygon>
+                <aol-style>
+                    <aol-style-stroke [color]="'red'"></aol-style-stroke>
+                    <aol-style-fill [color]="[255,0,0,0.5]"></aol-style-fill>
+                </aol-style>
+            </aol-feature>
+        </aol-source-vector>
+    </aol-layer-vector>
+    <aol-layer-vector>
+        <aol-source-vector>
+            <aol-feature *ngFor="let event of events" [id]="event.id" >
                 <aol-geometry-point>
                     <aol-coordinate [x]="event.event_lon" [y]="event.event_lat" [srid]="'EPSG:4326'"></aol-coordinate>
                 </aol-geometry-point>
@@ -25,26 +42,7 @@
                 </aol-style>
 
             </aol-feature>
-           <aol-feature *ngIf="visible">
-               <aol-geometry-polygon>
-                   <aol-collection-coordinates
-                           [coordinates]="evt.affected_area['coordinates'][0][0]"
-                           [srid]="'EPSG:4326'"
-                   >
-                   </aol-collection-coordinates>
-               </aol-geometry-polygon>
-               <aol-style>
-                   <aol-style-stroke [color]="'red'"></aol-style-stroke>
-                   <aol-style-fill [color]="[255,0,0,0.5]"></aol-style-fill>
-               </aol-style>
-           </aol-feature>
-
-
-
-
-
-
-
         </aol-source-vector>
     </aol-layer-vector>
+
 </aol-map>

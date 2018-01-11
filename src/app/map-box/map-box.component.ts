@@ -20,40 +20,30 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./map-box.component.css']
 })
 export class MapBoxComponent implements OnInit {
-@ViewChild(ViewComponent) view: ViewComponent;
-  // zoom: Observable<number>;
-  // long: Observable<number>;
-  // lat: Observable<number>;
-  // public zoom = 5;
+  @ViewChild(ViewComponent) view: ViewComponent;
+
   zoom: number;
   lat: number;
   long: number;
-  // public long = 5.795122;
-  // public lat = 45.210225;
-
   events: Event[];
   evt: Event;
   visible = false;
 
   constructor(private eventService: EventsService, private mapService: MapService) {
+    // this.view=this.
   }
 
   ngOnInit(): void {
-    // const map = new MapComponent(null);
-    // map.instance.setTarget('map');
-    // map.instance.addLayer(new SourceComponent(LayerComponent()))
-
-
-    this.mapService.currentZoom.subscribe(zoom => this.zoom = zoom);
+    this.mapService.currentZoom.subscribe(zoom => {
+      this.zoom = zoom;
+    });
     this.mapService.currentLong.subscribe(long => this.long = long);
     this.mapService.currentLat.subscribe(lat => this.lat = lat);
     this.mapService.currentVisible.subscribe(v => this.visible = v);
     this.mapService.currentEvent.subscribe(e => this.evt = e);
-
-    // this.zoom = this.mapService.GetZgoom();
-    // this.long = this.mapService.GetLong();
-    // this.lat = this.mapService.GetLat();
-
+    // this.mapService.currentView.subscribe((view => this.view = view));
+    // this.mapService.currentView.subscribe((view => this.view.instance.setZoom(7)));
+    /// this.view.instance.setZoom(7);
     this.getEvents();
   }
 
@@ -66,8 +56,17 @@ export class MapBoxComponent implements OnInit {
 
 
   mapOnClick(evn: any): void {
-    this.mapService.OnPointClick(evn);
+    this.mapService.OnPointClick(evn, this.events);
+
   }
+
+  // mapOnZoom(evn: any): void {
+  //   console.log("occured");
+  //   console.log(evn.key);
+  //   evn.target.getView().setZoom(7);
+  //   // const mp = evn.getView().setZoom(7);
+  //  // mp.getView().setZoom(7);
+  // }
 
 
 }
