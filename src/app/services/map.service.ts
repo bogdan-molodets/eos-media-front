@@ -8,13 +8,8 @@ import {ViewComponent} from 'ngx-openlayers';
 
 @Injectable()
 export class MapService {
-<<<<<<< HEAD
-  private map:ElementRef
-  private zoomSource = new BehaviorSubject<number>(3);
-=======
   // private map:ElementRef
   private zoomSource = new BehaviorSubject<number>(5);
->>>>>>> 204734157485cca438f025af7d28b885d72af645
   currentZoom = this.zoomSource.asObservable();
   private longSource = new BehaviorSubject<number>(-102);
   currentLong = this.longSource.asObservable();
