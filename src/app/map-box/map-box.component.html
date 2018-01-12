@@ -13,9 +13,9 @@
     <aol-control-defaults></aol-control-defaults>
     <aol-layer-vector>
         <aol-source-vector>
-            <aol-feature *ngIf="visible">
+            <aol-feature *ngIf="visible && evt.affected_area">
                 <aol-geometry-polygon>
-                    <aol-collection-coordinates
+                    <aol-collection-coordinates 
                             [coordinates]="evt.affected_area['coordinates'][0][0]"
                             [srid]="'EPSG:4326'"
                     >
@@ -34,8 +34,15 @@
                 <aol-geometry-point>
                     <aol-coordinate [x]="event.event_lon" [y]="event.event_lat" [srid]="'EPSG:4326'"></aol-coordinate>
                 </aol-geometry-point>
-                <aol-style>
-                    <aol-style-icon
+                <aol-style [ngSwitch]='event.event_type'>
+                    <aol-style-icon *ngSwitchCase="'Flood'"
+                            [src]="'assets/flood.png'"
+                            [anchor]="[0.5, 0.5]"
+                            [anchorXUnits]="'fraction'" [anchorYUnits]="'fraction'"
+                            [scale]="1"
+                            [anchorOrigin]="'top-left'">
+                    </aol-style-icon>
+                    <aol-style-icon *ngSwitchDefault
                             [src]="'assets/fire.png'"
                             [anchor]="[0.5, 0.5]"
                             [anchorXUnits]="'fraction'" [anchorYUnits]="'fraction'"

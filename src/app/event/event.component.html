@@ -7,7 +7,7 @@
 		</ul>
 	</div>
 	<div class='card-container'>
-			<app-card [event]="event" >
+			<app-card *ngFor="let event of events" [event]="event" >
 			</app-card>
 		<!--<div *ngFor="let event of events" [ngSwitch]="event.event_type" >
 			<app-card [event]="event" *ngSwitchCase="'Wildfire'" [visible]='fire'>
