@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {catchError, map, tap} from 'rxjs/operators';
 //import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-
+import {Tweet} from '../tweet';
 import {Event} from '../event';
 
 const httpOptions = {
@@ -14,11 +14,13 @@ const httpOptions = {
 @Injectable()
 export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
-/*
-  stateFire = new BehaviorSubject<boolean>(true);
-  currentFire = this.stateFire.asObservable();
-  stateFlood = new BehaviorSubject<boolean>(true);
-  currentFlood = this.stateFlood.asObservable();*/
+  private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
+
+  /*
+    stateFire = new BehaviorSubject<boolean>(true);
+    currentFire = this.stateFire.asObservable();
+    stateFlood = new BehaviorSubject<boolean>(true);
+    currentFlood = this.stateFlood.asObservable();*/
   constructor(private httpClient: HttpClient) {
   }
 
@@ -36,6 +38,10 @@ export class EventsService {
     .pipe(
         catchError(this.handleError<Event>(`getEvent id=${id}`))
     );
+  }
+
+  getTweets(): Observable<Tweet[]> {
+    return this.httpClient.get<Tweet[]>(this.tweets_url).pipe(catchError(this.handleError('getTweets', [])));
   }
 
   /**
