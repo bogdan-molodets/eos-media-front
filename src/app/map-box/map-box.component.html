@@ -13,7 +13,7 @@
     <aol-control-defaults></aol-control-defaults>
     <aol-layer-vector>
         <aol-source-vector>
-            <aol-feature *ngIf="visible">
+            <aol-feature *ngIf="visible && evt.affected_area">
                 <aol-geometry-polygon>
                     <aol-collection-coordinates
                             [coordinates]="evt.affected_area['coordinates'][0][0]"

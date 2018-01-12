@@ -59,6 +59,7 @@ export class MapService {
       mp.getView().setZoom(7);
       mp.getView().setCenter(clicked_feature.getGeometry().getCoordinates());
       this.eventSource.next(e);
+      this.visibleSource.next(true);
     }
 
 
