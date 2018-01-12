@@ -2,12 +2,20 @@
 	<div class='title left'>
 		<h3>Events</h3>
 		<ul class='filter'>
-			<li><input type="checkbox" name="the flood" id="flood"><label for="flood" checked>Flood</label></li>
-			<li><input type="checkbox" name="the fire" id="fire"><label for="fire" checked>Fire</label></li>
+			<li><input type="checkbox" name="the flood" id="flood"  checked><label for="flood" >Flood</label></li><!--(change)='flood = !flood'-->
+			<li><input type="checkbox" name="the fire" id="fire"  checked><label for="fire" >Fire</label></li>
 		</ul>
 	</div>
-	<div class='card-container' >
-		<app-card *ngFor="let event of events" [event]="event">
-		</app-card>
+	<div class='card-container'>
+			<app-card [event]="event" >
+			</app-card>
+		<!--<div *ngFor="let event of events" [ngSwitch]="event.event_type" >
+			<app-card [event]="event" *ngSwitchCase="'Wildfire'" [visible]='fire'>
+			</app-card>
+			<app-card [event]="event" *ngSwitchCase="'Burned Area Emergency Response'" [visible]='fire'>
+			</app-card>			
+			<app-card [event]="event" *ngSwitchCase="'Flood'" [visible]='flood'>
+			</app-card>
+		</div>-->
 	</div>
 </div>

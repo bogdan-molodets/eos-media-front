@@ -3,6 +3,7 @@ import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {catchError, map, tap} from 'rxjs/operators';
+//import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {Event} from '../event';
 
@@ -13,9 +14,17 @@ const httpOptions = {
 @Injectable()
 export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
-
+/*
+  stateFire = new BehaviorSubject<boolean>(true);
+  currentFire = this.stateFire.asObservable();
+  stateFlood = new BehaviorSubject<boolean>(true);
+  currentFlood = this.stateFlood.asObservable();*/
   constructor(private httpClient: HttpClient) {
   }
+
+  /**changeStatesta(state:boolean):Observable<boolean>{
+    return (!state)<boolean>;
+  }**/
 
   getEvents(): Observable<Event[]> {
     return this.httpClient.get<Event[]>(this.url).pipe(catchError(this.handleError('getEvents', [])));

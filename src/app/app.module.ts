@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
@@ -28,6 +28,7 @@ import {AngularOpenlayersModule} from 'ngx-openlayers';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AngularOpenlayersModule
   ],
