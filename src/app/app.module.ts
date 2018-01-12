@@ -15,6 +15,7 @@ import { MapBoxComponent } from './map-box/map-box.component';
 import {EventsService} from './services/events.service';
 import {MapService } from './services/map.service';
 import {AngularOpenlayersModule} from 'ngx-openlayers';
+import { TweetComponent } from './tweet/tweet.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {AngularOpenlayersModule} from 'ngx-openlayers';
     CoverageComponent,
     CardComponent,
     HeaderComponent,
-    MapBoxComponent
+    MapBoxComponent,
+    TweetComponent
   ],
   imports: [
     BrowserModule,
