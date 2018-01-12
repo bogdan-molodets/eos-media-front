@@ -16,7 +16,7 @@ import {
 })
 export class CardComponent implements OnInit {
   @Input() event: Event;
-  @Input() visible: boolean;
+  /*@Input() visible: boolean;*/
   constructor(private mapService: MapService) {
   }
 

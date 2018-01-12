@@ -11,8 +11,8 @@ import {EventsService} from '../services/events.service';
 export class EventComponent implements OnInit {
   events: Event[];
   event: Event;
-  flood: boolean = false;
-  fire: boolean = false;
+  /**flood: boolean = false;
+  fire: boolean = false;**/
   constructor(private eventService: EventsService) {
   }
 
@@ -22,8 +22,8 @@ export class EventComponent implements OnInit {
   
   ngOnInit(): void {
     this.getEvents();
-    this.eventService.currentFlood.subscribe(flood => this.flood = flood);
-    this.eventService.currentFire.subscribe(fire => this.fire = fire);
+   /** this.eventService.currentFlood.subscribe(flood => this.flood = flood);
+    this.eventService.currentFire.subscribe(fire => this.fire = fire);**/
    // console.log(this.getEvent());
   }
 
