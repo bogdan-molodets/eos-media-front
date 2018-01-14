@@ -13,7 +13,7 @@ body{
 	cursor: pointer;
 	background-color:#FAFAFA; 
 	width: 100%;
-	height: 100px;	
+	min-height: 100px;	
 	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 	margin: 15px 0;
 	padding: 5px;
@@ -42,7 +42,8 @@ body{
 	font-weight: 100;
 	font-size:12px;
 	-webkit-margin-before: 0;
-    -webkit-margin-after: 0;
+	-webkit-margin-after: 0;
+	word-wrap: break-word;
 }
 .title{
 	top:45px;
@@ -59,8 +60,9 @@ body{
 	left: 0;
 }
 .right{
-	right:0;
+	right:6px;
 }
+
 .card-container{
 	margin-top:100px;
 }
@@ -86,14 +88,14 @@ label {
 }
 
 .tweet-container{
-	margin-top:0;
+	margin-top: 25px;
 }
 
-.tweet-block{
+/**.tweet-block{
 	cursor: pointer;
 	background-color:#FAFAFA; 
 	width: 100%;
-	height: 250px;	
+	min-height: 200px;	
 	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 	margin: 15px 0;
 	padding: 5px;
@@ -105,6 +107,52 @@ label {
 	box-shadow: 0 3px 4px rgba(0,0,0,0.7);
 	transition-timing-function: ease-in;
   	transition: 0.2s;
+}**/
+.tweet-block-title>.image{
+	position: absolute;
+	float: left;
+	width: 50px;
+	height: 50px;
+	padding: 0 10px;
+}
+
+.tweet-block-title{
+	position: relative;
+	margin-bottom: 10px;
+	height: 50px;
+	padding-bottom: 10px;
+	border-bottom: solid 1px #BDBDBD
+}
+.tweet-author{
+	width: calc(100% - 70px);
+    left: 60px;
+	top: 10px;
+	font-size: 14px;
+	word-wrap: break-word;
+	/*margin-bottom: 15px;*/
+}
+.tweet-date{
+	padding-top: 10px;
+	border-top: solid 1px #BDBDBD
+}
+.indent-1{
+	margin: 5px 0;
+}
+.indent-2{
+	margin: 10px 0;
+}
+.indent-3{
+	margin: 15px 0;
+}
+.indent-4{
+	margin: 20px 0;
+}
+.circle{
+	border-radius: 100%;
+}
+.blue{
+	color:#0091EA;
+	text-decoration: none;
 }
 /*.filter input[type = "checkbox"] + label::before{
 	content: '';
