@@ -1,4 +1,4 @@
-<div class='block'  (click)="onClick(event)">
+<div class='block' [ngClass]="{'active': id === event.id}"  (click)="onClick(event)">
     <p class='card-title'>
         {{event.title}}
     </p>

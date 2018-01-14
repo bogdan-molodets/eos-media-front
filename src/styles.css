@@ -20,7 +20,7 @@ body{
 	transition-timing-function: ease-in;
   	transition: 0.2s;
 }
-.block:hover{
+.active, .block:hover{
 	background-color:#FFFFFF; 
 	box-shadow: 0 3px 4px rgba(0,0,0,0.7);
 	transition-timing-function: ease-in;
