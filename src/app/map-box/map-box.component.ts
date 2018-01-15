@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {Event} from '../event';
 
-import * as mapboxgl from 'mapbox-gl';
+import * as mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import {EventsService} from '../services/events.service';
 import {
   MapComponent,

@@ -104,6 +104,8 @@ module.exports = {
         "crossOriginLoading": false
     },
     "module": {
+
+        "noParse": "/(mapbox-gl)\.js$/",
         "rules": [
             {
                 "test": /\.html$/,
@@ -394,7 +396,7 @@ module.exports = {
         }),
 
         new UglifyJsPlugin({
-            "sourceMap":true,
+
             "uglifyOptions": {
                 "compress": {"comparisons": false}
             }
