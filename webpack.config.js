@@ -394,6 +394,7 @@ module.exports = {
         }),
 
         new UglifyJsPlugin({
+            "sourceMap":true,
             "uglifyOptions": {
                 "compress": {"comparisons": false}
             }
