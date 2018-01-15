@@ -21,11 +21,11 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/openlayers/css/ol.css",
-        "../node_modules/mapbox-gl/dist/mapbox-gl.css"
+        "../node_modules/openlayers/css/ol.css"
+
       ],
       "scripts": [
-        "../node_modules/mapbox-gl/dist/mapbox-gl.js"
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

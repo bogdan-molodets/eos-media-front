@@ -394,13 +394,6 @@ module.exports = {
             ],
             "debug": "warning"
         }),
-
-        new UglifyJsPlugin({
-
-            "uglifyOptions": {
-                "compress": {"comparisons": false}
-            }
-        }),
         new ProgressPlugin(),
         new CircularDependencyPlugin({
             "exclude": /(\\|\/)node_modules(\\|\/)/,
