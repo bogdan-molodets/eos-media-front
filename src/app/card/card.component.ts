@@ -19,13 +19,13 @@ export class CardComponent implements OnInit {
   /*@Input() visible: boolean;*/
   constructor(private mapService: MapService) {
   }
-
+  private id:number = -1;
   ngOnInit() {
-
+    this.mapService.currentEvent.subscribe(event=>{try{this.id=event.id}catch(e){}});
   }
 
   onClick(event: Event) {
-    this.mapService.OnCardClick(event, true);
+    this.mapService.OnCardClick(event, true);    
   }
 
   // обрабатываем клик и в ивентах находим одно событие
