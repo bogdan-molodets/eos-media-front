@@ -54,7 +54,7 @@ export class MapService {
       const e = events.find(function (event: Event, index: number, array: Event[]) {
         return event.id === clicked_feature.getId();
       });
-      //console.log(e);
+      // console.log(e);
       // const e = clicked_feature.getId('id');
       mp.getView().setZoom(7);
       mp.getView().setCenter(clicked_feature.getGeometry().getCoordinates());
@@ -66,9 +66,14 @@ export class MapService {
   }
 
 
+  public createMap(): void {
+
+  }
+
   /*public GetZoom(): Observable<number> {
     return this.zoom.asObservable();
   }
+
 
   public GetLong(): Observable<number> {
     return this.long.asObservable();
