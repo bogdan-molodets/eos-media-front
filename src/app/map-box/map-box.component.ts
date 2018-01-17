@@ -1,5 +1,7 @@
 import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {Event} from '../event';
+
+import * as mapboxgl from 'mapbox-gl';
 import {EventsService} from '../services/events.service';
 import {
   MapComponent,
@@ -29,11 +31,29 @@ export class MapBoxComponent implements OnInit {
   evt: Event;
   visible = false;
 
+  map: any;
+
   constructor(private eventService: EventsService, private mapService: MapService) {
+
+    // this.map.ac
+    // this.map = new Map({
+    //   container: 'map', // container id
+    //
+    //   center: [-74.50, 40], // starting position [lng, lat]
+    //   zoom: 9 // starting zoom
+    // });
     // this.view=this.
   }
 
   ngOnInit(): void {
+    (mapboxgl as any).accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [-74.50, 40], // starting position [lng, lat]
+      zoom: 9
+    });
+
     this.mapService.currentZoom.subscribe(zoom => {
       this.zoom = zoom;
     });
@@ -68,6 +88,7 @@ export class MapBoxComponent implements OnInit {
     this.mapService.OnPointClick(evn, this.events);
 
   }
+
 
   // mapOnZoom(evn: any): void {
   //   console.log("occured");

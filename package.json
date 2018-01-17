@@ -31,6 +31,7 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
     "@types/mapbox-gl": "^0.42.0",
+    "@types/node": "^6.0.96",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
     "mapbox-gl": "^0.43.0",
