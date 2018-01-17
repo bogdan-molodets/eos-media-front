@@ -64,7 +64,7 @@ body{
 }
 
 .card-container{
-	margin-top:100px;
+	margin-top:220px;
 }
 .logo>h1{
 	margin:0;
@@ -74,11 +74,43 @@ body{
 .logo{
 	margin: 0;
 }
+.search>label{
+	position: absolute;
+	top: 0;	
+	font-size: 9px; 
+}
+.search{
+	position:relative;
+	min-height: 40px;
+	/*width: calc(100% - 40px);*/ /*depend from padding*/
+	padding: 0 20px;
+  }
+.search>input[type='search']{
+	position: absolute;
+	bottom: 0;
+	/*width: 100%;*/
+	padding: 5px 1px;
+	font-family: 'Montserrat', sans-serif; 
+	font-size: 13px;
+	border: none;
+	border-bottom: 1px #607D8B solid; 
+}
+.search>input[type='search']:focus +.search>label{
+	color:#1565C0;
+}
+.search>input[type='search']:focus,.search>input[type='search']:hover{
+	outline: none;
+}
+.search>input[type='search']:focus{
+	border-bottom: 2px #1565C0 solid;	
+}
+.search>input[type='search']:focus + label{
+	color: #1565C0;
+}
 .filter{
 	padding: 5px  20px;
 	list-style-type: none;
 }
-
 label {
   cursor: pointer;
 }
@@ -86,28 +118,17 @@ label {
 	cursor: pointer;
 	/*opacity:0;*/	
 }
-
+.filter input[type = "date"]{
+	display: inline;
+}
+.filter input[type = "date"]::-webkit-inner-spin-button,
+.filter input[type = "date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
 .tweet-container{
 	margin-top: 25px;
 }
-
-/**.tweet-block{
-	cursor: pointer;
-	background-color:#FAFAFA; 
-	width: 100%;
-	min-height: 200px;	
-	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-	margin: 15px 0;
-	padding: 5px;
-	transition-timing-function: ease-in;
-  	transition: 0.2s;
-}
-.tweet-block:hover{
-	background-color:#FFFFFF; 
-	box-shadow: 0 3px 4px rgba(0,0,0,0.7);
-	transition-timing-function: ease-in;
-  	transition: 0.2s;
-}**/
 .tweet-block-title>.image{
 	position: absolute;
 	float: left;

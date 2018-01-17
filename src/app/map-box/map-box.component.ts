@@ -67,8 +67,17 @@ export class MapBoxComponent implements OnInit {
 
 
   getEvents(): void {
-    this.eventService.getEvents().subscribe(events => {
+    /*this.eventService.getEvents().subscribe(events => {
       this.events = events;
+    });*/
+    this.eventService.getEvents().subscribe(eventpages => {
+      try{
+        console.log(eventpages);
+        this.events = eventpages['results'];
+        console.log(this.events);
+      }catch(err){
+        console.log(err);
+      }
     });
   }
 

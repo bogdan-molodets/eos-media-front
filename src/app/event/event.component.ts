@@ -11,16 +11,25 @@ import {EventsService} from '../services/events.service';
 export class EventComponent implements OnInit {
   events: Event[];
   event: Event;
-
+  isEmpty: boolean = false;
   /**flood: boolean = false;
-   fire: boolean = false;**/
+  fire: boolean = false;**/
   constructor(private eventService: EventsService) {
   }
 
   getEvents(): void {
-    this.eventService.getEvents().subscribe(events => this.events = events);
+    this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
   }
 
+  getEventByName(name:string): void{
+     if(name.length!=0){
+        this.eventService.getEventByName(name).subscribe(events => {this.events = events; });
+     }else{
+        //this.eventService.getEvents().subscribe(events => {this.events = events;});
+        this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
+      }
+  }
+  
   ngOnInit(): void {
     this.getEvents();
     /** this.eventService.currentFlood.subscribe(flood => this.flood = flood);

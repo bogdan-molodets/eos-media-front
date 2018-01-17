@@ -6,6 +6,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 //import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Tweet} from '../tweet';
 import {Event} from '../event';
+import { EventPages } from '../event-pages';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -28,8 +29,8 @@ export class EventsService {
     return (!state)<boolean>;
   }**/
 
-  getEvents(): Observable<Event[]> {
-    return this.httpClient.get<Event[]>(this.url).pipe(catchError(this.handleError('getEvents', [])));
+  getEvents(): Observable<EventPages[]> {
+    return this.httpClient.get<EventPages[]>(this.url).pipe(catchError(this.handleError('getEvents',[])));
   }
 
   getEvent(id: number): Observable<Event> {
@@ -38,6 +39,14 @@ export class EventsService {
     .pipe(
         catchError(this.handleError<Event>(`getEvent id=${id}`))
     );
+  }
+
+  getEventByName(name: string): Observable<Event[]>{
+    const url_name = `${this.url}title/${name}/`;
+    return this.httpClient.get<Event[]>(url_name)
+    .pipe(
+      catchError(this.handleError<Event[]>(`getEventByNamr name=${name}`)) 
+    )
   }
 
   getTweets(): Observable<Tweet[]> {
