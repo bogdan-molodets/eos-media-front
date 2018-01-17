@@ -14,7 +14,7 @@ import { MapBoxComponent } from './map-box/map-box.component';
 
 import {EventsService} from './services/events.service';
 import {MapService } from './services/map.service';
-import {AngularOpenlayersModule} from 'ngx-openlayers';
+// import {AngularOpenlayersModule} from 'ngx-openlayers';
 import { TweetComponent } from './tweet/tweet.component';
 
 @NgModule({
@@ -32,7 +32,7 @@ import { TweetComponent } from './tweet/tweet.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AngularOpenlayersModule
+   // AngularOpenlayersModule
   ],
   providers: [ EventsService, MapService ],
   bootstrap: [AppComponent]
