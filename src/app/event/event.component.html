@@ -1,22 +1,25 @@
 <div class='container'>	
 	<div class='title left'>
 		<h3>Events</h3>
+		<div class='search'>
+			<input type='search' (keyup.enter)="getEventByName(search.value)" id='search' placeholder="Event name" #search>
+			<label for='search'>Search event</label>		
+		</div>
 		<ul class='filter'>
-			<li><input type="checkbox" name="the flood" id="flood"  checked><label for="flood" >Flood</label></li><!--(change)='flood = !flood'-->
-			<li><input type="checkbox" name="the fire" id="fire"  checked><label for="fire" >Fire</label></li>
-			<li><input type="range" min="0" max="180" step="20" value="0,10" required multiple/></li>
+			<li><input id='from' type='date'></li>
+			<li><input ig='to' type='date'></li>
+		</ul>
+		<ul class='filter'>			
+			<li><input type="checkbox" name="the flood" id="flood"  checked><label for="flood" >Flood</label></li>
+			<li><input type="checkbox" name="the fire" id="fire"  checked><label for="fire" >Fire</label></li>			
 		</ul>
 	</div>
 	<div class='card-container'>
-			<app-card *ngFor="let event of events" [event]="event" >
-			</app-card>
-		<!--<div *ngFor="let event of events" [ngSwitch]="event.event_type" >
-			<app-card [event]="event" *ngSwitchCase="'Wildfire'" [visible]='fire'>
-			</app-card>
-			<app-card [event]="event" *ngSwitchCase="'Burned Area Emergency Response'" [visible]='fire'>
-			</app-card>			
-			<app-card [event]="event" *ngSwitchCase="'Flood'" [visible]='flood'>
-			</app-card>
-		</div>-->
+		<div *ngIf="!events">
+			<h3>Event list is empty</h3>
+		</div>		
+		<app-card *ngFor="let event of events" [event]="event" >
+		</app-card>
+		
 	</div>
 </div>
