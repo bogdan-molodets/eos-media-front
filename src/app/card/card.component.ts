@@ -33,7 +33,7 @@ export class CardComponent implements OnInit {
   }
 
   onClick(event: Event) {
-    //this.mapService.OnCardClick(event, true);
+    this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
   }
 
   // обрабатываем клик и в ивентах находим одно событие

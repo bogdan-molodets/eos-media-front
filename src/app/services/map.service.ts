@@ -13,15 +13,7 @@ import {isNumber, isUndefined} from 'util';
 export class MapService {
 
 
-  getInitMap(): Map {
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/dark-v9',
-      center: [-102, 35], // starting position [lng, lat]
-      zoom: 4
-    }).addControl(new mapboxgl.NavigationControl());
-    return map;
-  }
+  map: Map;
 
   // zoom: number;
   // lat: number;
@@ -44,6 +36,15 @@ export class MapService {
 
   constructor(private eventService: EventsService) {
   }
+
+  OnCardClick(e: Event, ln: number, lt: number): void {
+    this.map.flyTo({
+      center: [ln, lt],
+      zoom: 12
+    });
+    this.eventSource.next(e);
+  }
+
 
 
   // changeInitMap(z: number, ln: number, lt: number, v: boolean, e: Event) {
