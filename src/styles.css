@@ -95,9 +95,9 @@ body{
 	border: none;
 	border-bottom: 1px #607D8B solid; 
 }
-.search>input[type='search']:focus +.search>label{
+/*.search>input[type='search']:focus +.search>label{
 	color:#1565C0;
-}
+}*/
 .search>input[type='search']:focus,.search>input[type='search']:hover{
 	outline: none;
 }
@@ -115,16 +115,37 @@ label {
   cursor: pointer;
 }
 .filter input[type = "checkbox"]{
-	cursor: pointer;
-	/*opacity:0;*/	
+	cursor: pointer;	
 }
-.filter input[type = "date"]{
+.filter-date li{
 	display: inline;
 }
 .filter input[type = "date"]::-webkit-inner-spin-button,
-.filter input[type = "date"]::-webkit-calendar-picker-indicator {
+/*.filter input[type = "date"]::-webkit-calendar-picker-indicator*/ {
     display: none;
     -webkit-appearance: none;
+}
+.filter input[type = "date"]{
+	/*position: absolute;*/
+	right: 0;
+	padding: 5px 1px;
+	font-family: 'Montserrat', sans-serif; 
+	font-size: 13px;
+	border: none;
+	border-bottom: 1px #607D8B solid; 
+}
+.filter input[type='date'] + label{
+	/*position: absolute;*/
+	left: 0;
+}
+.filter input[type='date']:focus,.search>input[type='search']:hover{
+	outline: none;
+}
+.filter input[type='date']:focus{
+	border-bottom: 2px #1565C0 solid;	
+}
+.filter input[type='date']:focus + label{
+	color: #1565C0;
 }
 .tweet-container{
 	margin-top: 25px;
@@ -175,49 +196,3 @@ label {
 	color:#0091EA;
 	text-decoration: none;
 }
-/*.filter input[type = "checkbox"] + label::before{
-	content: '';
-	cursor: pointer;
-	background-color: transparent;
-	position: absolute;
-	width: 20px;
-	height: 20px;	
-  	border-radius: 40px;
-  	border: 1px solid #ddd;	
-}*/
-
-/*
-.ol-overlaycontainer-stopevent{
-	position: absolute;
-	bottom:0;
-}
-.ol-overlaycontainer-stopevent>ul{
-	list-style-type: none;
-}
-.ol-rotate{
-	display: none;
-}
-.ol-attribution>button{
-	display: none;
-}
-.ol-attribution>ul{
-	list-style-type: none;
-	-webkit-padding-start: 0;
-}
-.ol-attribution>ul li{
-	display: inline;
-	font-size: 10px;
-	margin: 5px;
-}
-.ol-attribution>ul>li>a>img{
-	display: none;	
-}
-.ol-zoom>button{
-	cursor: pointer;
-	font-weight: 900;
-	border: none;
-	margin: 5px;
-	font-family: 'Montserrat', sans-serif;
-	background-color: white;
-	display:list-item;
-}*/
