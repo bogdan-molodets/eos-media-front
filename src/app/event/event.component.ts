@@ -12,6 +12,7 @@ export class EventComponent implements OnInit {
   events: Event[];
   event: Event;
   isEmpty: boolean = false;
+  today = new Date().toJSON().split('T')[0];
   /**flood: boolean = false;
   fire: boolean = false;**/
   constructor(private eventService: EventsService) {

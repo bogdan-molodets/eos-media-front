@@ -5,12 +5,14 @@
 			<input type='search' (keyup.enter)="getEventByName(search.value)" id='search' placeholder="Event name" #search>
 			<label for='search'>Search event</label>		
 		</div>
-		<ul class='filter'>
-			<li><input id='from' type='date'></li>
-			<li><input ig='to' type='date'></li>
-		</ul>
+		<div class='filter filter-date'>
+			<input id='from' type='date' [max]="today" ><label for="from" #from>From</label>
+		</div>
+		<div class='filter filter-date'>
+			<input ig='to' type='date'[min]="from.value" [max]="today"><label for="to" #to>To</label>
+		</div>		
 		<ul class='filter'>			
-			<li><input type="checkbox" name="the flood" id="flood"  checked><label for="flood" >Flood</label></li>
+			<li><input type="checkbox" name="the flood" id="flood"  checked><label for="flood" >Flood</label></li>			
 			<li><input type="checkbox" name="the fire" id="fire"  checked><label for="fire" >Fire</label></li>			
 		</ul>
 	</div>
