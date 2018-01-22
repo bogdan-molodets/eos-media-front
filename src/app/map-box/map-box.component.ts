@@ -154,33 +154,7 @@ export class MapBoxComponent implements OnInit {
     this.eventService.getEvents().subscribe(events => {
 
       this.events = events;
-      // check if get query is empty
-      if (this.events) {
-        this.events.forEach((event) => {
-
-          // create marker div
-          const el = document.createElement('div');
-          el.id = event.id.toString();
-          el.className = 'marker';
-          el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
-          el.style.cursor = 'pointer';
-          el.style.width = '32px';
-          el.style.height = '32px';
-          el.style.visibility = 'visible';
-          const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
-          .addTo(this.map);
-          ////////
-          // add onclick event to marker
-          let s = this.mapService;
-          el.addEventListener('click', function () {
-            s.OnCardClick(event, event.event_lon, event.event_lat);
-          });
-
-
-          this.mapService.map = this.map;
-          ///////
-        });
-      }
+      this.mapService.CreateMarkers(this.events, this.map);
     });
 
 

@@ -83,5 +83,40 @@ export class MapService {
 
   }
 
+  /**
+   * create html markers
+   * @param {Event[]} events
+   * @param mp - map object
+   * @constructor
+   */
+  CreateMarkers(events: Event[], mp: any) {
+    if (events) {
+      events.forEach((event) => {
+
+        this.map = mp;
+        // create marker div
+        const el = document.createElement('div');
+        el.id = event.id.toString();
+        el.className = 'marker';
+        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
+        el.style.cursor = 'pointer';
+        el.style.width = '32px';
+        el.style.height = '32px';
+        el.style.visibility = 'visible';
+        const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
+        .addTo(this.map);
+        ////////
+        // add onclick event to marker
+
+        var s = this;
+        el.addEventListener('click', function () {
+          s.OnCardClick(event, event.event_lon, event.event_lat);
+        });
+
+
+      });
+    }
+  }
+
 
 }
