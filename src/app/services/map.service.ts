@@ -1,7 +1,6 @@
 import {Injectable, ElementRef} from '@angular/core';
 import {Event} from '../event';
 import * as mapboxgl from 'mapbox-gl';
-import {Map, Marker} from 'mapbox-gl';
 import {EventsService} from '../services/events.service';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -13,7 +12,7 @@ import {isNumber, isUndefined} from 'util';
 export class MapService {
 
 
-  map: Map;
+  map: any;
 
   // zoom: number;
   // lat: number;
@@ -30,22 +29,40 @@ export class MapService {
   // currentVisible = this.visibleSource.asObservable();
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
-  // private viewSource = new BehaviorSubject<ViewComponent>(null);
-  // // currentView = this.viewSource.asObservable();
 
 
   constructor(private eventService: EventsService) {
   }
 
   OnCardClick(e: Event, ln: number, lt: number): void {
+    // center and zoom map to chosen event
     this.map.flyTo({
       center: [ln, lt],
-      zoom: 12
+      zoom: 10
     });
+    // check if event has an aoi and draw it
+    if (e.affected_area) {
+      this.map.getSource('polygon').setData({
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: e.affected_area['coordinates'][0]
+        }
+      });
+    }
     this.eventSource.next(e);
   }
 
 
+  OnFilter(events: Event[]) {
+    // var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+    // events.forEach(function (event: Event) {
+    //   if (!el.(event.id, 0)) {
+    //     var e = document.getElementById(event.id.toString());
+    //     e.style.visibility = 'hidden';
+    //   }
+    // });
+  }
 
   // changeInitMap(z: number, ln: number, lt: number, v: boolean, e: Event) {
   //   this.zoomSource.next(z);
@@ -56,35 +73,5 @@ export class MapService {
   //   // this.viewSource.next()
   // }
 
-
-  // public OnCardClick(event: Event, v: boolean) {
-  //   this.changeInitMap(7, event.event_lon, event.event_lat, v, event);
-  // }
-
-  // public OnPointClick(evn: any, events: Event[]) {
-  //
-  //   const mp = evn.map;
-  //   const clicked_feature = mp.forEachFeatureAtPixel(evn.pixel, function (feature, layer) {
-  //
-  //     if (!isUndefined(feature.getId())) {
-  //       return feature;
-  //     }
-  //   });
-  //
-  //   if (!isUndefined(clicked_feature)) {
-  //     const e = events.find(function (event: Event, index: number, array: Event[]) {
-  //       return event.id === clicked_feature.getId();
-  //     });
-  //     // console.log(e);
-  //     // const e = clicked_feature.getId('id');
-  //     mp.getView().setZoom(7);
-  //     mp.getView().setCenter(clicked_feature.getGeometry().getCoordinates());
-  //     this.eventSource.next(e);
-  //     this.visibleSource.next(true);
-  //   }
-  //
-  //
-  // }
-  //
 
 }

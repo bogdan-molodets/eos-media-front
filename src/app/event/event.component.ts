@@ -2,6 +2,8 @@ import {Component, OnInit, Input} from '@angular/core';
 // import {Events} from '../mock-events';
 import {Event} from '../event';
 import {EventsService} from '../services/events.service';
+import {MapService} from '../services/map.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
@@ -13,26 +15,45 @@ export class EventComponent implements OnInit {
   event: Event;
   isEmpty: boolean = false;
   today = new Date().toJSON().split('T')[0];
+
+
   /**flood: boolean = false;
-  fire: boolean = false;**/
-  constructor(private eventService: EventsService) {
+   fire: boolean = false;**/
+  constructor(private mapService: MapService, private eventService: EventsService) {
   }
 
   getEvents(): void {
-    this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
+
+    this.eventService.getEvents().subscribe(eventpages => {
+      try {
+        this.events = eventpages;
+        // this.eventService.makeObserv(eventpages);
+      } catch (err) {
+      }
+    });
+
   }
 
-  getEventByName(name:string): void{
-     if(name.length!=0){
-        this.eventService.getEventByName(name).subscribe(events => {this.events = events; });
-     }else{
-        //this.eventService.getEvents().subscribe(events => {this.events = events;});
-        this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
-      }
+  getEventByName(name: string): void {
+    if (name.length != 0) {
+      this.eventService.getEventByName(name).subscribe(events => {
+        this.events = events;
+      });
+    } else {
+      //this.eventService.getEvents().subscribe(events => {this.events = events;});
+      this.eventService.getEvents().subscribe(eventpages => {
+        try {
+          this.events = eventpages['results'];
+        } catch (err) {
+        }
+      });
+    }
   }
-  
+
   ngOnInit(): void {
     this.getEvents();
+    // this.eventService.currentEvents.subscribe(e => this.events = e['results']);
+
     /** this.eventService.currentFlood.subscribe(flood => this.flood = flood);
      this.eventService.currentFire.subscribe(fire => this.fire = fire);**/
     // console.log(this.getEvent());

@@ -25,6 +25,8 @@ export class MapBoxComponent implements OnInit {
   visible = false;
 
   map: any;
+  layer: any;
+  source: any;
 
   constructor(private eventService: EventsService, private mapService: MapService) {
     (mapboxgl as any).accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
@@ -43,7 +45,7 @@ export class MapBoxComponent implements OnInit {
 
 
     this.buildMap();
-    // this.mapAddPolygon();
+
   }
 
 
@@ -119,34 +121,63 @@ export class MapBoxComponent implements OnInit {
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4
     }).addControl(new mapboxgl.NavigationControl());
+    var m = this.map;
+    this.map.on('load', function () {
 
-
-    this.eventService.getEvents().subscribe(events => {
-      this.events = events['results'];
-      this.events.forEach((event) => {
-
-        const el = document.createElement('div');
-        el.id = event.id.toString();
-
-        el.className = 'marker';
-        el.style.backgroundImage = 'url(/assets/fire.png)';
-        el.style.width = '32px';
-        el.style.height = '32px';
-        const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
-        .addTo(this.map);
-        let m = this.map;
-        let s = this.mapService;
-        el.addEventListener('click', function () {
-          s.OnCardClick(event, event.event_lon, event.event_lat);
-
-        });
-
-        this.mapService.map = this.map;
-
+      //add source with our polygon
+      m.addSource('polygon', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[[0, 0], [0, 0]]]
+          }
+        }
+      });
+      //layer for source display
+      m.addLayer({
+        id: 'showpoly',
+        type: 'fill',
+        source: 'polygon',
+        layout: {},
+        paint: {
+          'fill-color': '#fff',
+          'fill-opacity': 0.3
+        }
       });
 
     });
+    // get events and create markers
+    this.eventService.getEvents().subscribe(events => {
+      this.events = events;
+      this.events.forEach((event) => {
+
+        // create marker div
+        const el = document.createElement('div');
+        el.id = event.id.toString();
+        el.className = 'marker';
+        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
+        el.style.cursor = 'pointer';
+        el.style.width = '32px';
+        el.style.height = '32px';
+        el.style.visibility = 'visible';
+        const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
+        .addTo(this.map);
+        ////////
+        // add onclick event to marker
+        let s = this.mapService;
+        el.addEventListener('click', function () {
+          s.OnCardClick(event, event.event_lon, event.event_lat);
+        });
 
 
+        this.mapService.map = this.map;
+        ///////
+      });
+
+    });
+    this.mapService.OnFilter(this.events);
+    console.log( document.getElementsByClassName('marker'));
   }
 }

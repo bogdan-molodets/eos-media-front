@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {catchError, map, tap} from 'rxjs/operators';
-//import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/map';
+import {catchError } from 'rxjs/operators';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Tweet} from '../tweet';
 import {Event} from '../event';
-import { EventPages } from '../event-pages';
+import {EventPages} from '../event-pages';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -16,6 +17,8 @@ const httpOptions = {
 export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
+  private eventsSource = new BehaviorSubject<EventPages[]>(null);
+  currentEvents = this.eventsSource.asObservable();
 
   /*
     stateFire = new BehaviorSubject<boolean>(true);
@@ -29,8 +32,14 @@ export class EventsService {
     return (!state)<boolean>;
   }**/
 
-  getEvents(): Observable<EventPages[]> {
-    return this.httpClient.get<EventPages[]>(this.url).pipe(catchError(this.handleError('getEvents',[])));
+  getEvents(): Observable<Event[]> {
+    return this.httpClient.get(this.url).map(res => {
+      return res['results'];
+    }).pipe(catchError(this.handleError('getEvents', [])));
+  }
+
+  makeObserv(ep: EventPages[]): void {
+    this.eventsSource.next(ep);
   }
 
   getEvent(id: number): Observable<Event> {
@@ -41,11 +50,11 @@ export class EventsService {
     );
   }
 
-  getEventByName(name: string): Observable<Event[]>{
+  getEventByName(name: string): Observable<Event[]> {
     const url_name = `${this.url}title/${name}/`;
     return this.httpClient.get<Event[]>(url_name)
     .pipe(
-      catchError(this.handleError<Event[]>(`getEventByNamr name=${name}`)) 
+        catchError(this.handleError<Event[]>(`getEventByNamr name=${name}`))
     )
   }
 
