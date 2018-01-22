@@ -51,17 +51,27 @@ export class MapService {
       });
     }
     this.eventSource.next(e);
+
+    var event_el = document.getElementById(e.id + 'card').scrollIntoView({behavior: 'smooth'});
+
   }
 
 
   OnFilter(events: Event[]) {
-    // var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
-    // events.forEach(function (event: Event) {
-    //   if (!el.(event.id, 0)) {
-    //     var e = document.getElementById(event.id.toString());
-    //     e.style.visibility = 'hidden';
-    //   }
-    // });
+
+
+    var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+    for (let i = 0; i < el.length; i++) {
+      const e = document.getElementById(el[i].id);
+      e.style.visibility = 'visible';
+      if (!events.find(function (event: Event) {
+            return event.id.toString() === el[i].id;
+          })) {
+
+        e.style.visibility = 'hidden';
+      }
+    }
+
   }
 
   // changeInitMap(z: number, ln: number, lt: number, v: boolean, e: Event) {

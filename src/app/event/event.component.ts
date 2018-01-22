@@ -38,12 +38,14 @@ export class EventComponent implements OnInit {
     if (name.length != 0) {
       this.eventService.getEventByName(name).subscribe(events => {
         this.events = events;
+        this.mapService.OnFilter(this.events);
       });
     } else {
       //this.eventService.getEvents().subscribe(events => {this.events = events;});
-      this.eventService.getEvents().subscribe(eventpages => {
+      this.eventService.getEvents().subscribe(events => {
         try {
-          this.events = eventpages['results'];
+          this.events = events;
+          this.mapService.OnFilter(this.events);
         } catch (err) {
         }
       });
