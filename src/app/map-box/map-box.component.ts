@@ -113,7 +113,9 @@ export class MapBoxComponent implements OnInit {
     });
   }*/
 
-
+  /**
+   * creates map and set it object to mapService.Creates html custom markers
+   */
   buildMap(): void {
     this.map = new mapboxgl.Map({
       container: 'map',
@@ -152,8 +154,8 @@ export class MapBoxComponent implements OnInit {
     this.eventService.getEvents().subscribe(events => {
 
       this.events = events;
+      // check if get query is empty
       if (this.events) {
-
         this.events.forEach((event) => {
 
           // create marker div
@@ -180,7 +182,7 @@ export class MapBoxComponent implements OnInit {
         });
       }
     });
-    this.mapService.OnFilter(this.events);
+
 
   }
 }

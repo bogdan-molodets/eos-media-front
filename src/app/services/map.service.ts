@@ -34,6 +34,13 @@ export class MapService {
   constructor(private eventService: EventsService) {
   }
 
+  /**
+   * zoom and center map on card/marker click. Scroll to card if it is not visible on page
+   * @param {Event} e
+   * @param {number} ln longtitude
+   * @param {number} lt latitude
+   * @constructor
+   */
   OnCardClick(e: Event, ln: number, lt: number): void {
     // center and zoom map to chosen event
     this.map.flyTo({
@@ -51,37 +58,30 @@ export class MapService {
       });
     }
     this.eventSource.next(e);
-
+    // scroll to card
     var event_el = document.getElementById(e.id + 'card').scrollIntoView({behavior: 'smooth'});
 
   }
 
-
+  /**
+   * display only that markers which id's is in events list
+   * @param {Event[]} events
+   * @constructor
+   */
   OnFilter(events: Event[]) {
-
-
     var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
     for (let i = 0; i < el.length; i++) {
       const e = document.getElementById(el[i].id);
+      // refresh
       e.style.visibility = 'visible';
       if (!events.find(function (event: Event) {
             return event.id.toString() === el[i].id;
           })) {
-
         e.style.visibility = 'hidden';
       }
     }
 
   }
-
-  // changeInitMap(z: number, ln: number, lt: number, v: boolean, e: Event) {
-  //   this.zoomSource.next(z);
-  //   this.longSource.next(ln);
-  //   this.latSource.next(lt);
-  //   this.visibleSource.next(v);
-  //   this.eventSource.next(e);
-  //   // this.viewSource.next()
-  // }
 
 
 }
