@@ -2,6 +2,8 @@ import {Component, OnInit, Input} from '@angular/core';
 // import {Events} from '../mock-events';
 import {Event} from '../event';
 import {EventsService} from '../services/events.service';
+import {MapService} from '../services/map.service';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
@@ -15,8 +17,8 @@ export class EventComponent implements OnInit {
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
   /**flood: boolean = false;
-  fire: boolean = false;**/
-  constructor(private eventService: EventsService) {
+   fire: boolean = false;**/
+  constructor(private mapService: MapService, private eventService: EventsService) {
   }
 
   getEventTypes(): void{
@@ -38,15 +40,35 @@ export class EventComponent implements OnInit {
   getEventByType(event_types:string[]):void{
     console.log(event_types);
   }
-  getEventByName(name:string): void{
+  /**getEventByName(name:string): void{
      if(name.length!=0){
         this.eventService.getEventByName(name).subscribe(events => {this.events = events; });
      }else{
         //this.eventService.getEvents().subscribe(events => {this.events = events;});
         this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
       }
-  }
+    });}**/
+
   
+
+  getEventByName(name: string): void {
+    if (name.length != 0) {
+      this.eventService.getEventByName(name).subscribe(events => {
+        this.events = events;
+        this.mapService.OnFilter(this.events);
+      });
+    } else {
+      //this.eventService.getEvents().subscribe(events => {this.events = events;});
+      this.eventService.getEvents().subscribe(events => {
+        try {
+          this.events = events;
+          this.mapService.OnFilter(this.events);
+        } catch (err) {
+        }
+      });
+    }
+  }
+
   ngOnInit(): void {
     this.getEvents();
     this.getEventTypes();
