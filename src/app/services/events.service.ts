@@ -7,6 +7,7 @@ import {catchError, map, tap} from 'rxjs/operators';
 import {Tweet} from '../tweet';
 import {Event} from '../event';
 import { EventPages } from '../event-pages';
+import {Type} from '../type';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -16,7 +17,7 @@ const httpOptions = {
 export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
-
+  private types_url = 'https://media-test-service.herokuapp.com/event-types/';
   /*
     stateFire = new BehaviorSubject<boolean>(true);
     currentFire = this.stateFire.asObservable();
@@ -28,6 +29,14 @@ export class EventsService {
   /**changeStatesta(state:boolean):Observable<boolean>{
     return (!state)<boolean>;
   }**/
+  getEventTypes():Observable<Type[]>{
+    return this.httpClient.get<Type[]>(this.types_url).pipe(catchError(this.handleError('getEvents',[])));
+  }
+
+  getEventsByDate(from: any, to: any):Observable<Event[]>{
+    let date_url = this.url + from + '/' + to + '/';
+    return this.httpClient.get<Event[]>(date_url).pipe(catchError(this.handleError('getEvents',[])));
+  }
 
   getEvents(): Observable<EventPages[]> {
     return this.httpClient.get<EventPages[]>(this.url).pipe(catchError(this.handleError('getEvents',[])));
