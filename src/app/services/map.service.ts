@@ -70,7 +70,10 @@ export class MapService {
    */
   OnFilter(events: Event[]) {
     var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+    this.CreateMarkers(events, this.map);
     for (let i = 0; i < el.length; i++) {
+
+      // if()
       const e = document.getElementById(el[i].id);
       // refresh
       e.style.visibility = 'visible';
@@ -95,24 +98,25 @@ export class MapService {
 
         this.map = mp;
         // create marker div
-        const el = document.createElement('div');
-        el.id = event.id.toString();
-        el.className = 'marker';
-        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
-        el.style.cursor = 'pointer';
-        el.style.width = '32px';
-        el.style.height = '32px';
-        el.style.visibility = 'visible';
-        const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
-        .addTo(this.map);
-        ////////
-        // add onclick event to marker
+        if (!document.getElementById(event.id.toString())) {
+          const el = document.createElement('div');
+          el.id = event.id.toString();
+          el.className = 'marker';
+          el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
+          el.style.cursor = 'pointer';
+          el.style.width = '32px';
+          el.style.height = '32px';
+          el.style.visibility = 'visible';
+          const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
+          .addTo(this.map);
+          ////////
+          // add onclick event to marker
 
-        var s = this;
-        el.addEventListener('click', function () {
-          s.OnCardClick(event, event.event_lon, event.event_lat);
-        });
-
+          var s = this;
+          el.addEventListener('click', function () {
+            s.OnCardClick(event, event.event_lon, event.event_lat);
+          });
+        }
 
       });
     }

@@ -3,11 +3,11 @@ import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {catchError } from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Tweet} from '../tweet';
 import {Event} from '../event';
-import { EventPages } from '../event-pages';
+import {EventPages} from '../event-pages';
 import {Type} from '../type';
 
 const httpOptions = {
@@ -33,13 +33,13 @@ export class EventsService {
   /**changeStatesta(state:boolean):Observable<boolean>{
     return (!state)<boolean>;
   }**/
-  getEventTypes():Observable<Type[]>{
-    return this.httpClient.get<Type[]>(this.types_url).pipe(catchError(this.handleError('getEvents',[])));
+  getEventTypes(): Observable<Type[]> {
+    return this.httpClient.get<Type[]>(this.types_url).pipe(catchError(this.handleError('getEventTypes', [])));
   }
 
-  getEventsByDate(from: any, to: any):Observable<Event[]>{
+  getEventsByDate(from: any, to: any): Observable<Event[]> {
     let date_url = this.url + from + '/' + to + '/';
-    return this.httpClient.get<Event[]>(date_url).pipe(catchError(this.handleError('getEvents',[])));
+    return this.httpClient.get<Event[]>(date_url).pipe(catchError(this.handleError('getEventsByDate', [])));
   }
 
   getEvents(): Observable<Event[]> {
@@ -64,8 +64,8 @@ export class EventsService {
     const url_name = `${this.url}title/${name}/`;
     return this.httpClient.get<Event[]>(url_name)
     .pipe(
-        catchError(this.handleError<Event[]>(`getEventByNamr name=${name}`))
-    )
+        catchError(this.handleError<Event[]>(`getEventByName name=${name}`))
+    );
   }
 
   getTweets(): Observable<Tweet[]> {
