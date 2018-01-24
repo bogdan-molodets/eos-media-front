@@ -20,8 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "../node_modules/openlayers/css/ol.css"
+        "styles.css"
+
 
       ],
       "scripts": [
