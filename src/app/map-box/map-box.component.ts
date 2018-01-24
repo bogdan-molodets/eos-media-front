@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {Event} from '../event';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Event } from '../event';
 
 import * as mapboxgl from 'mapbox-gl';
 // import {Map, Marker, Layer, Source} from 'mapbox-gl';
-import {EventsService} from '../services/events.service';
+import { EventsService } from '../services/events.service';
 
-import {MapService} from '../services/map.service';
+import { MapService } from '../services/map.service';
 
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-map-box',
@@ -56,7 +56,7 @@ export class MapBoxComponent implements OnInit {
     this.eventService.getEvents().subscribe(eventpages => {
       try {
 
-        this.events = eventpages['results'];
+        this.events = eventpages;
       } catch (err) {
         console.log(err);
       }
@@ -153,9 +153,10 @@ export class MapBoxComponent implements OnInit {
     });
     // get events and create markers
     this.eventService.getEvents().subscribe(events => {
-
-      this.events = events;
-      this.mapService.CreateMarkers(this.events, this.map);
+      this.events = events; 
+      if (this.events) {
+        this.mapService.CreateMarkers(this.events, this.map);
+      }
     });
 
 

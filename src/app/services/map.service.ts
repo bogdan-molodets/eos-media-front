@@ -1,10 +1,10 @@
-import {Injectable, ElementRef} from '@angular/core';
-import {Event} from '../event';
+import { Injectable} from '@angular/core';
+import { Event } from '../event';
 import * as mapboxgl from 'mapbox-gl';
-import {EventsService} from '../services/events.service';
-import {Observable} from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {isNumber, isUndefined} from 'util';
+import { EventsService } from '../services/events.service';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { isNumber, isUndefined } from 'util';
 
 // import {ViewComponent} from 'ngx-openlayers';
 
@@ -59,7 +59,7 @@ export class MapService {
     }
     this.eventSource.next(e);
     // scroll to card
-    var event_el = document.getElementById(e.id + 'card').scrollIntoView({behavior: 'smooth'});
+    var event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
 
   }
 
@@ -69,20 +69,25 @@ export class MapService {
    * @constructor
    */
   OnFilter(events: Event[]) {
-    var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
-    this.CreateMarkers(events, this.map);
-    for (let i = 0; i < el.length; i++) {
+    
+      var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+      this.CreateMarkers(events, this.map);
+      for (let i = 0; i < el.length; i++) {
 
-      // if()
-      const e = document.getElementById(el[i].id);
-      // refresh
-      e.style.visibility = 'visible';
-      if (!events.find(function (event: Event) {
-            return event.id.toString() === el[i].id;
-          })) {
-        e.style.visibility = 'hidden';
+        // if()
+        const e = document.getElementById(el[i].id);
+        // refresh
+        
+        if (!events.find(function (event: Event) {
+          return event.id.toString() === el[i].id;
+        })) {
+         
+          e.style.visibility = 'hidden';
+        }else {
+          e.style.visibility = 'visible';
+        }
       }
-    }
+    
 
   }
 
@@ -93,7 +98,7 @@ export class MapService {
    * @constructor
    */
   CreateMarkers(events: Event[], mp: any) {
-    if (events) {
+    
       events.forEach((event) => {
 
         this.map = mp;
@@ -108,7 +113,7 @@ export class MapService {
           el.style.height = '32px';
           el.style.visibility = 'visible';
           const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
-          .addTo(this.map);
+            .addTo(this.map);
           ////////
           // add onclick event to marker
 
@@ -119,7 +124,7 @@ export class MapService {
         }
 
       });
-    }
+    
   }
 
 
