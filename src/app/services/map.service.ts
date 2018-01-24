@@ -71,6 +71,7 @@ export class MapService {
   OnFilter(events: Event[]) {
     
       var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+      
       this.CreateMarkers(events, this.map);
       for (let i = 0; i < el.length; i++) {
 
@@ -87,6 +88,10 @@ export class MapService {
           e.style.visibility = 'visible';
         }
       }
+      this.map.flyTo({
+        center: [-102, 35],
+        zoom: 4
+      });
     
 
   }

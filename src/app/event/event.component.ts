@@ -65,25 +65,30 @@ export class EventComponent implements OnInit {
 
 
 
+
   getEventByName(name: string): void {
     if (name.length != 0) {
       this.eventService.getEventByName(name).subscribe(events => {
         this.events = events;
+        if (this.events) {
 
+          this.mapService.OnFilter(this.events);
+        }
       });
     } else {
       //this.eventService.getEvents().subscribe(events => {this.events = events;});
       this.eventService.getEvents().subscribe(events => {
 
         this.events = events;
+        if (this.events) {
 
+          this.mapService.OnFilter(this.events);
+        }
 
       });
-    } 
-    // if not undefined filter markers
-    if (this.events) {
-      this.mapService.OnFilter(this.events);
     }
+    // if not undefined filter markers
+
 
   }
 
