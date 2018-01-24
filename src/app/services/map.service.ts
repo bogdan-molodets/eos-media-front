@@ -34,6 +34,50 @@ export class MapService {
   constructor(private eventService: EventsService) {
   }
 
+/**
+ * initialize map and add polygon empty layers
+ * @param centerLon 
+ * @param centerLat 
+ * @param zoom 
+ */
+  InitMap(centerLon:number, centerLat:number, zoom:number):any{
+    this.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/dark-v9?optimize=true',
+      center: [-102, 35], // starting position [lng, lat]
+      zoom: 4,
+      attributionControl: false
+    }).addControl(new mapboxgl.NavigationControl());
+    var m = this.map;
+    this.map.on('load', function () {
+
+      //add source with our polygon
+      m.addSource('polygon', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[[0, 0], [0, 0]]]
+          }
+        }
+      });
+      //layer for source display
+      m.addLayer({
+        id: 'showpoly',
+        type: 'fill',
+        source: 'polygon',
+        layout: {},
+        paint: {
+          'fill-color': '#fff',
+          'fill-opacity': 0.3
+        }
+      });
+
+    });
+  return this.map;
+  }
+
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
    * @param {Event} e
@@ -72,7 +116,7 @@ export class MapService {
     
       var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
       
-      this.CreateMarkers(events, this.map);
+      this.CreateMarkers(events);
       for (let i = 0; i < el.length; i++) {
 
         // if()
@@ -102,11 +146,11 @@ export class MapService {
    * @param mp - map object
    * @constructor
    */
-  CreateMarkers(events: Event[], mp: any) {
+  CreateMarkers(events: Event[]) {
     
       events.forEach((event) => {
 
-        this.map = mp;
+       // this.map = mp;
         // create marker div
         if (!document.getElementById(event.id.toString())) {
           const el = document.createElement('div');

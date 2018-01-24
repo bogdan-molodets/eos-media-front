@@ -117,45 +117,14 @@ export class MapBoxComponent implements OnInit {
    * creates map and set it object to mapService.Creates html custom markers
    */
   buildMap(): void {
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/dark-v9?optimize=true',
-      center: [-102, 35], // starting position [lng, lat]
-      zoom: 4,
-      attributionControl: false
-    }).addControl(new mapboxgl.NavigationControl());
-    var m = this.map;
-    this.map.on('load', function () {
-
-      //add source with our polygon
-      m.addSource('polygon', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [[[0, 0], [0, 0]]]
-          }
-        }
-      });
-      //layer for source display
-      m.addLayer({
-        id: 'showpoly',
-        type: 'fill',
-        source: 'polygon',
-        layout: {},
-        paint: {
-          'fill-color': '#fff',
-          'fill-opacity': 0.3
-        }
-      });
-
-    });
+    //init map in service
+    this.map=this.mapService.InitMap(-102,35,4);
+    
     // get events and create markers
     this.eventService.getEvents().subscribe(events => {
       this.events = events; 
       if (this.events) {
-        this.mapService.CreateMarkers(this.events, this.map);
+        this.mapService.CreateMarkers(this.events);
       }
     });
 
