@@ -121,7 +121,8 @@ export class MapBoxComponent implements OnInit {
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v9?optimize=true',
       center: [-102, 35], // starting position [lng, lat]
-      zoom: 4
+      zoom: 4,
+      attributionControl: false
     }).addControl(new mapboxgl.NavigationControl());
     var m = this.map;
     this.map.on('load', function () {

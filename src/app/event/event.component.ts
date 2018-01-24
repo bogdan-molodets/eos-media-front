@@ -26,7 +26,7 @@ export class EventComponent implements OnInit {
   }
 
   getEvents(): void {
-    this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
+    this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages}catch(err){}});
   }
   getEventByDate(from:any,to:any):void{
     console.log(`from: ${from}`);

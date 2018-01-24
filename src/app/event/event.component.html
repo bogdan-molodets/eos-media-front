@@ -2,12 +2,11 @@
 	<div class='title left'>
 		<h3>Events</h3>
 		<div class='search'>
-			<input type='search' (keyup.enter)="getEventByName(search.value)" id='search' placeholder="Event name" #search>
+			<input type='search' (keyup.enter)="getEventByName(search.value)" id='search' placeholder="Search" #search>
 			<label for='search'>Search event</label>		
 		</div>
-		<div class='more'></div>
 		<div class='filter-container'>
-			<div class='filter-date-container'>
+			<!--<div class='filter-date-container'>
 				<div class='filter filter-date'>
 					<input id='from' type='date' [max]="today" #from><label for="from">From</label>
 				</div>
@@ -15,11 +14,11 @@
 					<input ig='to' type='date'[min]="from.value" [max]="today" #to><label for="to">To</label>
 				</div>				
 			</div>
-			<button class="filter-button" (click)="getEventByDate(from.value,to.value)" >Filter by date</button>			
+			<button class="filter-button" (click)="getEventByDate(from.value,to.value)" >Filter by date</button>-->			
 			<ul class='filter'>
 				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" id="{{event_type}}"  checked><label for="event_types" >{{event_type}}</label></li>	
 			</ul>
-			<button class="filter-button" (click)="getEventByType(event_types)" >Filter by type</button>	
+			<button class="filter-button" (click)="getEventByType(event_types)" >Find</button>	
 		</div>
 		
 	</div>
