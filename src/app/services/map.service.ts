@@ -43,7 +43,7 @@ export class MapService {
   InitMap(centerLon:number, centerLat:number, zoom:number):any{
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/dark-v9?optimize=true',
+      style: '/themes/dark.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
