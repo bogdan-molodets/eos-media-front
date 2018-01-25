@@ -1,49 +1,40 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Event } from '../event';
 import * as mapboxgl from 'mapbox-gl';
 import { EventsService } from '../services/events.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { isNumber, isUndefined } from 'util';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Response} from '@angular/http';
+import 'rxjs/add/operator/map';
 
-// import {ViewComponent} from 'ngx-openlayers';
 
 @Injectable()
 export class MapService {
 
 
   map: any;
+  style: any;
 
-  // zoom: number;
-  // lat: number;
-  // long: number;
-  // private map: Map;
-  // // private map:ElementRef
-  // private zoomSource = new BehaviorSubject<number>(5);
-  // currentZoom = this.zoomSource.asObservable();
-  // private longSource = new BehaviorSubject<number>(-102);
-  // currentLong = this.longSource.asObservable();
-  // private latSource = new BehaviorSubject<number>(38);
-  // currentLat = this.latSource.asObservable();
-  // private visibleSource = new BehaviorSubject<boolean>(false);
-  // currentVisible = this.visibleSource.asObservable();
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
 
 
   constructor(private eventService: EventsService) {
+   
   }
 
-/**
- * initialize map and add polygon empty layers
- * @param centerLon 
- * @param centerLat 
- * @param zoom 
- */
-  InitMap(centerLon:number, centerLat:number, zoom:number):any{
+  /**
+   * initialize map and add polygon empty layers
+   * @param centerLon 
+   * @param centerLat 
+   * @param zoom 
+   */
+  InitMap(centerLon: number, centerLat: number, zoom: number): any {
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: '/themes/dark.json',
+      style: 'http://localhost:8080/assets/dark.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
@@ -75,7 +66,7 @@ export class MapService {
       });
 
     });
-  return this.map;
+    return this.map;
   }
 
   /**
@@ -113,30 +104,30 @@ export class MapService {
    * @constructor
    */
   OnFilter(events: Event[]) {
-    
-      var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
-      
-      this.CreateMarkers(events);
-      for (let i = 0; i < el.length; i++) {
 
-        // if()
-        const e = document.getElementById(el[i].id);
-        // refresh
-        
-        if (!events.find(function (event: Event) {
-          return event.id.toString() === el[i].id;
-        })) {
-         
-          e.style.visibility = 'hidden';
-        }else {
-          e.style.visibility = 'visible';
-        }
+    var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+
+    this.CreateMarkers(events);
+    for (let i = 0; i < el.length; i++) {
+
+      // if()
+      const e = document.getElementById(el[i].id);
+      // refresh
+
+      if (!events.find(function (event: Event) {
+        return event.id.toString() === el[i].id;
+      })) {
+
+        e.style.visibility = 'hidden';
+      } else {
+        e.style.visibility = 'visible';
       }
-      this.map.flyTo({
-        center: [-102, 35],
-        zoom: 4
-      });
-    
+    }
+    this.map.flyTo({
+      center: [-102, 35],
+      zoom: 4
+    });
+
 
   }
 
@@ -147,34 +138,39 @@ export class MapService {
    * @constructor
    */
   CreateMarkers(events: Event[]) {
-    
-      events.forEach((event) => {
 
-       // this.map = mp;
-        // create marker div
-        if (!document.getElementById(event.id.toString())) {
-          const el = document.createElement('div');
-          el.id = event.id.toString();
-          el.className = 'marker';
-          el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
-          el.style.cursor = 'pointer';
-          el.style.width = '32px';
-          el.style.height = '32px';
-          el.style.visibility = 'visible';
-          const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
-            .addTo(this.map);
-          ////////
-          // add onclick event to marker
+    events.forEach((event) => {
 
-          var s = this;
-          el.addEventListener('click', function () {
-            s.OnCardClick(event, event.event_lon, event.event_lat);
-          });
-        }
+      // this.map = mp;
+      // create marker div
+      if (!document.getElementById(event.id.toString())) {
+        const el = document.createElement('div');
+        el.id = event.id.toString();
+        el.className = 'marker';
+        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
+        el.style.cursor = 'pointer';
+        el.style.width = '32px';
+        el.style.height = '32px';
+        el.style.visibility = 'visible';
+        const marker = new mapboxgl.Marker(el).setLngLat([event.event_lon, event.event_lat])
+          .addTo(this.map);
+        ////////
+        // add onclick event to marker
 
-      });
-    
+        var s = this;
+        el.addEventListener('click', function () {
+          s.OnCardClick(event, event.event_lon, event.event_lat);
+        });
+      }
+
+    });
+
   }
 
+
+  ChangeStyle(id:string):void{
+    this.map.setStyle('http://localhost:8080/assets/'+id);
+  }
+  
 
 }

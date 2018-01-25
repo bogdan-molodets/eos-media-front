@@ -130,4 +130,11 @@ export class MapBoxComponent implements OnInit {
 
 
   }
+
+  changeStyle():void{
+   
+    
+    this.mapService.ChangeStyle('positron.json');
+    
+  }
 }

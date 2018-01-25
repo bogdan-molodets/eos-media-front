@@ -1,0 +1,503 @@
+{
+    "version": 8,
+    "name": "OSM",
+    "metadata": {
+        "mapbox:autocomposite": false,
+        "mapbox:type": "template",
+        "maputnik:renderer": "mbgljs",
+        "openmaptiles:version": "3.x",
+        "openmaptiles:mapbox:owner": "openmaptiles",
+        "openmaptiles:mapbox:source:url": "mapbox://openmaptiles.4qljc88t"
+    },
+    "center": [
+        8.54806714892635,
+        47.37180823552663
+    ],
+    "zoom": 12.241790506353492,
+    "bearing": 0,
+    "pitch": 0,
+    "sources": {
+        "openmaptiles": {
+            "type": "vector",
+            "url": "https://osm.eos.com/data/osmvectortiles.json"
+        }
+    },
+    "glyphs": "https://osm.eos.com/fonts/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "road_trunk_primary",
+            "type": "line",
+            "source": "openmaptiles",
+            "source-layer": "transportation",
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "LineString"
+                ],
+                [
+                    "in",
+                    "class",
+                    "trunk",
+                    "primary"
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round",
+                "visibility": "visible"
+            },
+            "paint": {
+                "line-color": "#fff",
+                "line-width": {
+                    "base": 1.15,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            30
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "road_secondary_tertiary",
+            "type": "line",
+            "source": "openmaptiles",
+            "source-layer": "transportation",
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "LineString"
+                ],
+                [
+                    "in",
+                    "class",
+                    "secondary",
+                    "tertiary"
+                ]
+            ],
+            "layout": {
+                "line-cap": "round",
+                "line-join": "round"
+            },
+            "paint": {
+                "line-color": "#fff",
+                "line-width": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            6,
+                            0.5
+                        ],
+                        [
+                            20,
+                            20
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "id": "road_major_label",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "transportation_name",
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "LineString"
+                ],
+                [
+                    "!has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "symbol-placement": "line",
+                "text-field": "{name:latin} {name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Regular"
+                ],
+                "text-transform": "uppercase",
+                "text-letter-spacing": 0.1,
+                "text-size": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            10,
+                            8
+                        ],
+                        [
+                            20,
+                            14
+                        ]
+                    ]
+                },
+                "text-rotation-alignment": "map",
+                "visibility": "none"
+            },
+            "paint": {
+                "text-color": "#000",
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-width": 2
+            }
+        },
+        {
+            "id": "road_major_label-en",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "transportation_name",
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "LineString"
+                ],
+                [
+                    "has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "symbol-placement": "line",
+                "text-field": "{name:en} {name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Regular"
+                ],
+                "text-transform": "uppercase",
+                "text-letter-spacing": 0.1,
+                "text-size": {
+                    "base": 1.4,
+                    "stops": [
+                        [
+                            10,
+                            8
+                        ],
+                        [
+                            20,
+                            14
+                        ]
+                    ]
+                },
+                "text-rotation-alignment": "map",
+                "visibility": "none"
+            },
+            "paint": {
+                "text-color": "#000",
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-width": 2
+            }
+        },
+        {
+            "id": "place_label_other",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "place",
+            "minzoom": 8,
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "Point"
+                ],
+                [
+                    "!=",
+                    "class",
+                    "city"
+                ],
+                [
+                    "!has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name:latin}\n{name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Regular"
+                ],
+                "text-max-width": 6,
+                "text-size": {
+                    "stops": [
+                        [
+                            6,
+                            10
+                        ],
+                        [
+                            12,
+                            14
+                        ]
+                    ]
+                },
+                "visibility": "visible",
+                "text-anchor": "center"
+            },
+            "paint": {
+                "text-color": "hsl(0, 10%, 25%)",
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-blur": 0,
+                "text-halo-width": 2
+            }
+        },
+        {
+            "id": "place_label_other-en",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "place",
+            "minzoom": 8,
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "Point"
+                ],
+                [
+                    "!=",
+                    "class",
+                    "city"
+                ],
+                [
+                    "has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name:en}\n{name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Regular"
+                ],
+                "text-max-width": 6,
+                "text-size": {
+                    "stops": [
+                        [
+                            6,
+                            10
+                        ],
+                        [
+                            12,
+                            14
+                        ]
+                    ]
+                },
+                "visibility": "visible",
+                "text-anchor": "center"
+            },
+            "paint": {
+                "text-color": "hsl(0, 10%, 25%)",
+                "text-halo-color": "hsl(0, 0%, 100%)",
+                "text-halo-blur": 0,
+                "text-halo-width": 2
+            }
+        },
+        {
+            "id": "place_label_city",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "place",
+            "maxzoom": 16,
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "Point"
+                ],
+                [
+                    "==",
+                    "class",
+                    "city"
+                ],
+                [
+                    "!has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name:latin}\n{name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Regular"
+                ],
+                "text-max-width": 10,
+                "text-size": {
+                    "stops": [
+                        [
+                            3,
+                            12
+                        ],
+                        [
+                            8,
+                            16
+                        ]
+                    ]
+                },
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-color": "hsl(0, 0%, 0%)",
+                "text-halo-color": "hsla(0, 0%, 100%, 0.75)",
+                "text-halo-blur": 0,
+                "text-halo-width": 2
+            }
+        },
+        {
+            "id": "place_label_city-en",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "place",
+            "maxzoom": 16,
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "Point"
+                ],
+                [
+                    "==",
+                    "class",
+                    "city"
+                ],
+                [
+                    "has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name:en}\n{name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Regular"
+                ],
+                "text-max-width": 10,
+                "text-size": {
+                    "stops": [
+                        [
+                            3,
+                            12
+                        ],
+                        [
+                            8,
+                            16
+                        ]
+                    ]
+                },
+                "visibility": "visible"
+            },
+            "paint": {
+                "text-color": "hsl(0, 0%, 0%)",
+                "text-halo-color": "hsla(0, 0%, 100%, 0.75)",
+                "text-halo-blur": 0,
+                "text-halo-width": 2
+            }
+        },
+        {
+            "id": "country_label",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "place",
+            "maxzoom": 12,
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "Point"
+                ],
+                [
+                    "==",
+                    "class",
+                    "country"
+                ],
+                [
+                    "!has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name:latin}\n{name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Bold"
+                ],
+                "text-max-width": 10,
+                "text-size": {
+                    "stops": [
+                        [
+                            3,
+                            12
+                        ],
+                        [
+                            8,
+                            22
+                        ]
+                    ]
+                }
+            },
+            "paint": {
+                "text-color": "hsl(0, 0%, 13%)",
+                "text-halo-color": "rgba(255,255,255,0.75)",
+                "text-halo-width": 2,
+                "text-halo-blur": 0
+            }
+        },
+        {
+            "id": "country_label-en",
+            "type": "symbol",
+            "source": "openmaptiles",
+            "source-layer": "place",
+            "maxzoom": 12,
+            "filter": [
+                "all",
+                [
+                    "==",
+                    "$type",
+                    "Point"
+                ],
+                [
+                    "==",
+                    "class",
+                    "country"
+                ],
+                [
+                    "has",
+                    "name:en"
+                ]
+            ],
+            "layout": {
+                "text-field": "{name:en}\n{name:nonlatin}",
+                "text-font": [
+                    "Klokantech Noto Sans Bold"
+                ],
+                "text-max-width": 10,
+                "text-size": {
+                    "stops": [
+                        [
+                            3,
+                            12
+                        ],
+                        [
+                            8,
+                            22
+                        ]
+                    ]
+                }
+            },
+            "paint": {
+                "text-color": "hsl(0, 0%, 13%)",
+                "text-halo-color": "rgba(255,255,255,0.75)",
+                "text-halo-width": 2,
+                "text-halo-blur": 0
+            }
+        }
+    ]
+}
