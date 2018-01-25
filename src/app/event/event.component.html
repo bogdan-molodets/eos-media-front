@@ -6,15 +6,15 @@
 			<label for='search'>Search event</label>		
 		</div>
 		<div class='filter-container'>
-			<!--<div class='filter-date-container'>
+			<div class='filter-date-container'>
 				<div class='filter filter-date'>
-					<input id='from' type='date' [max]="today" #from><label for="from">From</label>
+					<input id='from' type='date' [max]="today" #from><!--<label for="from">From</label>-->
 				</div>
 				<div class='filter filter-date'>
-					<input ig='to' type='date'[min]="from.value" [max]="today" #to><label for="to">To</label>
-				</div>				
-			</div>
-			<button class="filter-button" (click)="getEventByDate(from.value,to.value)" >Filter by date</button>-->			
+					<input ig='to' type='date'[min]="from.value" [max]="today" #to><!--<label for="to">To</label>-->
+				</div>
+				<button class="filter-button" (click)="getEventByDate(from.value,to.value)" >Filter by date</button>				
+			</div>				
 			<ul class='filter'>
 				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" id="{{event_type}}"  checked><label for="event_types" >{{event_type}}</label></li>	
 			</ul>

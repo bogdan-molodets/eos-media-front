@@ -11,11 +11,13 @@ import { CoverageComponent } from './coverage/coverage.component';
 import { CardComponent } from './card/card.component';
 import { HeaderComponent } from './header/header.component';
 import { MapBoxComponent } from './map-box/map-box.component';
+import { TweetComponent } from './tweet/tweet.component';
 
 import {EventsService} from './services/events.service';
 import {MapService } from './services/map.service';
+import {TweetService} from './services/tweet.service';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
-import { TweetComponent } from './tweet/tweet.component';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { TweetComponent } from './tweet/tweet.component';
     HttpClientModule,
    // AngularOpenlayersModule
   ],
-  providers: [ EventsService, MapService ],
+  providers: [ EventsService, MapService, TweetService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
