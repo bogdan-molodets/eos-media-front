@@ -22,7 +22,7 @@ export class MapService {
 
 
   constructor(private eventService: EventsService) {
-   
+  
   }
 
   /**
@@ -32,9 +32,10 @@ export class MapService {
    * @param zoom 
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
+   
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: 'http://localhost:8080/assets/dark.json',
+      style: window.location.origin+'/assets/dark.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
