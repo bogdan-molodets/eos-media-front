@@ -39,7 +39,9 @@ export class EventsService {
 
   getEventsByDate(from: any, to: any): Observable<Event[]> {
     let date_url = this.url + from + '/' + to + '/';
-    return this.httpClient.get<Event[]>(date_url).pipe(catchError(this.handleError('getEventsByDate', [])));
+    return this.httpClient.get<Event[]>(date_url).map(res => {
+      return res['results'];
+    }).pipe(catchError(this.handleError('getEventsByDate', [])));
   }
 
   getEvents(): Observable<Event[]> {

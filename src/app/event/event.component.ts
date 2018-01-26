@@ -41,13 +41,16 @@ export class EventComponent implements OnInit {
   getEventByDate(from: any, to: any): void {
     console.log(`from: ${from}`);
     console.log(`to: ${to}`);
-    if (from > to) {
-      console.log(`error`);
-    } else {
-      this.eventService.getEventsByDate(from, to).subscribe(events => {
-        this.events = events;
-      });
-    }
+      if (from > to) {
+        alert(`error`);
+      } else {
+        if(from == ' '){from = null;}
+        if(to == ' '){to = null}
+        this.eventService.getEventsByDate(from, to).subscribe(events => {
+          this.events = events;
+          this.mapService.OnFilter(this.events);
+        });
+      }
   }
 
   getEventByType(event_types: string[]): void {

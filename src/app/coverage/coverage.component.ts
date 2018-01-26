@@ -59,7 +59,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       return t;
     }(document, "script", "twitter-wjs"));
     
-    this.callback();
+    //this.callback();
   };
 
   ngAfterViewInit()	{
