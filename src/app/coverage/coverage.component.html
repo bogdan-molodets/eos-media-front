@@ -6,5 +6,5 @@
 			<app-tweet *ngFor="let tweet of tweets" [tweet]="tweet" >
 			</app-tweet>		
 	</div>-->
-	<div id='twitter-wjs' class="e2e-inner-html-bound block" *ngFor="let tweet of tweets" [innerHTML]="tweet.tweet_html"></div>
+	<div id='twitter-wjs' class="e2e-inner-html-bound" *ngFor="let tweet of tweets" [innerHTML]="tweet.tweet_html"></div>
 </div>
