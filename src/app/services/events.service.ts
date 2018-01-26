@@ -64,8 +64,9 @@ export class EventsService {
 
   getEventByName(name: string): Observable<Event[]> {
     const url_name = `${this.url}title/${name}/`;
-    return this.httpClient.get<Event[]>(url_name)
-    .pipe(
+    return this.httpClient.get<Event[]>(url_name).map(res => {
+      return res['results'];
+    }).pipe(
         catchError(this.handleError<Event[]>(`getEventByName name=${name}`))
     );
   }
