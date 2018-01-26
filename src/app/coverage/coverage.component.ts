@@ -19,68 +19,48 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   tweet: Tweets;
   html: String[];
   private twitter: Observable<any[]>;
+  private callback:{():void};
 
   constructor(private eventService: EventsService, private tweetService: TweetService, private element: ElementRef) {
     this.twitter = new Observable(observer=>{
-      observer.next(this.InitWidjet());
+      observer.next();
       observer.complete();
     });
-
+    this.callback = () => this.getTweets();
     }
   
 
   ngOnInit() {
-    let sub = this.twitter.subscribe(value=>{
+    /*let sub = this.twitter.subscribe(value=>{
       console.log(value);
-      //this.getTweets();
-      this.getTweetsByEventId(16);
+      this.getTweets();
+      //this.getTweetsByEventId(16);
     },error=>{
       console.log('Error');
-    })
-   
+    })*/
+    this.tw_init()
   }
  
-  
-  /**
-   * 
-   * window.twttr = (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0],
-      t = window.twttr || {};
-    if (d.getElementById(id)) return t;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  
-    t._e = [];
-    t.ready = function(f) {
-      t._e.push(f);
-    };
-  
-    return t;
-  }(document, "script", "twitter-wjs"));
-  **/
-
-
-  private InitWidjet():any{
-    (<any>window).twttr = (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0],
-        t = (<any>window).twttr || {};
+  private tw_init(): void{
+    (<any>window).twttr = (function (d, s, id) {
+      let js: any, fjs = d.getElementsByTagName(s)[0],
+          t = (<any>window).twttr || {};
       if (d.getElementById(id)) return t;
       js = d.createElement(s);
       js.id = id;
       js.src = "https://platform.twitter.com/widgets.js";
       fjs.parentNode.insertBefore(js, fjs);
-    
+
       t._e = [];
-      t.ready = function(f) {
-        t._e.push(f);
+      t.ready = function (f: any) {
+          t._e.push(f);
       };
-    
+      console.log(id);
       return t;
     }(document, "script", "twitter-wjs"));
-    return (<any>window).twttr;
-  }
+    
+    this.callback();
+  };
 
   ngAfterViewInit()	{
 				
@@ -95,11 +75,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   
   getTweetsByEventId(id:number):void{
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-      //let html = twe
-      /*this.tweets = tweets;
-      for(let i = 0; i<this.tweets.length; i++){
-        console.log(tweets[i]['tweet_html']);
-      }*/
+      this.tweets = tweets;
       
     });
   }
@@ -108,12 +84,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.tweetService.getTweets().subscribe(tweets => {
       this.tweets = tweets;
       console.log(this.tweets);
-      /*for(let i = 0; i<this.tweets.length; i++){
+      for(let i = 0; i<this.tweets.length; i++){
         this.tweetService.getTweetsById(this.tweets[i]['tweet_real_id']).subscribe(res =>{
-          this.html.push(res);
-          console.log(this.html);
+          console.log(res);
         });
-      }*/
+      }
     });
   }
 
