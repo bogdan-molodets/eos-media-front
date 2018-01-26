@@ -1,9 +1,9 @@
-import {Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 // import {Events} from '../mock-events';
-import {Event} from '../event';
-import {EventsService} from '../services/events.service';
-import {MapService} from '../services/map.service';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Event } from '../event';
+import { EventsService } from '../services/events.service';
+import { MapService } from '../services/map.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
@@ -65,22 +65,31 @@ export class EventComponent implements OnInit {
 
 
 
+
   getEventByName(name: string): void {
     if (name.length != 0) {
       this.eventService.getEventByName(name).subscribe(events => {
         this.events = events;
-        this.mapService.OnFilter(this.events);
+        if (this.events) {
+
+          this.mapService.OnFilter(this.events);
+        }
       });
     } else {
       //this.eventService.getEvents().subscribe(events => {this.events = events;});
       this.eventService.getEvents().subscribe(events => {
-        try {
-          this.events = events;
+
+        this.events = events;
+        if (this.events) {
+
           this.mapService.OnFilter(this.events);
-        } catch (err) {
         }
+
       });
     }
+    // if not undefined filter markers
+
+
   }
 
   ngOnInit(): void {

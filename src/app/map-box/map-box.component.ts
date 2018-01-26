@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {Event} from '../event';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Event } from '../event';
 
 import * as mapboxgl from 'mapbox-gl';
 // import {Map, Marker, Layer, Source} from 'mapbox-gl';
-import {EventsService} from '../services/events.service';
+import { EventsService } from '../services/events.service';
 
-import {MapService} from '../services/map.service';
+import { MapService } from '../services/map.service';
 
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-map-box',
@@ -56,7 +56,7 @@ export class MapBoxComponent implements OnInit {
     this.eventService.getEvents().subscribe(eventpages => {
       try {
 
-        this.events = eventpages['results'];
+        this.events = eventpages;
       } catch (err) {
         console.log(err);
       }
@@ -117,47 +117,22 @@ export class MapBoxComponent implements OnInit {
    * creates map and set it object to mapService.Creates html custom markers
    */
   buildMap(): void {
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/dark-v9?optimize=true',
-      center: [-102, 35], // starting position [lng, lat]
-      zoom: 4,
-      attributionControl: false
-    }).addControl(new mapboxgl.NavigationControl());
-    var m = this.map;
-    this.map.on('load', function () {
-
-      //add source with our polygon
-      m.addSource('polygon', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [[[0, 0], [0, 0]]]
-          }
-        }
-      });
-      //layer for source display
-      m.addLayer({
-        id: 'showpoly',
-        type: 'fill',
-        source: 'polygon',
-        layout: {},
-        paint: {
-          'fill-color': '#fff',
-          'fill-opacity': 0.3
-        }
-      });
-
-    });
+    //init map in service
+    this.map=this.mapService.InitMap(-102,35,4);
+    
     // get events and create markers
     this.eventService.getEvents().subscribe(events => {
-
-      this.events = events;
-      this.mapService.CreateMarkers(this.events, this.map);
+      this.events = events; 
+      if (this.events) {
+        this.mapService.CreateMarkers(this.events);
+      }
     });
 
 
   }
+
+  // changeStyle():void{    
+  //   this.mapService.ChangeStyle('positron.json');
+    
+  // }
 }
