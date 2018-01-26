@@ -31,10 +31,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   
 
   ngOnInit() {
+    this.getTweetsByEventId(16);
     /*let sub = this.twitter.subscribe(value=>{
       console.log(value);
       this.getTweets();
-      //this.getTweetsByEventId(16);
+      //
     },error=>{
       console.log('Error');
     })*/
