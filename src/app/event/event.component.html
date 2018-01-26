@@ -24,7 +24,7 @@
 		
 	</div>
 	<div class='card-container'>
-		<div *ngIf="!events">
+		<div *ngIf="events==undefined || events.length==0">
 			<h3>Event list is empty</h3>
 		</div>		
 		<app-card *ngFor="let event of events" [event]="event" >
