@@ -31,7 +31,8 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   
 
   ngOnInit() {
-    this.getTweetsByEventId(16);
+    this.getTweets();
+   // this.getTweetsByEventId(16);
     /*let sub = this.twitter.subscribe(value=>{
       console.log(value);
       this.getTweets();
@@ -39,7 +40,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     },error=>{
       console.log('Error');
     })*/
-    this.tw_init()
+    //this.tw_init()
   }
  
   private tw_init(): void{
@@ -84,12 +85,15 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   getTweets(): void {
     this.tweetService.getTweets().subscribe(tweets => {
       this.tweets = tweets;
-      console.log(this.tweets);
-      for(let i = 0; i<this.tweets.length; i++){
-        this.tweetService.getTweetsById(this.tweets[i]['tweet_real_id']).subscribe(res =>{
-          console.log(res);
-        });
-      }
+      // console.log(this.tweets);
+      // this.tweetService.getTweetsById(this.tweets[0]['tweet_real_id']).subscribe(res =>{
+      //       console.log(res);
+      //     });
+      // for(let i = 0; i<this.tweets.length; i++){
+      //   this.tweetService.getTweetsById(this.tweets[i]['tweet_real_id']).subscribe(res =>{
+      //     console.log(res);
+      //   });
+      // }
     });
   }
 

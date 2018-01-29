@@ -17,8 +17,9 @@ const httpOptions = {
   @Injectable()
 export class TweetService {
     private url = 'https://media-test-service.herokuapp.com/tweets';
-    private twitter_url = 'https://publish.twitter.com/oembed?url=https%3A%2F%2Ftwitter.com%2FInterior%2Fstatus%2F';
-    private twitter_event_url = 'https://media-test-service.herokuapp.com/tweets/event/'
+    private twitter_url = 'https://media-test-service.herokuapp.com/tweets/test';
+    
+    private twitter_event_url = 'https://media-test-service.herokuapp.com/tweets/event/';
     readonly TWITTER_SCRIPT_ID = 'twitter-wjs';
     readonly TWITTER_WIDGET_URL = 'https://platform.twitter.com/widgets.js';
 
@@ -79,8 +80,9 @@ export class TweetService {
         return this.httpClient.get<Tweets[]>(this.url).map(res =>{return res['results']}).pipe(catchError(this.handleError('getTweets', [])));
     }
 
-    getTweetsById(id:string): Observable<String>{
-        return this.httpClient.get<String>(this.twitter_url + id ).map(res =>{return res['html']}).pipe(catchError(this.handleError('getTweetsById', [])));
+    getTweetsById(id:string): Observable<any>{
+        return this.httpClient.get<any>(this.twitter_url + id ).map(res =>{          
+          return res['html']}).pipe(catchError(this.handleError('getTweetsById', [])));
     }
 
     getTweetsByEventId(id:number): Observable<Tweets[]>{

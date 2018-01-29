@@ -33,6 +33,7 @@ export class EventComponent implements OnInit {
     this.eventService.getEvents().subscribe(eventpages => {
       try {
         this.events = eventpages;
+        this.mapService.MakeActive(this.events[0]);
       } catch (err) {
       }
     });
