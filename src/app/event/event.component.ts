@@ -20,6 +20,7 @@ export class EventComponent implements OnInit {
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
   checked_event_types: string[];
+  checked_search: boolean = false;
   error_message = '24234';
   is_error = false;//'Error date input.'
 
@@ -35,8 +36,8 @@ export class EventComponent implements OnInit {
     this.eventService.getEventTypes().subscribe(event_types => {
       this.event_types = event_types['event_types'];
       //make deep copy of event_types for storing checced ones
-      this.checked_event_types=this.event_types.slice();
-      
+      this.checked_event_types = this.event_types.slice();
+
     })
   }
 
@@ -79,12 +80,12 @@ export class EventComponent implements OnInit {
    * @param e event occured oncheckbox click
    * @param name name of event type
    */
-  CheckType(e:any,name: string): void {
-    
-    if(e.target.checked){      
-      this.checked_event_types.push(name);      
-    }else{
-      this.checked_event_types.splice(this.checked_event_types.indexOf(name),1);      
+  CheckType(e: any, name: string): void {
+
+    if (e.target.checked) {
+      this.checked_event_types.push(name);
+    } else {
+      this.checked_event_types.splice(this.checked_event_types.indexOf(name), 1);
     }
 
   }
@@ -100,8 +101,10 @@ export class EventComponent implements OnInit {
    * @param start_date 
    * @param end_date 
    */
-  getEventsByFilters(title: string, place: string, start_date: string, end_date: string): void {
-      
+  getEventsByFilters(title: string, start_date: string, end_date: string): void {
+
+
+
     try {
       this.checkDate(start_date, end_date);
     }
@@ -109,18 +112,28 @@ export class EventComponent implements OnInit {
       alert(err);
       return;
     }
-  
+
+
     // if types empty assign 'none', else make a string
-    const types_str = this.checked_event_types.length!=0 ? this.checked_event_types.join('&') : 'none';
-    
+    const types_str = this.checked_event_types.length != 0 ? this.checked_event_types.join('&') : 'none';
+
     // if empty assign all 
-    const t = (title == '') ? 'all' : title;
-    const p = (place == '') ? 'all' : place;
+    let p, t;
+    if (this.checked_search) {
+      console.log('checked');
+      p = (title == '') ? 'all' : title;
+      t = 'all';
+    } else {
+      t = (title == '') ? 'all' : title;
+      p = 'all';
+    }
+
+    //const p = (place == '') ? 'all' : place;
     const sd = (start_date == '') ? 'all' : start_date;
     const ed = (end_date == '') ? 'all' : end_date;
     this.eventService.getEventsByFilters(t, p, types_str, sd, ed).subscribe(events => {
       this.events = events;
-      if (this.events) {
+      if (this.events.length > 0) {
         this.mapService.OnFilter(this.events);
         this.mapService.MakeActive(this.events[0]);
         this.tweetService.getTweetsByEventId(this.events[0]['id']);
@@ -140,6 +153,10 @@ export class EventComponent implements OnInit {
     if ((from != null) && (to != null) && from > to) {
       throw "Start date must be less then end";
     }
+  }
+
+  doCheck(e: any): void {
+    this.checked_search = !this.checked_search;
   }
   /**getEventByName(name:string): void{
      if(name.length!=0){
