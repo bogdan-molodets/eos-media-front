@@ -133,8 +133,9 @@ export class EventComponent implements OnInit {
     const ed = (end_date == '') ? 'all' : end_date;
     this.eventService.getEventsByFilters(t, p, types_str, sd, ed).subscribe(events => {
       this.events = events;
+      this.mapService.OnFilter(this.events);
       if (this.events.length > 0) {
-        this.mapService.OnFilter(this.events);
+        
         this.mapService.MakeActive(this.events[0]);
         this.tweetService.getTweetsByEventId(this.events[0]['id']);
       }
