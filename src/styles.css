@@ -270,17 +270,20 @@ label {
 	color:#0091EA;
 	text-decoration: none;
 }
-.error-modal{
-	position: absolute;	
+.modal{
+	position: fixed;
 	z-index: 1002;
-	width: 150px;
-	min-height: 10px;
-	bottom: 10px;
-	left: 300px;
-	padding: 5px 20px;
-	background: white;
+	display: none;
+    /*min-width: 125px;
+    min-height: 10px;*/
+    bottom: 60px;
+    left: 340px;
+    padding: 5px 20px;
+    background: white;
 }
-
-.error-modal> p{
+.show{
+	display: block;
+}
+.modal> p{
  font-size: 12px;
 }

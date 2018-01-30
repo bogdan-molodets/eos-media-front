@@ -4,6 +4,7 @@ import {Tweet} from '../tweet';
 import {Tweets} from '../tweets';
 import { EventsService } from '../services/events.service';
 import { TweetService } from '../services/tweet.service';
+import { MapService} from '../services/map.service';
 import { error } from 'util';
 //import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 //import { Router, NavigationEnd } from '@angular/router';
@@ -20,18 +21,31 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   html: String[];
   private twitter: Observable<any[]>;
   private callback:{():void};
+  private tweet_articles: String[];
+  //id: number;
 
-  constructor(private eventService: EventsService, private tweetService: TweetService, private element: ElementRef) {
+  constructor(private eventService: EventsService, private tweetService: TweetService, private element: ElementRef, private mapService: MapService) {
     this.twitter = new Observable(observer=>{
       observer.next();
       observer.complete();
     });
-    this.callback = () => this.getTweets();
+    //this.callback = () => this.getTweets();
     }
   
 
   ngOnInit() {
-    this.getTweetsByEventId(16);
+    this.mapService.currentEvent.subscribe(event => {
+      try {
+        //this.id = event.id;
+        console.log(event.id);
+        this.tweetService.getTweetsByEventId(event.id).subscribe(tweets=>{
+          this.tweet_articles = Object.values(tweets);
+        })
+      } catch (e) {
+      }
+    });
+    //this.getTweetsByEventId(16);
+    //this.getTweets();
     /*let sub = this.twitter.subscribe(value=>{
       console.log(value);
       this.getTweets();
@@ -39,7 +53,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     },error=>{
       console.log('Error');
     })*/
-    this.tw_init()
+    //this.tw_init()
   }
  
   private tw_init(): void{
@@ -59,7 +73,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       console.log(id);
       return t;
     }(document, "script", "twitter-wjs"));
-    
+    if ((<any>window).twttr.ready()){(<any>window).twttr.widgets.load();}
     //this.callback();
   };
 
@@ -81,20 +95,20 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getTweets(): void {
+  /*getTweets(): void {
     this.tweetService.getTweets().subscribe(tweets => {
       this.tweets = tweets;
-      console.log(this.tweets);
+     // console.log(this.tweets);
       for(let i = 0; i<this.tweets.length; i++){
         this.tweetService.getTweetsById(this.tweets[i]['tweet_real_id']).subscribe(res =>{
-          console.log(res);
+          //console.log(res);
         });
       }
     });
-  }
+  }*/
 
 
-  textParse(tweet:Tweet):Tweet{
+  /**textParse(tweet:Tweet):Tweet{
     let new_text = tweet.tweet_text.split(' ');
     let text = '', i = 0;
     while(i<new_text.length){
@@ -121,7 +135,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     }
     tweet.tweet_text = text;
     return tweet;   
-  }
+  }**/
   
  
 }

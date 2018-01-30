@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {Event} from '../event';
 import {MapService} from '../services/map.service';
+import {TweetService} from  '../services/tweet.service'
 import {
   trigger,
   state,
@@ -18,7 +19,7 @@ export class CardComponent implements OnInit {
   @Input() event: Event;
 
   /*@Input() visible: boolean;*/
-  constructor(private mapService: MapService) {
+  constructor(private mapService: MapService, private tweetService: TweetService) {
   }
 
   public id: number = -1;
@@ -34,6 +35,7 @@ export class CardComponent implements OnInit {
 
   onClick(event: Event) {
     this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
+    this.tweetService.getTweetsByEventId(event.id);
   }
 
   // обрабатываем клик и в ивентах находим одно событие

@@ -19,8 +19,6 @@ export class MapService {
 
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
-
-
   constructor(private eventService: EventsService) {
   
   }
@@ -70,6 +68,9 @@ export class MapService {
     return this.map;
   }
 
+  MakeActive(event:Event){
+    this.eventSource.next(event);
+  }
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
    * @param {Event} e

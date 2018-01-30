@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Event } from '../event';
 import { EventsService } from '../services/events.service';
 import { MapService } from '../services/map.service';
+import {TweetService} from '../services/tweet.service'
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
@@ -16,10 +17,12 @@ export class EventComponent implements OnInit {
   isEmpty: boolean = false;
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
+  error_message = '24234';
+  is_error = false;//'Error date input.'
 
   /**flood: boolean = false;
    fire: boolean = false;**/
-  constructor(private mapService: MapService, private eventService: EventsService) {
+  constructor(private mapService: MapService, private eventService: EventsService, private tweetService: TweetService) {
   }
 
   getEventTypes(): void {
@@ -33,6 +36,8 @@ export class EventComponent implements OnInit {
     this.eventService.getEvents().subscribe(eventpages => {
       try {
         this.events = eventpages;
+        this.mapService.MakeActive(this.events[0]);
+        this.tweetService.getTweetsByEventId(this.events[0]['id']);
       } catch (err) {
       }
     });
