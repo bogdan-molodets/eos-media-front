@@ -16,6 +16,7 @@ import { TweetComponent } from './tweet/tweet.component';
 import {EventsService} from './services/events.service';
 import {MapService } from './services/map.service';
 import {TweetService} from './services/tweet.service';
+import { ModalComponent } from './modal/modal.component';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 
@@ -28,7 +29,8 @@ import {TweetService} from './services/tweet.service';
     CardComponent,
     HeaderComponent,
     MapBoxComponent,
-    TweetComponent
+    TweetComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
