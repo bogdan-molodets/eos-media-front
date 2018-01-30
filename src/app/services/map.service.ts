@@ -23,6 +23,10 @@ export class MapService {
   
   }
 
+
+  MakeActive(event: Event):void{
+    this.eventSource.next(event);
+  }
   /**
    * initialize map and add polygon empty layers
    * @param centerLon 
