@@ -25,6 +25,7 @@ export class CardComponent implements OnInit {
   public id: number = -1;
 
   ngOnInit() {
+    // subscribe for event change and make card active 
     this.mapService.currentEvent.subscribe(event => {
       try {
         this.id = event.id;
@@ -33,8 +34,14 @@ export class CardComponent implements OnInit {
     });
   }
 
+  /**
+   * makes card active, center and zoom map to event marker. Loads tweets for chosen event
+   * @param event clicked event
+   */
   onClick(event: Event) {
+    
     this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
+    
     this.tweetService.getTweetsByEventId(event.id);
   }
 

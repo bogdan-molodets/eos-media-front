@@ -19,6 +19,7 @@ export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
   private types_url = 'https://media-test-service.herokuapp.com/event-types/';
+  private filters_url='http://media-test-service.herokuapp.com/events/many_filter/';
   private eventsSource = new BehaviorSubject<EventPages[]>(null);
   currentEvents = this.eventsSource.asObservable();
 
@@ -71,9 +72,27 @@ export class EventsService {
     );
   }
 
-  getTweets(): Observable<Tweet[]> {
-    return this.httpClient.get<Tweet[]>(this.tweets_url).pipe(catchError(this.handleError('getTweets', [])));
+  /**
+   * multiple events filtration
+   * @param title name of event
+   * @param place event place
+   * @param types string of event types e.g. 'type1&type2&...&typeN'
+   * @param start_date start event date
+   * @param end_date end event date
+   */
+  getEventsByFilters(title:string,place:string,types:string,start_date:string,end_date:string ):Observable<Event[]>{
+   
+    const url_filter = `${this.filters_url}${title}/${place}/${types}/${start_date}/${end_date}`;
+    console.log(url_filter);
+    return this.httpClient.get<Event[]>(url_filter).map(res => {
+      return res['results'];
+    }).pipe(
+        catchError(this.handleError<Event[]>(`getEventsByFilters name=${name}`))
+    );
   }
+  
+
+
 
   /**
    * Handle Http operation that failed.

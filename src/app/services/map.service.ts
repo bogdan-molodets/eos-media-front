@@ -17,12 +17,14 @@ export class MapService {
   map: any;
   style: any;
 
+  // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
+  
+  
   constructor(private eventService: EventsService) {
   
   }
-
 
 
   /**
@@ -70,6 +72,10 @@ export class MapService {
     return this.map;
   }
 
+  /**
+   * makes first event chosen by default after page loading or filtering
+   * @param event 
+   */
   MakeActive(event:Event){
     this.eventSource.next(event);
   }
