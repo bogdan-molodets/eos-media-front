@@ -168,7 +168,8 @@ label {
 	font-family: 'Montserrat', sans-serif; 
 	font-size: 13px;
 	border: none;
-	border-bottom: 1px #607D8B solid; 
+	background: #fff;
+	/*border-bottom: 1px #607D8B solid; */
 }
 .filter input[type='date'] + label{
 	/*position: absolute;*/
@@ -177,9 +178,9 @@ label {
 .filter input[type='date']:focus,.search>input[type='search']:hover{
 	outline: none;
 }
-.filter input[type='date']:focus{
+/*.filter input[type='date']:focus{
 	border-bottom: 2px #1565C0 solid;	
-}
+}*/
 .filter input[type='date']:focus + label{
 	color: #1565C0;
 }
@@ -223,6 +224,7 @@ label {
 }
 .tweet-container{
 	margin-top: 25px;
+	padding: 0!important;
 }
 .tweet-block-title>.image{
 	position: absolute;

@@ -19,16 +19,18 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   tweets: Tweets[];
   tweet: Tweets;
   html: String[];
-  private twitter: Observable<any[]>;
+  private twitter: any
   private callback:{():void};
   private tweet_articles: String[];
   //id: number;
 
   constructor(private eventService: EventsService, private tweetService: TweetService, private element: ElementRef, private mapService: MapService) {
-    this.twitter = new Observable(observer=>{
+
+    //this.tw_init();
+    /*this.twitter = new Observable(observer=>{
       observer.next();
       observer.complete();
-    });
+    });*/
     //this.callback = () => this.getTweets();
     }
   
@@ -57,6 +59,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   }
  
   private tw_init(): void{
+    
     (<any>window).twttr = (function (d, s, id) {
       let js: any, fjs = d.getElementsByTagName(s)[0],
           t = (<any>window).twttr || {};
@@ -70,16 +73,52 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       t.ready = function (f: any) {
           t._e.push(f);
       };
-      console.log(id);
+
       return t;
     }(document, "script", "twitter-wjs"));
-    if ((<any>window).twttr.ready()){(<any>window).twttr.widgets.load();}
+    
+    
+    setInterval(
+    function(){if ((<any>window).twttr.ready()){
+      console.log((<any>window).twttr);
+      (<any>window).twttr.widgets.load(document.getElementById('twitter'));
+    }else{
+      console.log('error');
+    }},5000);
     //this.callback();
+    /*this.createScript().subscribe(twttr=>{
+      if(twttr.ready()){
+        console.log((<any>window).twttr);
+        (<any>window).twttr.widgets.load(document.getElementById("twitter"));
+      }
+    });*/
   };
 
+  widget_load(){
+    
+  }
+  /*createScript (): Observable<any>{
+    return ((<any>window).twttr = (function (d, s, id) {
+      let js: any, fjs = d.getElementsByTagName(s)[0],
+          t = (<any>window).twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function (f: any) {
+          t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs")))  
+  }*/
+
+
   ngAfterViewInit()	{
-				
-			
+				this.tw_init();			
   }
 
   /**The Last working version**/

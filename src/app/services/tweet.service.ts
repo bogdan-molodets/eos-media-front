@@ -28,25 +28,7 @@ export class TweetService {
 
     constructor(private httpClient: HttpClient) {
     }
-
-    LoadScript() : Observable<any>{
-        let that = this;
-
-        return Observable.create(observer =>{
-      //START LOADING SCRIPT INTO DOM
-      that.startScriptLoad();
-
-      //WHEN TWITTER WIDGETS SCRIPT IS LOADED, THEN PASS ALONG....
-      that.twttr.ready(
-        function onLoadTwitterScript(twttr){
-            //console.log('Twitter Load Successful');
-            observer.next(twttr);
-            observer.complete();
-        }
-      );
-
-    });
-  };
+    
 
   OnCardClick(event: Event){
     this.getTweetsByEventId(event['id']).subscribe(
@@ -56,46 +38,6 @@ export class TweetService {
     );
   }
 
-  private startScriptLoad() 
-  {
-    this.twttr = (function(d, s, id, url) 
-    {
-        var js, 
-        fjs = d.getElementsByTagName(s)[0],
-        t = window['twttr'] || {};
-
-        if (d.getElementById(id)) return t;
-
-        js = d.createElement(s);
-        js.id = id;
-        js.src = url;
-        fjs.parentNode.insertBefore(js, fjs);
-
-        t._e = [];
-
-      t.ready = function(f) 
-      {
-            t._e.push(f);
-      };
-
-        return t;
-    }(document, "script", this.TWITTER_SCRIPT_ID, this.TWITTER_WIDGET_URL));
-  }   
-
-  private twttr = {
-    _e:[],
-     ready: function(f){this._e.push(f)}
-  }
-
-    getTweets(): Observable<Tweets[]> {
-        return this.httpClient.get<Tweets[]>(this.url).map(res =>{return res['results']}).pipe(catchError(this.handleError('getTweets', [])));
-    }
-
-    getTweetsById(id:string): Observable<any>{
-        return this.httpClient.get<any>(this.twitter_url + id ).map(res =>{
-          console.log(res);
-          return res['html']}).pipe(catchError(this.handleError('getTweetsById', [])));
-    }
 
     getTweetsByEventId(id:number): Observable<any>{
         return this.httpClient.get<any>(this.twitter_event_url + id ).pipe(catchError(this.handleError('getTweetsByEventId', [])));

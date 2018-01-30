@@ -1,4 +1,4 @@
-<div class='container'>
+<div class='container tweet-container'>
 	<div class='title right'>
 		<h3>Coverage</h3>
 	</div>
@@ -6,6 +6,6 @@
 			<app-tweet *ngFor="let tweet of tweets" [tweet]="tweet" >
 			</app-tweet>		
 	</div>-->
-	<!--<div id='twitter-wjs'><div class="e2e-inner-html-bound" *ngFor="let tweet_article of tweet_articles" [innerHTML]="tweet_article"></div></div>-->
-	<div id='twitter-wjs' [innerHTML]="tweet_articles[0]"></div>
+	<div id='twitter'><script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script><div class="e2e-inner-html-bound" *ngFor="let tweet_article of tweet_articles" [innerHTML]="tweet_article"></div></div>
+	<!--<div id='twitter-wjs' [innerHTML]="tweet_articles[0]"></div>-->
 </div>
