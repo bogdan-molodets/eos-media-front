@@ -2,7 +2,7 @@
 	<div class='title left'>
 		<h3>Events</h3>
 		<div class='search'>
-			<input type='search' (keyup.enter)="getEventByName(search.value)" id='search' placeholder="Search" #search>
+			<input type='search' (keyup.enter)="getEventsByFilters(search.value,'',from.value,to.value)" id='search' placeholder="Search" #search>
 			<label for='search'>Search event</label>		
 		</div>
 		<div class='filter-container'>
@@ -13,14 +13,14 @@
 				<div class='filter filter-date'>
 					<input type='date' [max]="today" #to><!--<label for="to">To</label>-->
 				</div>
-				<button class="filter-button" (click)="getEventByDate(from.value,to.value)" >Filter by date</button>				
+				<button class="filter-button" (click)="getEventsByFilters(search.value,'',from.value,to.value)" >Filter by date</button>				
 			</div>	
 			<!--<div class='error-modal' #dateErrorModal><p>Error!</p></div>-->
   			<app-modal [content]='error_message'></app-modal>						
 			<ul class='filter'>
-				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" id="{{event_type}}"  checked><label for="event_types" >{{event_type}}</label></li>	
+				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" #{{event_type}} (click)="CheckType($event,event_type)" checked><label for="event_types" >{{event_type}}</label></li>	
 			</ul>
-			<button class="filter-button" (click)="getEventByType(event_types)" >Find</button>	
+			<button class="filter-button" (click)="getEventsByFilters(search.value,'',from.value,to.value)" >Find</button>	
 		</div>
 		
 	</div>
