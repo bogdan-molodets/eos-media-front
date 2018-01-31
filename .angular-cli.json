@@ -20,7 +20,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css"
 
 
       ],
