@@ -37,7 +37,7 @@ export class MapService {
    
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: window.location.origin+'/assets/dark.json',
+      style: window.location.origin+'/assets/osm.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
