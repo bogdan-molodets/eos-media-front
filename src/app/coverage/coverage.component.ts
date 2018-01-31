@@ -37,13 +37,14 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.mapService.currentEvent.subscribe(event => {
-      try {
-        //this.id = event.id;
-        console.log(event.id);
+      try {    
         this.tweetService.getTweetsByEventId(event.id).subscribe(tweets=>{
           this.tweet_articles = Object.values(tweets);
+          
         })
       } catch (e) {
+        this.tweet_articles=[];
+       
       }
     });
     //this.getTweetsByEventId(16);
@@ -80,7 +81,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     
     setInterval(
     function(){if ((<any>window).twttr.ready()){
-      console.log((<any>window).twttr);
+      //console.log((<any>window).twttr);
       (<any>window).twttr.widgets.load(document.getElementById('twitter'));
     }else{
       console.log('error');
