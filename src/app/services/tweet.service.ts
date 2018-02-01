@@ -3,6 +3,7 @@ import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/of';
 import {catchError} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Tweet} from '../tweet';
@@ -51,4 +52,42 @@ export class TweetService {
           return of(result as T);
         };
       }
+
+  LoadScript() : Observable<any> 
+  {
+    let that = this;
+
+    return Observable.create(observer => 
+    {
+      //START LOADING SCRIPT INTO DOM
+      that.startScriptLoad();
+
+      //WHEN TWITTER WIDGETS SCRIPT IS LOADED, THEN PASS ALONG....
+      
+      if (window['twttr']){
+        observer.next(window['twttr']);
+      }else{
+        observer.of(null);
+      }
+    });
+  };
+
+  startScriptLoad(){
+    (<any>window).twttr = (function (d, s, id) {
+      let js: any, fjs = d.getElementsByTagName(s)[0],
+          t = (<any>window).twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+
+      t._e = [];
+      t.ready = function (f: any) {
+          t._e.push(f);
+      };
+
+      return t;
+    }(document, "script", "twitter-wjs"));
+  }
 }
