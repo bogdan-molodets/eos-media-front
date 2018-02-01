@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../event';
-import * as mapboxgl from 'mapbox-gl';
+import  * as mapboxgl from 'mapbox-gl';
 import { EventsService } from '../services/events.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -37,7 +37,7 @@ export class MapService {
    
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: window.location.origin+'/assets/dark.json',
+      style: window.location.origin+'/assets/osm.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false

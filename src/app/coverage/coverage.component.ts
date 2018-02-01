@@ -19,7 +19,8 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   html: String[];
   private twitter: any
   private callback:{():void};
-  private tweet_articles: String[];
+  public tweet_articles: String[];
+  //id: number;
 
   constructor(private eventService: EventsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
     
@@ -32,8 +33,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       try {
         this.tweetService.getTweetsByEventId(event.id).subscribe(tweets=>{
           this.tweet_articles = Object.values(tweets);
+          
         })
       } catch (e) {
+        this.tweet_articles=[];
+       
       }
     });
     

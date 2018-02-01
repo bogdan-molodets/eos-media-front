@@ -19,7 +19,7 @@ export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
   private types_url = 'https://media-test-service.herokuapp.com/event-types/';
-  private filters_url='http://media-test-service.herokuapp.com/events/many_filter/';
+  private filters_url='https://media-test-service.herokuapp.com/events/many_filter/';
   private eventsSource = new BehaviorSubject<EventPages[]>(null);
   currentEvents = this.eventsSource.asObservable();
 

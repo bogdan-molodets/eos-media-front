@@ -21,11 +21,10 @@
       "prefix": "app",
       "styles": [
         "styles.css"
-
-
+      
       ],
       "scripts": [
-        
+    
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
