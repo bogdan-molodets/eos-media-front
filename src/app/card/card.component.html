@@ -1,7 +1,7 @@
 <div class='block' id='{{event.id+"card"}}' [ngClass]="{'active': id === event.id}" (click)="onClick(event)">
     <p class='card-title'>
-        {{event.title}}
+        {{ event.title }}
     </p>
-    <p class='card-content indent-3'>Event type: {{event.event_type}}</p>
-    <p class='card-content indent-3'>Date of start: {{event.start_date}}</p>
+    <p class='card-content indent-3'>Event type: {{ event.event_type }}</p>
+    <p class='card-content indent-3'>Date of start: {{ event.start_date }}</p>
     </div>

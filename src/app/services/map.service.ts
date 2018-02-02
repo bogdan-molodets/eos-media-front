@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../event';
-import  * as mapboxgl from 'mapbox-gl';
+import * as mapboxgl from 'mapbox-gl';
 import { EventsService } from '../services/events.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { isNumber, isUndefined } from 'util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {Response} from '@angular/http';
+import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
@@ -20,32 +20,32 @@ export class MapService {
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
-  
-  
+
+
   constructor(private eventService: EventsService) {
-  
+
   }
 
 
   /**
    * initialize map and add polygon empty layers
-   * @param centerLon 
-   * @param centerLat 
-   * @param zoom 
+   * @param centerLon
+   * @param centerLat
+   * @param zoom
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
-   
+
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: window.location.origin+'/assets/osm.json',
+      style: window.location.origin + '/assets/osm.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
     }).addControl(new mapboxgl.NavigationControl());
-    var m = this.map;
+    const m = this.map;
     this.map.on('load', function () {
 
-      //add source with our polygon
+      // add source with our polygon
       m.addSource('polygon', {
         type: 'geojson',
         data: {
@@ -56,7 +56,7 @@ export class MapService {
           }
         }
       });
-      //layer for source display
+      // layer for source display
       m.addLayer({
         id: 'showpoly',
         type: 'fill',
@@ -74,9 +74,9 @@ export class MapService {
 
   /**
    * makes first event chosen by default after page loading or filtering
-   * @param event 
+   * @param event
    */
-  MakeActive(event:Event){
+  MakeActive(event: Event) {
     this.eventSource.next(event);
   }
   /**
@@ -104,7 +104,7 @@ export class MapService {
     }
     this.eventSource.next(e);
     // scroll to card
-    var event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
+    const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
 
   }
 
@@ -115,7 +115,7 @@ export class MapService {
    */
   OnFilter(events: Event[]) {
 
-    var el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
+    const el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
 
     this.CreateMarkers(events);
     for (let i = 0; i < el.length; i++) {
@@ -167,7 +167,7 @@ export class MapService {
         ////////
         // add onclick event to marker
 
-        var s = this;
+        const s = this;
         el.addEventListener('click', function () {
           s.OnCardClick(event, event.event_lon, event.event_lat);
         });
@@ -178,9 +178,9 @@ export class MapService {
   }
 
 
-  ChangeStyle(id:string):void{
-    this.map.setStyle('http://localhost:8080/assets/'+id);
+  ChangeStyle(id: string): void {
+    this.map.setStyle('http://localhost:8080/assets/' + id);
   }
-  
+
 
 }

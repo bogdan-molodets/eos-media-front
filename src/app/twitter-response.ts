@@ -1,4 +1,4 @@
-export class TwitterResponse{
+export class TwitterResponse {
     url: string;
     author_name: string;
     author_url: string;
@@ -9,5 +9,5 @@ export class TwitterResponse{
     cache_age: string;
     provider_name: string;
     provider_url: string;
-    version: string;   
+    version: string;
 }

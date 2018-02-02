@@ -38,7 +38,7 @@ export class MapBoxComponent implements OnInit {
    * creates map and set it object to mapService.Creates html custom markers
    */
   buildMap(): void {
-    //init map in service
+    // init map in service
     this.map = this.mapService.InitMap(-102, 35, 4);
 
     // get events and create markers

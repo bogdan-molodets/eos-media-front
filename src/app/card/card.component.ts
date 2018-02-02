@@ -1,7 +1,7 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {Event} from '../event';
-import {MapService} from '../services/map.service';
-import {TweetService} from  '../services/tweet.service'
+import { Component, OnInit, Input } from '@angular/core';
+import { Event } from '../event';
+import { MapService } from '../services/map.service';
+import { TweetService } from '../services/tweet.service';
 import {
   trigger,
   state,
@@ -22,10 +22,10 @@ export class CardComponent implements OnInit {
   constructor(private mapService: MapService, private tweetService: TweetService) {
   }
 
-  public id: number = -1;
+  public id = -1;
 
   ngOnInit() {
-    // subscribe for event change and make card active 
+    // subscribe for event change and make card active
     this.mapService.currentEvent.subscribe(event => {
       try {
         this.id = event.id;
@@ -39,9 +39,9 @@ export class CardComponent implements OnInit {
    * @param event clicked event
    */
   onClick(event: Event) {
-    
+
     this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
-    
+
     this.tweetService.getTweetsByEventId(event.id);
   }
 

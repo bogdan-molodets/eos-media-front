@@ -1,6 +1,6 @@
-import {Event} from './event';
+import { Event } from './event';
 
-export class EventPages{
+export class EventPages {
     count: number;
     next: string;
     previous: string;

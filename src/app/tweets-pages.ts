@@ -1,6 +1,6 @@
-import {Tweets} from './tweets';
+import { Tweets } from './tweets';
 
-export class TweetsPages{
+export class TweetsPages {
     count: number;
     next: string;
     previous: string;
