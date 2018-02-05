@@ -44,7 +44,8 @@ export class MapService {
     }).addControl(new mapboxgl.NavigationControl());
 
     this.map.addControl(new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken
+      accessToken: mapboxgl.accessToken,
+      placeholder: 'Search for a place',
   }),'top-left' );
 
     const m = this.map;

@@ -116,21 +116,23 @@ export class EventComponent implements OnInit {
     // if types empty assign 'none', else make a string
     const types_str = this.checked_event_types.length !== 0 ? this.checked_event_types.join('&') : 'none';
 
+    
+    const t=(title === '') ? 'all' : title;
     // if empty assign all
-    let p, t;
-    if (this.checked_search) {
-      console.log('checked');
-      p = (title === '') ? 'all' : title;
-      t = 'all';
-    } else {
-      t = (title === '') ? 'all' : title;
-      p = 'all';
-    }
+    // let p, t;
+    // if (this.checked_search) {
+    //   console.log('checked');
+    //   p = (title === '') ? 'all' : title;
+    //   t = 'all';
+    // } else {
+    //   t = (title === '') ? 'all' : title;
+    //   p = 'all';
+    // }
 
     // const p = (place == '') ? 'all' : place;
     const sd = (start_date === '') ? 'all' : start_date;
     const ed = (end_date === '') ? 'all' : end_date;
-    this.eventService.getEventsByFilters(t, p, types_str, sd, ed).subscribe(events => {
+    this.eventService.getEventsByFilters(t, 'all', types_str, sd, ed).subscribe(events => {
       this.events = events;
       this.mapService.OnFilter(this.events);
 
