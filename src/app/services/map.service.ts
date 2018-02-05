@@ -8,7 +8,7 @@ import { isNumber, isUndefined } from 'util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
-
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 @Injectable()
 export class MapService {
@@ -42,6 +42,11 @@ export class MapService {
       zoom: 4,
       attributionControl: false
     }).addControl(new mapboxgl.NavigationControl());
+
+    this.map.addControl(new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken
+  }),'top-left' );
+
     const m = this.map;
     this.map.on('load', function () {
 
