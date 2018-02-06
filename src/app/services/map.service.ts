@@ -184,9 +184,7 @@ export class MapService {
   }
 
 
-  ChangeStyle(id: string): void {
-    this.map.setStyle('http://localhost:8080/assets/' + id);
-  }
+  
 
 
 }

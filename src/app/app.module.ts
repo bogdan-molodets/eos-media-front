@@ -22,6 +22,8 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import { ClientComponent } from './client/client.component';
 import { AuthComponent } from './auth/auth.component';
 import { FilterComponent } from './filter/filter.component';
+import { NewsComponent } from './news/news.component';
+import { NewsService } from './services/news.service';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 const appRoutes: Routes = [  
@@ -45,7 +47,8 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     ClientComponent,
     AuthComponent,
-    FilterComponent
+    FilterComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,7 @@ const appRoutes: Routes = [
     )
    // AngularOpenlayersModule
   ],
-  providers: [ EventsService, MapService, TweetService ],
+  providers: [ EventsService, MapService, TweetService,NewsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
