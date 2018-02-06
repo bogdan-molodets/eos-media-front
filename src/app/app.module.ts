@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { AuthorizationComponent } from './authorization/authorization.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { EventComponent } from './event/event.component';
@@ -17,25 +17,44 @@ import {EventsService} from './services/events.service';
 import {MapService } from './services/map.service';
 import {TweetService} from './services/tweet.service';
 import { ModalComponent } from './modal/modal.component';
+import { AdminComponent } from './admin/admin.component';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import { ClientComponent } from './client/client.component';
+import { AuthComponent } from './auth/auth.component';
+import { FilterComponent } from './filter/filter.component';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
+const appRoutes: Routes = [  
+  {path: 'admin', component: AdminComponent},
+  {path: 'auth', component: AuthComponent},
+  {path: '', component: ClientComponent},
+  {path: '**', component: PageNotFoundComponent}  
+]
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthorizationComponent,
     EventComponent,
     CoverageComponent,
     CardComponent,
     HeaderComponent,
     MapBoxComponent,
     TweetComponent,
-    ModalComponent
+    ModalComponent,
+    AdminComponent,
+    PageNotFoundComponent,
+    ClientComponent,
+    AuthComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: false } // <-- debugging purposes only
+    )
    // AngularOpenlayersModule
   ],
   providers: [ EventsService, MapService, TweetService ],
