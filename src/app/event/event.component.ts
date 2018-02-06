@@ -21,8 +21,7 @@ export class EventComponent implements OnInit {
   event_types: string[];
   active_types: string[];
   checked_search: boolean = false;
-  error_message = '24234';
-  is_error = false;//'Error date input.'
+  
   visible: boolean = false;
   title: string = '';
 
@@ -34,6 +33,13 @@ export class EventComponent implements OnInit {
   constructor(private mapService: MapService, private eventService: EventsService, private tweetService: TweetService) {
   }
 
+
+  ngOnInit(): void {
+    this.getEvents();
+    this.getEventTypes();
+   
+  }
+
   getEventTypes(): void {
     this.eventService.getEventTypes().subscribe(event_types => {
       this.event_types = event_types['event_types'];
@@ -41,11 +47,7 @@ export class EventComponent implements OnInit {
       this.active_types = this.event_types.slice();
 
     });
-  }
-
-  // GetEventTypes():string[]{
-  //   return this.event_types
-  // }
+  } 
 
   getEvents(): void {
     this.eventService.getEvents().subscribe(eventpages => {
@@ -57,6 +59,70 @@ export class EventComponent implements OnInit {
     });
   }
 
+ /**
+   * add to array checked types and remove unchecked
+   * @param e event occured oncheckbox click
+   * @param name name of event type
+   */
+  CheckType(e: any, name: string): void {
+
+    if (e.target.checked) {
+      this.active_types.push(name);
+    } else {
+      this.active_types.splice(this.active_types.indexOf(name), 1);
+    }
+
+  }   
+
+  setVisible(){
+    this.visible = !this.visible;
+  }
+
+  viewChanges(event){
+    this.active_types = event;
+    
+  }
+  viewTitle(event){
+    this.title = event;
+    //call filtering on Find click
+    this.getEventsByFilters();
+   
+  }
+
+  /**
+   * called on click or search. Check and retrieve parameters before passing to filter. Multiple filtrations
+   *
+   */
+  getEventsByFilters(): void {
+    // if types empty assign 'none', else make a string
+    const types_str = this.active_types.length !== 0 ? this.active_types.join('&') : 'none';    
+    const t=(this.title === '') ? 'all' : this.title;   
+    
+    // const sd = (start_date === '') ? 'all' : start_date;
+    // const ed = (end_date === '') ? 'all' : end_date;
+    this.eventService.getEventsByFilters(t, 'all', types_str, 'all', 'all').subscribe(events => {
+      this.events = events;
+      this.mapService.OnFilter(this.events);
+      if (this.events.length > 0) {        
+        this.mapService.MakeActive(this.events[0]);
+      } else {
+        this.mapService.MakeActive(null);
+      }
+
+    });
+  }
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
   getEventByDate(from: any, to: any): void {
     console.log(`from: ${from}`);
     console.log(`to: ${to}`);
@@ -74,83 +140,7 @@ export class EventComponent implements OnInit {
     }
 
 
-  }
-
-  /**
-   * add to array checked types and remove unchecked
-   * @param e event occured oncheckbox click
-   * @param name name of event type
-   */
-  CheckType(e: any, name: string): void {
-
-    if (e.target.checked) {
-      this.active_types.push(name);
-    } else {
-      this.active_types.splice(this.active_types.indexOf(name), 1);
-    }
-
-  }
-
-  getEventByType(event_types: string[]): void {
-    console.log(event_types);
-  }
-
-  setVisible(){
-    this.visible = !this.visible;
-  }
-
-  /**
-   * called on click or search. Check and retrieve parameters before passing to filter. Multiple filtrations
-   * @param title
-   * @param place
-   * @param start_date
-   * @param end_date
-   */
-  getEventsByFilters(title: string, start_date: string, end_date: string): void {
-
-
-
-    try {
-      this.checkDate(start_date, end_date);
-    } catch (err) {
-      alert(err);
-      return;
-    }
-
-
-    // if types empty assign 'none', else make a string
-    const types_str = this.active_types.length !== 0 ? this.active_types.join('&') : 'none';
-
-    
-    const t=(title === '') ? 'all' : title;
-    // if empty assign all
-    // let p, t;
-    // if (this.checked_search) {
-    //   console.log('checked');
-    //   p = (title === '') ? 'all' : title;
-    //   t = 'all';
-    // } else {
-    //   t = (title === '') ? 'all' : title;
-    //   p = 'all';
-    // }
-
-    // const p = (place == '') ? 'all' : place;
-    const sd = (start_date === '') ? 'all' : start_date;
-    const ed = (end_date === '') ? 'all' : end_date;
-    this.eventService.getEventsByFilters(t, 'all', types_str, sd, ed).subscribe(events => {
-      this.events = events;
-      this.mapService.OnFilter(this.events);
-
-      if (this.events.length > 0) {
-        
-        this.mapService.MakeActive(this.events[0]);
-
-      } else {
-        this.mapService.MakeActive(null);
-      }
-
-    });
-  }
+  } 
 
   /**
    * trow ex if start date more then end date
@@ -164,22 +154,6 @@ export class EventComponent implements OnInit {
       throw new Error('Start date must be less then end');
     }
   }
-
-  doCheck(e: any): void {
-    this.checked_search = !this.checked_search;
-  }
-  /**getEventByName(name:string): void{
-     if(name.length!=0){
-        this.eventService.getEventByName(name).subscribe(events => {this.events = events; });
-     }else{
-        //this.eventService.getEvents().subscribe(events => {this.events = events;});
-        this.eventService.getEvents().subscribe(eventpages => {try{this.events = eventpages['results']}catch(err){}});
-      }
-    });}**/
-
-
-
-
   getEventByName(name: string): void {
     if (name.length !== 0) {
       this.eventService.getEventByName(name).subscribe(events => {
@@ -206,26 +180,8 @@ export class EventComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.getEvents();
-    this.getEventTypes();
-    /** this.eventService.currentFlood.subscribe(flood => this.flood = flood);
-     this.eventService.currentFire.subscribe(fire => this.fire = fire);**/
-    // console.log(this.getEvent());
-  }
+ 
 
-  getEvent(): void {
-    // надо получить айди по клику ты говорил, что знаешь
-    const id = 4;
-    this.eventService.getEvent(id).subscribe(event => this.event = event);
-  }
-  viewChanges(event){
-    this.active_types = event;
-    //console.log(this.active_types);
-  }
-  viewTitle(event){
-    this.title = event;
-    //console.log(this.title);
-    //console.log(this.active_types);
-  }
+  
+  
 }

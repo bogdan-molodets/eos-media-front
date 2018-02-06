@@ -1,40 +1,17 @@
-<div class='container'>	
+<div class='container'>
 	<div class='title left'>
 		<h3>Events</h3>
-		<a class=''><img class='filter-icon' src='/assets/funnel.png' (click)="setVisible()"></a>
-		<!--<div class='search'>
-			<input type='search' (keyup.enter)="getEventsByFilters(search.value,from.value,to.value)" id='search' placeholder="Search" #search>
-			<br>
-			<br>
-			<label for='search'>Search event</label>	
-			<input type="checkbox" name="geo"  id="geoname" (change)="doCheck($event)" [checked]="checked_search"><label for="geoname" >search by place</label>
-		</div>-->
-		<!--<div class='filter-container'>
-			<div class='filter-date-container'>
-				<div class='filter filter-date'>
-					<input type='date' [max]="today" #from>
-				</div>
-				<div class='filter filter-date'>
-					<input type='date' [max]="today" #to>
-				</div>
-				<button class="filter-button" (click)="getEventsByFilters(search.value,from.value,to.value)" >Filter by date</button>				
-			</div>
-  			<app-modal [content]='error_message'></app-modal>						
-			<ul class='filter'>
-				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" #{{event_type}} (click)="CheckType($event,event_type)" checked><label for="event_types" >{{ event_type }}</label></li>	
-			</ul>
-			<button class="filter-button" (click)="getEventsByFilters(search.value,from.value,to.value)" >Find</button>	
-		</div>-->		
+		<a class=''>
+			<img class='filter-icon' src='/assets/funnel.png' (click)="setVisible()">
+		</a>
 	</div>
-	<app-filter [isVisible] = "visible" [event_types] = "event_types" [active_types] = "active_types" [title]="title" (changeActiveTypes) = "viewChanges($event)" (changeTitle) = "viewTitle($event)"></app-filter>
-	<!--<div [ngClass]='show : visible ===true ' class='filter-side'>
-		filter works!
-	</div>-->
+	<app-filter [isVisible]="visible" [event_types]="event_types" [active_types]="active_types" [title]="title" (changeActiveTypes)="viewChanges($event)"
+	 (changeTitle)="viewTitle($event)"></app-filter>
 	<div class='card-container'>
 		<div *ngIf="events==undefined || events.length==0">
 			<h3>Event list is empty</h3>
-		</div>		
-		<app-card *ngFor="let event of events" [event]="event" >
-		</app-card>		
-	</div>	
+		</div>
+		<app-card *ngFor="let event of events" [event]="event">
+		</app-card>
+	</div>
 </div>
