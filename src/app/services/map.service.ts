@@ -157,7 +157,7 @@ export class MapService {
         const el = document.createElement('div');
         el.id = event.id.toString();
         el.className = 'marker';
-        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/fire.png)' : 'url(/assets/flood.png)';
+        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/Wildfire.png)' : 'url(/assets/Flood.png)';
         el.style.cursor = 'pointer';
         el.style.width = '32px';
         el.style.height = '32px';

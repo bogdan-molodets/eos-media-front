@@ -19,10 +19,12 @@ export class EventComponent implements OnInit {
   isEmpty: boolean = false;
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
-  checked_event_types: string[];
+  active_types: string[];
   checked_search: boolean = false;
   error_message = '24234';
   is_error = false;//'Error date input.'
+  visible: boolean = false;
+  title: string = '';
 
 
 
@@ -36,7 +38,7 @@ export class EventComponent implements OnInit {
     this.eventService.getEventTypes().subscribe(event_types => {
       this.event_types = event_types['event_types'];
       //make deep copy of event_types for storing checced ones
-      this.checked_event_types = this.event_types.slice();
+      this.active_types = this.event_types.slice();
 
     })
   }
@@ -83,15 +85,19 @@ export class EventComponent implements OnInit {
   CheckType(e: any, name: string): void {
 
     if (e.target.checked) {
-      this.checked_event_types.push(name);
+      this.active_types.push(name);
     } else {
-      this.checked_event_types.splice(this.checked_event_types.indexOf(name), 1);
+      this.active_types.splice(this.active_types.indexOf(name), 1);
     }
 
   }
 
   getEventByType(event_types: string[]): void {
     console.log(event_types);
+  }
+
+  setVisible(){
+    this.visible = !this.visible;
   }
 
   /**
@@ -115,7 +121,7 @@ export class EventComponent implements OnInit {
 
 
     // if types empty assign 'none', else make a string
-    const types_str = this.checked_event_types.length != 0 ? this.checked_event_types.join('&') : 'none';
+    const types_str = this.active_types.length != 0 ? this.active_types.join('&') : 'none';
 
     // if empty assign all 
     let p, t;
@@ -213,5 +219,13 @@ export class EventComponent implements OnInit {
     const id = 4;
     this.eventService.getEvent(id).subscribe(event => this.event = event);
   }
-
+  viewChanges(event){
+    this.active_types = event;
+    //console.log(this.active_types);
+  }
+  viewTitle(event){
+    this.title = event;
+    //console.log(this.title);
+    //console.log(this.active_types);
+  }
 }
