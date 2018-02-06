@@ -17,6 +17,8 @@ import {EventsService} from './services/events.service';
 import {MapService } from './services/map.service';
 import {TweetService} from './services/tweet.service';
 import { ModalComponent } from './modal/modal.component';
+import { NewsComponent } from './news/news.component';
+import { NewsService } from './services/news.service';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 
@@ -30,7 +32,8 @@ import { ModalComponent } from './modal/modal.component';
     HeaderComponent,
     MapBoxComponent,
     TweetComponent,
-    ModalComponent
+    ModalComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,7 @@ import { ModalComponent } from './modal/modal.component';
     HttpClientModule,
    // AngularOpenlayersModule
   ],
-  providers: [ EventsService, MapService, TweetService ],
+  providers: [ EventsService, MapService, TweetService,NewsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

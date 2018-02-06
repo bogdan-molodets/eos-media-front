@@ -25,21 +25,26 @@ export class TweetService {
   readonly TWITTER_SCRIPT_ID = 'twitter-wjs';
   readonly TWITTER_WIDGET_URL = 'https://platform.twitter.com/widgets.js';
 
-  private tweet_page: any;
+ // private tweet_page: any;
 
   constructor(private httpClient: HttpClient) {
   }
 
 
-  OnCardClick(event: Event) {
-    this.getTweetsByEventId(event['id']).subscribe(
-      result => {
-        this.tweet_page = result;
-      }
-    );
-  }
+  // OnCardClick(event: Event) {
+  //   this.getTweetsByEventId(event['id']).subscribe(
+  //     result => {
+  //       this.tweet_page = result;
+  //       console.log(this.tweet_page);
+  //     }
+  //   );
+  // }
 
 
+  /**
+   * get tweets by event pk
+   * @param id event pk
+   */
   getTweetsByEventId(id: number): Observable<any> {
     return this.httpClient.get<any>(this.twitter_event_url + id).pipe(catchError(this.handleError('getTweetsByEventId', [])));
   }

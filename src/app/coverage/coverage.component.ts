@@ -6,6 +6,8 @@ import { EventsService } from '../services/events.service';
 import { TweetService } from '../services/tweet.service';
 import { MapService } from '../services/map.service';
 import { error } from 'util';
+import { NewsService } from '../services/news.service';
+import { News } from '../news';
 declare const twttr: any;
 
 @Component({
@@ -17,29 +19,32 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   tweets: Tweets[];
   tweet: Tweets;
   html: String[];
+  news: News[];
   private twitter: any;
   private callback: () => void;
   public tweet_articles: String[];
   // id: number;
 
-  constructor(private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
+  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
 
 
   }
 
 
   ngOnInit() {
+
     this.mapService.currentEvent.subscribe(event => {
       try {
-        this.tweetService.getTweetsByEventId(event.id).subscribe(tweets => {
-          this.tweet_articles = Object.values(tweets);
-
-        });
+        // get news and tweets for event
+        this.getNewsByEventId(event.id);
+        this.getTweetsByEventId(event.id);
       } catch (e) {
+        // if no event make empty
         this.tweet_articles = [];
-
+        this.news = [];
       }
     });
+
 
   }
 
@@ -55,12 +60,17 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   getTweetsByEventId(id: number): void {
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-      this.tweets = tweets;
-
+      this.tweet_articles = Object.values(tweets);
     });
   }
 
 
+  getNewsByEventId(id: number): void {
+    this.newsService.getNewsByEventId(id).subscribe(news => {
+      this.news = Object.values(news);
+
+    })
+  }
 
 
 
