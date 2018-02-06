@@ -45,7 +45,6 @@ export class FilterComponent implements OnInit {
   CheckTitle(e:any, title:string):any{
     //console.log(title);
     this.title = title;
-    this.isVisible = false;
     this.changeTitle.emit(this.title);
   }
 }

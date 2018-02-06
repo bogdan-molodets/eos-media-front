@@ -84,6 +84,7 @@ export class EventComponent implements OnInit {
   }
   viewTitle(event){
     this.title = event;
+    this.setVisible();
     //call filtering on Find click
     this.getEventsByFilters();
    
