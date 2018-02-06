@@ -15,6 +15,7 @@ const {NamedLazyChunksWebpackPlugin, BaseHrefWebpackPlugin} = require('@angular/
 const {CommonsChunkPlugin} = require('webpack').optimize;
 const {AngularCompilerPlugin} = require('@ngtools/webpack');
 
+
 const nodeModules = path.join(process.cwd(), 'node_modules');
 const realNodeModules = fs.realpathSync(nodeModules);
 const genDirNodeModules = path.join(process.cwd(), 'src', '$$_gendir', 'node_modules');

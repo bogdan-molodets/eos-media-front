@@ -21,7 +21,7 @@
 			</div>
   			<app-modal [content]='error_message'></app-modal>						
 			<ul class='filter'>
-				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" #{{event_type}} (click)="CheckType($event,event_type)" checked><label for="event_types" >{{event_type}}</label></li>	
+				<li *ngFor="let event_type of event_types"><input type="checkbox" name="{{event_type}}" #{{event_type}} (click)="CheckType($event,event_type)" checked><label for="event_types" >{{ event_type }}</label></li>	
 			</ul>
 			<button class="filter-button" (click)="getEventsByFilters(search.value,from.value,to.value)" >Find</button>	
 		</div>-->		

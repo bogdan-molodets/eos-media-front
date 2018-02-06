@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {of} from 'rxjs/observable/of';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs/observable/of';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {catchError} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Tweet} from '../tweet';
-import {Event} from '../event';
-import {EventPages} from '../event-pages';
-import {Type} from '../type';
+import { catchError } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Tweet } from '../tweet';
+import { Event } from '../event';
+import { EventPages } from '../event-pages';
+import { Type } from '../type';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
@@ -19,7 +19,7 @@ export class EventsService {
   private url = 'https://media-test-service.herokuapp.com/events/';
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
   private types_url = 'https://media-test-service.herokuapp.com/event-types/';
-  private filters_url='https://media-test-service.herokuapp.com/events/many_filter/';
+  private filters_url = 'https://media-test-service.herokuapp.com/events/many_filter/';
   private eventsSource = new BehaviorSubject<EventPages[]>(null);
   currentEvents = this.eventsSource.asObservable();
 
@@ -39,7 +39,7 @@ export class EventsService {
   }
 
   getEventsByDate(from: any, to: any): Observable<Event[]> {
-    let date_url = this.url + from + '/' + to + '/';
+    const date_url = this.url + from + '/' + to + '/';
     return this.httpClient.get<Event[]>(date_url).map(res => {
       return res['results'];
     }).pipe(catchError(this.handleError('getEventsByDate', [])));
@@ -58,9 +58,9 @@ export class EventsService {
   getEvent(id: number): Observable<Event> {
     const url_one = `${this.url}${id}/`;
     return this.httpClient.get<Event>(url_one)
-    .pipe(
-        catchError(this.handleError<Event>(`getEvent id=${id}`))
-    );
+      .pipe(
+      catchError(this.handleError<Event>(`getEvent id=${id}`))
+      );
   }
 
   getEventByName(name: string): Observable<Event[]> {
@@ -68,8 +68,8 @@ export class EventsService {
     return this.httpClient.get<Event[]>(url_name).map(res => {
       return res['results'];
     }).pipe(
-        catchError(this.handleError<Event[]>(`getEventByName name=${name}`))
-    );
+      catchError(this.handleError<Event[]>(`getEventByName name=${name}`))
+      );
   }
 
   /**
@@ -80,17 +80,17 @@ export class EventsService {
    * @param start_date start event date
    * @param end_date end event date
    */
-  getEventsByFilters(title:string,place:string,types:string,start_date:string,end_date:string ):Observable<Event[]>{
-   
+  getEventsByFilters(title: string, place: string, types: string, start_date: string, end_date: string): Observable<Event[]> {
+
     const url_filter = `${this.filters_url}${title}/${place}/${types}/${start_date}/${end_date}`;
     console.log(url_filter);
     return this.httpClient.get<Event[]>(url_filter).map(res => {
       return res['results'];
     }).pipe(
-        catchError(this.handleError<Event[]>(`getEventsByFilters name=${name}`))
-    );
+      catchError(this.handleError<Event[]>(`getEventsByFilters name=${name}`))
+      );
   }
-  
+
 
 
 

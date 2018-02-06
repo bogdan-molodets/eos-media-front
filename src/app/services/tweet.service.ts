@@ -1,93 +1,91 @@
-import {Injectable} from '@angular/core';
-import {of} from 'rxjs/observable/of';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { of } from 'rxjs/observable/of';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
-import {catchError} from 'rxjs/operators';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Tweet} from '../tweet';
-import {Tweets} from '../tweets';
-import {TweetsPages} from '../tweets-pages';
-import {TwitterResponse} from '../twitter-response';
-import {Event} from '../event';
+import { catchError } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Tweet } from '../tweet';
+import { Tweets } from '../tweets';
+import { TweetsPages } from '../tweets-pages';
+import { TwitterResponse } from '../twitter-response';
+import { Event } from '../event';
 
 const httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
-  @Injectable()
+@Injectable()
 export class TweetService {
-    private url = 'https://media-test-service.herokuapp.com/tweets';
-    // 
-    private twitter_url = 'https://publish.twitter.com/oembed?url=https://twitter.com/Interior/status/';
-    private twitter_event_url = 'https://media-test-service.herokuapp.com/tweets/event/'
-    readonly TWITTER_SCRIPT_ID = 'twitter-wjs';
-    readonly TWITTER_WIDGET_URL = 'https://platform.twitter.com/widgets.js';
+  private url = 'https://media-test-service.herokuapp.com/tweets';
+  //
+  private twitter_url = 'https://publish.twitter.com/oembed?url=https://twitter.com/Interior/status/';
+  private twitter_event_url = 'https://media-test-service.herokuapp.com/tweets/event/';
+  readonly TWITTER_SCRIPT_ID = 'twitter-wjs';
+  readonly TWITTER_WIDGET_URL = 'https://platform.twitter.com/widgets.js';
 
-   private tweet_page: any;
+  private tweet_page: any;
 
-    constructor(private httpClient: HttpClient) {
-    }
-    
+  constructor(private httpClient: HttpClient) {
+  }
 
-  OnCardClick(event: Event){
+
+  OnCardClick(event: Event) {
     this.getTweetsByEventId(event['id']).subscribe(
-      result =>{
-        this.tweet_page = result
+      result => {
+        this.tweet_page = result;
       }
     );
   }
 
 
-    getTweetsByEventId(id:number): Observable<any>{
-        return this.httpClient.get<any>(this.twitter_event_url + id ).pipe(catchError(this.handleError('getTweetsByEventId', [])));
-    }
+  getTweetsByEventId(id: number): Observable<any> {
+    return this.httpClient.get<any>(this.twitter_event_url + id).pipe(catchError(this.handleError('getTweetsByEventId', [])));
+  }
 
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-          console.error(error);
-    
-          // Let the app keep running by returning an empty result.
-          return of(result as T);
-        };
-      }
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
 
-  LoadScript() : Observable<any> 
-  {
-    let that = this;
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 
-    return Observable.create(observer => 
-    {
-      //START LOADING SCRIPT INTO DOM
+  LoadScript(): Observable<any> {
+    const that = this;
+
+    return Observable.create(observer => {
+      // START LOADING SCRIPT INTO DOM
       that.startScriptLoad();
 
-      //WHEN TWITTER WIDGETS SCRIPT IS LOADED, THEN PASS ALONG....
-      
-      if (window['twttr']){
+      // WHEN TWITTER WIDGETS SCRIPT IS LOADED, THEN PASS ALONG....
+
+      if (window['twttr']) {
         observer.next(window['twttr']);
-      }else{
+      } else {
         observer.of(null);
       }
     });
-  };
+  }
 
-  startScriptLoad(){
+  startScriptLoad() {
     (<any>window).twttr = (function (d, s, id) {
       let js: any, fjs = d.getElementsByTagName(s)[0],
-          t = (<any>window).twttr || {};
+        t = (<any>window).twttr || {};
       if (d.getElementById(id)) return t;
       js = d.createElement(s);
       js.id = id;
-      js.src = "https://platform.twitter.com/widgets.js";
+      js.src = 'https://platform.twitter.com/widgets.js';
       fjs.parentNode.insertBefore(js, fjs);
 
       t._e = [];
       t.ready = function (f: any) {
-          t._e.push(f);
+        t._e.push(f);
       };
 
       return t;
-    }(document, "script", "twitter-wjs"));
+    }(document, 'script', 'twitter-wjs'));
   }
 }

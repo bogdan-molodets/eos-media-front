@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Event } from '../event';
 import { EventsService } from '../services/events.service';
 import { MapService } from '../services/map.service';
-import { TweetService } from '../services/tweet.service'
+import { TweetService } from '../services/tweet.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
 
@@ -16,7 +16,7 @@ export class EventComponent implements OnInit {
 
   events: Event[];
   event: Event;
-  isEmpty: boolean = false;
+  isEmpty = false;
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
   active_types: string[];
@@ -40,7 +40,7 @@ export class EventComponent implements OnInit {
       //make deep copy of event_types for storing checced ones
       this.active_types = this.event_types.slice();
 
-    })
+    });
   }
 
   // GetEventTypes():string[]{
@@ -62,8 +62,8 @@ export class EventComponent implements OnInit {
     console.log(`from: ${from}`);
     console.log(`to: ${to}`);
 
-    if (from == '') { from = null; }
-    if (to == '') { to = null }
+    if (from === '') { from = null; }
+    if (to === '') { to = null; }
     console.log(from);
     if ((from != null) && (to != null) && from > to) {
       alert(`error`);
@@ -102,10 +102,10 @@ export class EventComponent implements OnInit {
 
   /**
    * called on click or search. Check and retrieve parameters before passing to filter. Multiple filtrations
-   * @param title 
-   * @param place 
-   * @param start_date 
-   * @param end_date 
+   * @param title
+   * @param place
+   * @param start_date
+   * @param end_date
    */
   getEventsByFilters(title: string, start_date: string, end_date: string): void {
 
@@ -113,39 +113,40 @@ export class EventComponent implements OnInit {
 
     try {
       this.checkDate(start_date, end_date);
-    }
-    catch (err) {
+    } catch (err) {
       alert(err);
       return;
     }
 
 
     // if types empty assign 'none', else make a string
-    const types_str = this.active_types.length != 0 ? this.active_types.join('&') : 'none';
+    const types_str = this.active_types.length !== 0 ? this.active_types.join('&') : 'none';
 
-    // if empty assign all 
-    let p, t;
-    if (this.checked_search) {
-      console.log('checked');
-      p = (title == '') ? 'all' : title;
-      t = 'all';
-    } else {
-      t = (title == '') ? 'all' : title;
-      p = 'all';
-    }
+    
+    const t=(title === '') ? 'all' : title;
+    // if empty assign all
+    // let p, t;
+    // if (this.checked_search) {
+    //   console.log('checked');
+    //   p = (title === '') ? 'all' : title;
+    //   t = 'all';
+    // } else {
+    //   t = (title === '') ? 'all' : title;
+    //   p = 'all';
+    // }
 
-    //const p = (place == '') ? 'all' : place;
-    const sd = (start_date == '') ? 'all' : start_date;
-    const ed = (end_date == '') ? 'all' : end_date;
-    this.eventService.getEventsByFilters(t, p, types_str, sd, ed).subscribe(events => {
+    // const p = (place == '') ? 'all' : place;
+    const sd = (start_date === '') ? 'all' : start_date;
+    const ed = (end_date === '') ? 'all' : end_date;
+    this.eventService.getEventsByFilters(t, 'all', types_str, sd, ed).subscribe(events => {
       this.events = events;
       this.mapService.OnFilter(this.events);
-     
+
       if (this.events.length > 0) {
         this.tweetService.getTweetsByEventId(this.events[0]['id']);
         this.mapService.MakeActive(this.events[0]);
-      
-      }else{
+
+      } else {
         this.mapService.MakeActive(null);
       }
 
@@ -158,10 +159,10 @@ export class EventComponent implements OnInit {
    * @param to end date
    */
   checkDate(from: any, to: any): any {
-    if (from == '') { from = null; }
-    if (to == '') { to = null }
+    if (from === '') { from = null; }
+    if (to === '') { to = null; }
     if ((from != null) && (to != null) && from > to) {
-      throw "Start date must be less then end";
+      throw new Error('Start date must be less then end');
     }
   }
 
@@ -181,7 +182,7 @@ export class EventComponent implements OnInit {
 
 
   getEventByName(name: string): void {
-    if (name.length != 0) {
+    if (name.length !== 0) {
       this.eventService.getEventByName(name).subscribe(events => {
         this.events = events;
         if (this.events) {
@@ -190,7 +191,7 @@ export class EventComponent implements OnInit {
         }
       });
     } else {
-      //this.eventService.getEvents().subscribe(events => {this.events = events;});
+      // this.eventService.getEvents().subscribe(events => {this.events = events;});
       this.eventService.getEvents().subscribe(events => {
 
         this.events = events;
