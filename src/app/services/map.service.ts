@@ -43,10 +43,12 @@ export class MapService {
       attributionControl: false
     }).addControl(new mapboxgl.NavigationControl());
 
+    this.map.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
+
     this.map.addControl(new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       placeholder: 'Search for a place',
-  }),'top-left' );
+    }), 'top-left');
 
     const m = this.map;
     this.map.on('load', function () {
@@ -184,7 +186,7 @@ export class MapService {
   }
 
 
-  
+
 
 
 }
