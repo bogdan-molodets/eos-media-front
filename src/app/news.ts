@@ -7,4 +7,5 @@ export class News {
     urlToImage: string;
     description: string;
     url: string;
+    logoNewsMedia:string;
 }

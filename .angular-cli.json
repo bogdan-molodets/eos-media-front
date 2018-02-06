@@ -60,6 +60,9 @@
   "defaults": {
     "styleExt": "css",
     "component": {
+    },
+    "serve":{
+      "port": 8080
     }
   }
 }
