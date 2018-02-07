@@ -25,6 +25,7 @@ import { FilterComponent } from './filter/filter.component';
 import { NewsComponent } from './news/news.component';
 import { NewsService } from './services/news.service';
 import { PhotosComponent } from './photos/photos.component';
+import { SafePipe } from './safe.pipe';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 const appRoutes: Routes = [  
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     AuthComponent,
     FilterComponent,
     NewsComponent,
-    PhotosComponent
+    PhotosComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

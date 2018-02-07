@@ -8,6 +8,7 @@ import { MapService } from '../services/map.service';
 import { error } from 'util';
 import { NewsService } from '../services/news.service';
 import { News } from '../news';
+import { forEach } from '@angular/router/src/utils/collection';
 declare const twttr: any;
 
 @Component({
@@ -24,9 +25,10 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   private callback: () => void;
   public tweet_articles: String[];
   selectedTab: string = 'twitter';
+  test = '';
   // id: number;
 
-  constructor(private newsService: NewsService, private tweetService: TweetService, private mapService: MapService) {
+  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
 
 
   }
@@ -54,16 +56,17 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    /*twttr.ready(() => {
+    twttr.ready(() => {
       console.log('twttr load', twttr);
       twttr.widgets.load(document.getElementById('twitter'));
-    });*/
+    });
   }
 
 
   getTweetsByEventId(id: number): void {
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-      this.tweet_articles = Object.values(tweets);
+      this.test = Object.values(tweets).join('');
+      console.log(this.test);
     });
   }
 

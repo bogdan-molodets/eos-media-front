@@ -502,7 +502,7 @@ app-auth{
 .tab>button{
 	cursor: pointer;
     max-width: 33.33%;
-    padding: 5px 18px;
+    padding: 5px 12px;
     font-family: 'Montserrat', sans-serif;
     background: #fff;
     border: none;
