@@ -8,7 +8,7 @@ import { News } from '../news';
 })
 export class NewsComponent implements OnInit {
 
-  @Input() news: News;
+  @Input() article: News;
   constructor() { }
 
   ngOnInit() {

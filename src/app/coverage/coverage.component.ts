@@ -23,6 +23,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   private twitter: any;
   private callback: () => void;
   public tweet_articles: String[];
+  selectedTab: string = 'twitter';
   // id: number;
 
   constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
@@ -48,13 +49,15 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   }
 
-
+  setActiveTab(tab:string){
+    this.selectedTab = tab;
+  }
 
   ngAfterViewInit() {
-    twttr.ready(() => {
+    /*twttr.ready(() => {
       console.log('twttr load', twttr);
       twttr.widgets.load(document.getElementById('twitter'));
-    });
+    });*/
   }
 
 
@@ -68,7 +71,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   getNewsByEventId(id: number): void {
     this.newsService.getNewsByEventId(id).subscribe(news => {
       this.news = Object.values(news);
-
+      console.log(this.news[0]);
     })
   }
 
