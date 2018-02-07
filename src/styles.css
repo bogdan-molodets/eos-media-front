@@ -5,6 +5,75 @@ body{
 	font-family: 'Montserrat', sans-serif;
 	box-sizing: border-box;
 }
+app-header{
+	top: 0;
+	padding: 0;
+	position: fixed;
+	width: 100%;
+	background: #F5F5F5;
+	height: 50px;
+	z-index: 101;
+}
+app-map-box{
+	position: absolute;
+	top: 50px;
+	right:230px;
+	left:230px;
+	width: calc(100% - 460px);
+	height: calc(100% - 50px);
+}
+
+app-event{
+	position: absolute;
+	z-index: 10;
+	width: 230px;
+	font-size: 10px;
+	left:0;
+	margin-top: 50px;
+	height: calc(100% - 50px);
+}
+
+app-coverage{
+	position: absolute;
+	z-index: 10;
+	width:230px;
+	font-size: 10px;
+	right:0;
+	margin-top: 50px;	
+	height: calc(100% - 50px);
+}
+
+app-coverage,app-event{
+	background: white;
+	overflow: auto;
+}
+app-event::-webkit-scrollbar,
+app-coverage::-webkit-scrollbar
+{
+	width: 6px;
+    background-color: #F5F5F5;
+    cursor: pointer;
+    z-index: 2;
+}
+
+app-event::-webkit-scrollbar-thumb,
+app-coverage::-webkit-scrollbar-thumb
+{
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+    z-index: 2;
+}
+
+app-card{
+	width: 100%;
+	height: 100px;	
+	/*box-shadow: 0 1px 2px rgba(0,0,0,0.5);*/
+	margin: 15px 0;
+	/*padding: 5px;*/
+}
+app-root{
+	overflow: hidden
+}
 .container{
 	padding: 20px;
 }
@@ -28,6 +97,7 @@ body{
 	transition-timing-function: ease-in;
   	transition: 0.2s;
 }
+
 .card-title{
 	position: relative;
 	font-family: 'Montserrat', sans-serif;
@@ -351,6 +421,7 @@ app-auth{
 	border-radius: 4px
 
 }
+
 .fields{
 	width: 100%;
 	/*position: absolute;*/
@@ -397,5 +468,56 @@ app-auth{
 	transition: .25s ease;
 }
 #twitter{
+	margin-top: 80px;
+}
+.photos-container, .news-container{
+	margin-top: 80px;
+	padding: 0 10px;
+	position: relative;
+}
+.article{
+	background-color: #faf6f4;
+}
+.article>.card-title{
+	font-size: 13px;
+	font-family: Oswald, sans-serif;
+	color: black;
+	text-decoration:none;
+}
+.article-image{
+	width: 100%;
+}
+.author-log{
+	width:100%;
+}
+.tab{
 	margin-top: 50px;
+    padding: 0 5px;
+    width: calc(100% - 10px);
+    position: fixed;
+    z-index: 10;
+    background: white;
+    top: 40px;
+}
+.tab>button{
+	cursor: pointer;
+    max-width: 33.33%;
+    padding: 5px 18px;
+    font-family: 'Montserrat', sans-serif;
+    background: #fff;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition: .1s ease-out;
+}
+.tab>button:focus{
+	outline: none;
+}
+.activeTab{
+	border-bottom: 2px solid #e34761!important;
+	transition: .1s ease-out;
+}
+.noActiveContainer{
+	position: fixed;
+	transform: translateX(5000px);
+	transition: .2s ease-out;
 }
