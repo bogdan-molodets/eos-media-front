@@ -25,7 +25,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   public tweet_articles: String[];
   // id: number;
 
-  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
+  constructor(private newsService: NewsService, private tweetService: TweetService, private mapService: MapService) {
 
 
   }
