@@ -26,7 +26,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   selectedTab: string = 'twitter';
   // id: number;
 
-  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
+  constructor(private newsService: NewsService, private tweetService: TweetService, private mapService: MapService) {
 
 
   }
