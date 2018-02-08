@@ -8,15 +8,15 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class NewsService {
 
-  private news_url='https://media-test-service.herokuapp.com/news/';
-  private news_event_url='https://media-test-service.herokuapp.com/news/event/';
+  private news_url= 'https://media-test-service.herokuapp.com/news/';
+  private news_event_url= 'https://media-test-service.herokuapp.com/news/event/';
   constructor(private httpClient: HttpClient) { }
 
   /**
    * get news for event
    * @param id event pk
    */
-  getNewsByEventId(id:number):Observable<News[]>{
+  getNewsByEventId(id: number): Observable<News[]>{
     return this.httpClient.get<any>(this.news_event_url + id).pipe(catchError(this.handleError('getNewsByEventId', [])));
   }
 

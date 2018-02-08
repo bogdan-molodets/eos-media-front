@@ -8,14 +8,14 @@ import { Component, OnInit, Input, OnChanges, Directive, Output, EventEmitter } 
 })
 export class FilterComponent implements OnInit {
 
-  @Input() isVisible: boolean = false;
+  @Input() isVisible = false;
   @Input() event_types: string[];
   @Input() active_types: string[];
   @Input() title: string;
   //checked_event_types: string[] = this.event_types;
- 
-  
-  @Output() 
+
+
+  @Output()
   changeActiveTypes: EventEmitter<string[]> = new EventEmitter();
   @Output()
   changeTitle: EventEmitter<string> = new EventEmitter();
@@ -29,11 +29,11 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
   }
 
-  CheckType(e:any, event_type:string):any{
+  CheckType(e: any, event_type: string): any{
     //console.log(this.active_types);
-    if(this.active_types.indexOf(event_type)!==-1){
+    if (this.active_types.indexOf(event_type) !== -1){
       console.log('exist');
-      this.active_types.splice(this.active_types.indexOf(event_type),1);
+      this.active_types.splice(this.active_types.indexOf(event_type), 1);
     }else{
       console.log('doesnt exist');
       this.active_types.push(event_type);
@@ -42,7 +42,7 @@ export class FilterComponent implements OnInit {
     this.changeActiveTypes.emit(this.active_types);
   }
 
-  CheckTitle(e:any, title:string):any{
+  CheckTitle(e: any, title: string): any{
     //console.log(title);
     this.title = title;
     this.changeTitle.emit(this.title);

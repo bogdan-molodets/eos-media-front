@@ -9,6 +9,8 @@ import { error } from 'util';
 import { NewsService } from '../services/news.service';
 import { News } from '../news';
 import { forEach } from '@angular/router/src/utils/collection';
+
+
 declare const twttr: any;
 
 @Component({
@@ -24,7 +26,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   private twitter: any;
   private callback: () => void;
   public tweet_articles: String[];
-  selectedTab: string = 'twitter';
+  selectedTab = 'twitter';
   test = '';
   // id: number;
 
@@ -39,8 +41,10 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.mapService.currentEvent.subscribe(event => {
       try {
         // get news and tweets for event
+        this.twittInit();
         this.getNewsByEventId(event.id);
         this.getTweetsByEventId(event.id);
+
       } catch (e) {
         // if no event make empty
         this.tweet_articles = [];
@@ -51,22 +55,39 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   }
 
-  setActiveTab(tab:string){
+  setActiveTab(tab: string){
     this.selectedTab = tab;
   }
 
+  twittInit(){
+
+    const twit = setInterval(function(){
+      if (twttr.ready()){
+        twttr.widgets.load(document.getElementById('twitter'));
+      }
+    }, 4);
+    setTimeout(function(){
+      clearInterval(twit);
+      console.log('stoj');
+    }, 5000);
+  }
   ngAfterViewInit() {
-    twttr.ready(() => {
-      console.log('twttr load', twttr);
-      twttr.widgets.load(document.getElementById('twitter'));
-    });
+
+
+    // twttr.ready(() => {
+    //   console.log('twttr load', twttr);
+    //   twttr.widgets.load(document.getElementById('twitter'));
+    // });
   }
 
 
   getTweetsByEventId(id: number): void {
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-      this.test = Object.values(tweets).join('');
-      //console.log(this.test);
+     // this.test = Object.values(tweets).join('');//.replace(new RegExp('<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>','g') ,'');
+
+
+
+      this.tweet_articles = Object.values(tweets);
     });
   }
 
@@ -74,8 +95,8 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   getNewsByEventId(id: number): void {
     this.newsService.getNewsByEventId(id).subscribe(news => {
       this.news = Object.values(news);
-      console.log(this.news);
-    })
+
+    });
   }
 
 

@@ -28,12 +28,12 @@ import { PhotosComponent } from './photos/photos.component';
 import { SafePipe } from './safe.pipe';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
-const appRoutes: Routes = [  
+const appRoutes: Routes = [
   {path: 'admin', component: AdminComponent},
   {path: 'auth', component: AuthComponent},
   {path: '', component: ClientComponent},
-  {path: '**', component: PageNotFoundComponent}  
-]
+  {path: '**', component: PageNotFoundComponent}
+];
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ const appRoutes: Routes = [
     )
    // AngularOpenlayersModule
   ],
-  providers: [ EventsService, MapService, TweetService,NewsService ],
+  providers: [ EventsService, MapService, TweetService, NewsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -12,10 +12,10 @@ describe('CoverageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ CoverageComponent ],
-      providers:[MapService,TweetService,NewsService]
+      providers: [MapService, TweetService, NewsService]
     }).compileComponents();
 
-    
+
   }));
 
 
@@ -25,7 +25,7 @@ describe('CoverageComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-  
+
   });
 
   it('should create', () => {
