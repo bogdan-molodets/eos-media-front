@@ -28,6 +28,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   public tweet_articles: String[];
   selectedTab = 'twitter';
   test = '';
+  timer=false;
   // id: number;
 
   constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
@@ -41,7 +42,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.mapService.currentEvent.subscribe(event => {
       try {
         // get news and tweets for event
-        this.twittInit();
+       this.twittInit();
         this.getNewsByEventId(event.id);
         this.getTweetsByEventId(event.id);
 
@@ -60,19 +61,32 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   }
 
   twittInit(){
-
-    const twit = setInterval(function(){
-      if (twttr.ready()){
+    
+    let timesRun=0;
+    let timerId=setTimeout(function tw(){
+   
+      if(timesRun==30){
+        console.log('more than 100');
+      }else  if (twttr.ready()){
+        timesRun+=1;
         twttr.widgets.load(document.getElementById('twitter'));
+        timerId=setTimeout(tw,100);
+          console.log('try to load');
       }
-    }, 4);
+     
+     },100);
+    // const twit = setInterval(function(){
+    //   if (twttr.ready()){
+    //     twttr.widgets.load(document.getElementById('twitter'));
+    //   }
+    // }, 4);
     // setTimeout(function(){
     //   clearInterval(twit);
       
     // }, 10000);
   }
   ngAfterViewInit() {
-
+    //this.twittInit();
 
     // twttr.ready(() => {
     //   console.log('twttr load', twttr);
@@ -83,10 +97,6 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   getTweetsByEventId(id: number): void {
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-     // this.test = Object.values(tweets).join('');//.replace(new RegExp('<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>','g') ,'');
-
-
-
       this.tweet_articles = Object.values(tweets);
     });
   }
