@@ -66,10 +66,10 @@ export class CoverageComponent implements OnInit, AfterViewInit {
         twttr.widgets.load(document.getElementById('twitter'));
       }
     }, 4);
-    setTimeout(function(){
-      clearInterval(twit);
+    // setTimeout(function(){
+    //   clearInterval(twit);
       
-    }, 10000);
+    // }, 10000);
   }
   ngAfterViewInit() {
 
