@@ -11,12 +11,20 @@
 			<app-tweet *ngFor="let tweet of tweets" [tweet]="tweet" >
 			</app-tweet>		
 	</div>-->
-	<div [ngClass] = '{noActiveContainer:  selectedTab !== "twitter" }'  id='twitter' ><div id='twitter-wjs'  [innerHTML]="test | safe: 'html' "></div></div>
+	<div [ngClass]='{noActiveContainer:  selectedTab !== "twitter" }' id='twitter'>
+		<div id='twitter-wjs' *ngFor="let tweet_article of tweet_articles" [innerHTML]="tweet_article">
+			
+			
+			
+		</div>
+	</div>
 	<!--<div id='twitter-wjs' [innerHTML]="tweet_articles[0]"></div>-->
-	<div [ngClass] = '{noActiveContainer:  selectedTab !== "news" }' class='news-container'>
+	<div [ngClass]='{noActiveContainer:  selectedTab !== "news" }' class='news-container'>
 		<app-news *ngFor="let article of news" [article]='article'></app-news>
 	</div>
-	<div [ngClass] = '{noActiveContainer:  selectedTab !== "photos" }' class='photos-container'>
+	<div [ngClass]='{noActiveContainer:  selectedTab !== "photos" }' class='photos-container'>
 		<app-photos></app-photos>
 	</div>
 </div>
+
+<!--*ngFor="let tweet_article of tweet_articles" [innerHTML]="test | safe: 'html' :'script':'style':'url':'resourceUrl' " -->

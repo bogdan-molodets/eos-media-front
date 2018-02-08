@@ -20,10 +20,10 @@ export class EventComponent implements OnInit {
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
   active_types: string[];
-  checked_search: boolean = false;
-  
-  visible: boolean = false;
-  title: string = '';
+  checked_search = false;
+
+  visible = false;
+  title = '';
 
 
 
@@ -37,7 +37,7 @@ export class EventComponent implements OnInit {
   ngOnInit(): void {
     this.getEvents();
     this.getEventTypes();
-   
+
   }
 
   getEventTypes(): void {
@@ -47,13 +47,13 @@ export class EventComponent implements OnInit {
       this.active_types = this.event_types.slice();
 
     });
-  } 
+  }
 
   getEvents(): void {
     this.eventService.getEvents().subscribe(eventpages => {
       try {
         this.events = eventpages;
-        this.mapService.MakeActive(this.events[0]);        
+        this.mapService.MakeActive(this.events[0]);
       } catch (err) {
       }
     });
@@ -72,7 +72,7 @@ export class EventComponent implements OnInit {
       this.active_types.splice(this.active_types.indexOf(name), 1);
     }
 
-  }   
+  }
 
   setVisible(){
     this.visible = !this.visible;
@@ -80,14 +80,14 @@ export class EventComponent implements OnInit {
 
   viewChanges(event){
     this.active_types = event;
-    
+
   }
   viewTitle(event){
     this.title = event;
     this.setVisible();
     //call filtering on Find click
     this.getEventsByFilters();
-   
+
   }
 
   /**
@@ -96,15 +96,15 @@ export class EventComponent implements OnInit {
    */
   getEventsByFilters(): void {
     // if types empty assign 'none', else make a string
-    const types_str = this.active_types.length !== 0 ? this.active_types.join('&') : 'none';    
-    const t=(this.title === '') ? 'all' : this.title;   
-    
+    const types_str = this.active_types.length !== 0 ? this.active_types.join('&') : 'none';
+    const t = (this.title === '') ? 'all' : this.title;
+
     // const sd = (start_date === '') ? 'all' : start_date;
     // const ed = (end_date === '') ? 'all' : end_date;
     this.eventService.getEventsByFilters(t, 'all', types_str, 'all', 'all').subscribe(events => {
       this.events = events;
       this.mapService.OnFilter(this.events);
-      if (this.events.length > 0) {        
+      if (this.events.length > 0) {
         this.mapService.MakeActive(this.events[0]);
       } else {
         this.mapService.MakeActive(null);
@@ -117,13 +117,13 @@ export class EventComponent implements OnInit {
 
 
 
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
   getEventByDate(from: any, to: any): void {
     console.log(`from: ${from}`);
     console.log(`to: ${to}`);
@@ -141,7 +141,7 @@ export class EventComponent implements OnInit {
     }
 
 
-  } 
+  }
 
   /**
    * trow ex if start date more then end date
@@ -181,8 +181,8 @@ export class EventComponent implements OnInit {
 
   }
 
- 
 
-  
-  
+
+
+
 }

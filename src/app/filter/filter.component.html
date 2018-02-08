@@ -10,7 +10,7 @@
             <div [ngClass]='{noactiveicon : active_types.indexOf(event_type) === -1}' class='type-icon-container'>
                 <img src='/assets/{{event_type}}.png'>
             </div>
-            <span>{{event_type}}</span>
+            <span>{{ event_type }}</span>
         </li>
     </ul>
     <button class="filter-button" (click)="CheckTitle($event,search.value)">Find</button>

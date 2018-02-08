@@ -20,7 +20,7 @@ export class EventsService {
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
   private types_url = 'https://media-test-service.herokuapp.com/event-types/';
   private filters_url = 'https://media-test-service.herokuapp.com/events/many_filter/';
-  
+
   /*
     stateFire = new BehaviorSubject<boolean>(true);
     currentFire = this.stateFire.asObservable();
