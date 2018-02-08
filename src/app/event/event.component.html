@@ -1,10 +1,10 @@
+<div class='title left'>
+	<h3>Events</h3>
+	<a class=''>
+		<img class='filter-icon' src='/assets/funnel.png' (click)="setVisible()">
+	</a>
+</div>
 <div class='container'>
-	<div class='title left'>
-		<h3>Events</h3>
-		<a class=''>
-			<img class='filter-icon' src='/assets/funnel.png' (click)="setVisible()">
-		</a>
-	</div>
 	<app-filter [isVisible]="visible" [event_types]="event_types" [active_types]="active_types" [title]="title" (changeActiveTypes)="viewChanges($event)"
 	 (changeTitle)="viewTitle($event)"></app-filter>
 	<div class='card-container'>

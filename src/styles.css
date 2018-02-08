@@ -124,7 +124,9 @@ app-root{
 	top:45px;
 	position: fixed;
 	background: white;
-	width: 224px;
+	/*width: 224px;*/
+	width: inherit;
+	min-width: inherit;
 	z-index: 100;
 	height: auto;
 }
@@ -135,12 +137,12 @@ app-root{
 /**
 * position for left/right sidebar tittle
 */
-.left{
+/*.left{
 	left: 0;
 }
 .right{
 	right:6px;
-}
+}*/
 
 .card-container{
 	/*margin-top:140px;*/
@@ -177,11 +179,12 @@ app-root{
 	top: 30px;
 	/*left:15px;*/
 	padding: 0 15px;
-	width: 200px;
+	width: calc(100% - 30px);
   }
 .search>input[type='search']{
 	/*position: absolute;
 	width: 100%;*/
+	width: 100%;
 	padding: 10px 5px;
 	margin: 15px 0 0 0;
 	font-family: 'Montserrat', sans-serif; 
@@ -487,13 +490,18 @@ app-auth{
 .article-image{
 	width: 100%;
 }
-.author-log{
+.author-logo-container{
 	width:100%;
+}
+.author-logo{
+	height: 30px;
 }
 .tab{
 	margin-top: 50px;
-    padding: 0 5px;
-    width: calc(100% - 10px);
+    /*padding: 0 5px;*/
+	/*width: calc(100% - 10px);*/
+	width: inherit;
+	min-width: inherit;
     position: fixed;
     z-index: 10;
     background: white;
@@ -501,8 +509,8 @@ app-auth{
 }
 .tab>button{
 	cursor: pointer;
-    max-width: 33.33%;
-    padding: 5px 12px;
+    width: 32.5%;
+    padding: 5px 0;
     font-family: 'Montserrat', sans-serif;
     background: #fff;
     border: none;
@@ -520,4 +528,53 @@ app-auth{
 	position: fixed;
 	transform: translateX(5000px);
 	transition: .2s ease-out;
+}
+/*@media screen and (min-width: 768px){
+	app-map-box{
+		left:0; 
+		width: 100%; 
+	}
+	app-event, app-coverage{
+		display: none;
+	}
+}*/
+@media screen and (max-width: 899px){
+	app-map-box{
+		left:0; 
+		width: 100%; 
+	}
+	app-event, app-coverage{
+		display: none;
+	}
+}
+@media screen and (min-width: 900px){
+	app-event, app-coverage{
+		display: block;
+		/*width: 230px;*/
+		min-width: 220px;
+		width: 25%;
+	}
+	app-map-box{ 
+		/*right: 230px;
+		left: 230px;
+		width: calc(100% - 460px);*/
+		right: 25%;
+		left: 25%;		
+		width: 50%;
+	}
+}
+@media screen and (min-width: 1200px){
+	app-event, app-coverage{
+		display: block;
+		width: 20%;
+		/*width: 350px;*/
+	}
+	app-map-box{
+		/*right: 350px;
+		left: 350px;
+		width: calc(100% - 700px);*/
+		right: 20%;
+		left: 20%;
+		width: 60%;
+	}
 }

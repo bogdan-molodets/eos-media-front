@@ -66,7 +66,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   getTweetsByEventId(id: number): void {
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
       this.test = Object.values(tweets).join('');
-      console.log(this.test);
+      //console.log(this.test);
     });
   }
 
@@ -74,7 +74,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   getNewsByEventId(id: number): void {
     this.newsService.getNewsByEventId(id).subscribe(news => {
       this.news = Object.values(news);
-      console.log(this.news[0]);
+      console.log(this.news);
     })
   }
 

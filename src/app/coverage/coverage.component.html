@@ -1,22 +1,31 @@
-<div class='container tweet-container'>
-	<div class='title right'>
-		<h3>Coverage</h3>
-	</div>
-	<div class='tab'>
-		<button [ngClass]='{activeTab: selectedTab === "twitter" }' (click)="setActiveTab('twitter')">Twitter</button>
-		<button [ngClass]='{activeTab:  selectedTab === "news" }' (click)="setActiveTab('news')">News</button>
-		<button [ngClass]='{activeTab:  selectedTab === "photos" }' (click)="setActiveTab('photos')">Photos</button>
-	</div>
+<div class='title right'>
+	<h3>Coverage</h3>
+</div>
+<div class='tab'>
+	<button [ngClass]='{activeTab: selectedTab === "twitter" }' (click)="setActiveTab('twitter')">Twitter</button>
+	<button [ngClass]='{activeTab:  selectedTab === "news" }' (click)="setActiveTab('news')">News</button>
+	<button [ngClass]='{activeTab:  selectedTab === "photos" }' (click)="setActiveTab('photos')">Photos</button>
+</div>
+<div class='container tweet-container'>		
 	<!--<div class='tweet-container'>
 			<app-tweet *ngFor="let tweet of tweets" [tweet]="tweet" >
 			</app-tweet>		
 	</div>-->
-	<div [ngClass] = '{noActiveContainer:  selectedTab !== "twitter" }'  id='twitter' ><div id='twitter-wjs'  [innerHTML]="test | safe: 'html' "></div></div>
+	<div [ngClass]='{noActiveContainer:  selectedTab !== "twitter" }' id='twitter'>
+			<div *ngIf="tweet_articles==undefined || tweet_articles.length==0">
+					<h3>No tweets for this event!</h3>
+			</div>
+		<div id='twitter-wjs' *ngFor="let tweet_article of tweet_articles" [innerHTML]="tweet_article">
+		</div>
+	</div>
 	<!--<div id='twitter-wjs' [innerHTML]="tweet_articles[0]"></div>-->
-	<div [ngClass] = '{noActiveContainer:  selectedTab !== "news" }' class='news-container'>
+	<div [ngClass]='{noActiveContainer:  selectedTab !== "news" }' class='news-container'>
+			<div *ngIf="news==undefined || news.length==0">
+					<h3>No news for this event!</h3>
+			</div>
 		<app-news *ngFor="let article of news" [article]='article'></app-news>
 	</div>
-	<div [ngClass] = '{noActiveContainer:  selectedTab !== "photos" }' class='photos-container'>
+	<div [ngClass]='{noActiveContainer:  selectedTab !== "photos" }' class='photos-container'>
 		<app-photos></app-photos>
 	</div>
 </div>
