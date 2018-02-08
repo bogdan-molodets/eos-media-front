@@ -68,8 +68,8 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     }, 4);
     setTimeout(function(){
       clearInterval(twit);
-      console.log('stoj');
-    }, 5000);
+      
+    }, 10000);
   }
   ngAfterViewInit() {
 
