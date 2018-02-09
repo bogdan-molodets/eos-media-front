@@ -80,12 +80,14 @@ export class EventComponent implements OnInit {
 
   viewChanges(event){
     this.active_types = event;
+    //call filtering on filter icon click
+    this.getEventsByFilters();
 
   }
   viewTitle(event){
     this.title = event;
     this.setVisible();
-    //call filtering on Find click
+    //call filtering on Enter click
     this.getEventsByFilters();
 
   }
