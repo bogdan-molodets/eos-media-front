@@ -142,6 +142,7 @@ app-root{
 .logo>h1{
 	margin:0;
 	font-size: 22px;
+	font-weight: 100;
 	padding: 10px 5px 5px 20px;
 }
 .logo{
@@ -197,6 +198,7 @@ app-root{
 }
 .filter>li{
 	margin: 15px 0;
+	max-width: 90px;
 }
 .filter-container:hover{
 	background:#ffffff;
@@ -515,7 +517,7 @@ app-auth{
 	left: 5%;	
 }
 .mobile-btn{
-	position:absolute;
+	position:fixed;
 	height: 50px;
 	top:0;
 	padding: 0 8px;
@@ -588,12 +590,13 @@ app-auth{
 		margin: 0;
 	}
 	.filter>li{
-		margin: 15px 20px;
+		margin: 15px 15px;
 	}
 	.filter>li>span{
-		position: relative;
+		/*position: relative;
 		margin: 0;
-		padding: 0;
+		padding: 0;*/
+		display:none;
 	}
 	.tab{
 		margin:0;
@@ -602,6 +605,9 @@ app-auth{
 	.tab>button{
 		padding: 20px 0;
 		font-size: 15px;
+	}
+	.mobile-btn:before{
+		display: none;
 	}
 }
 @media screen and (min-width: 900px){

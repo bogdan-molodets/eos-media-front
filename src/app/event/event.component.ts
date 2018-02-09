@@ -6,6 +6,8 @@ import { MapService } from '../services/map.service';
 import { TweetService } from '../services/tweet.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
+import { setTimeout } from 'timers';
+import { window } from 'rxjs/operators/window';
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
@@ -76,10 +78,16 @@ export class EventComponent implements OnInit {
 
   setVisible(){
     this.visible = !this.visible;
+    if(this.visible === true){
+      document.querySelector('.target').scrollIntoView({ 
+      behavior: 'smooth' 
+    });
+    }    
   }
 
   viewChanges(event){
     this.active_types = event;
+    this.setVisible();
     //call filtering on filter icon click
     this.getEventsByFilters();
 

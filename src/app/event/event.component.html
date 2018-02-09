@@ -4,6 +4,7 @@
 		<img class='filter-icon' src='/assets/funnel.png' (click)="setVisible()">
 	</a>
 </div>
+<div class='target'></div>
 <div class='container'>
 	<app-filter [isVisible]="visible" [event_types]="event_types" [active_types]="active_types" [title]="title" (changeActiveTypes)="viewChanges($event)"
 	 (changeTitle)="viewTitle($event)"></app-filter>
