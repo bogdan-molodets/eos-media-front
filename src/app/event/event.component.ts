@@ -6,8 +6,6 @@ import { MapService } from '../services/map.service';
 import { TweetService } from '../services/tweet.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
-import { setTimeout } from 'timers';
-import { window } from 'rxjs/operators/window';
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
