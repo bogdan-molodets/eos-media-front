@@ -44,13 +44,13 @@ export class CoverageComponent implements OnInit, AfterViewInit {
         // get news and tweets for event
         //this.twittInit();
         this.getNewsByEventId(event.id);
-      //  this.getTweetsByEventId(event.id);
-this.getTweets(event.id);
+        //  this.getTweetsByEventId(event.id);
+        this.getTweets(event.id);
       } catch (e) {
         // if no event make empty
         this.tweet_articles = [];
         this.news = [];
-        this.test='';
+        this.test = '';
       }
     });
 
@@ -70,21 +70,18 @@ this.getTweets(event.id);
         console.log('more than 100');
       } else if (twttr.ready()) {
         timesRun += 1;
-        twttr.widgets.load(document.getElementById('twitter-wj'));
+        twttr.widgets.load(document.getElementById('twitter-card'));
         timerId = setTimeout(tw, 100);
         console.log('try to load');
       }
 
     }, 100);
-    
+
   }
   ngAfterViewInit() {
-    //this.twittInit();
 
-    // twttr.ready(() => {
-    //   console.log('twttr load', twttr);
-    //   twttr.widgets.load(document.getElementById('twitter'));
-    // });
+
+
   }
 
 
@@ -104,15 +101,23 @@ this.getTweets(event.id);
 
   getTweets(id: number): void {
     this.tweetService.getTweetsIdsByEventId(id).subscribe(ids => {
-      this.test='';
-     
-      for (let i = 0; i < ids.length; i++){
-        this.tweetService.getTweetsByTweetRealId(ids[i].tweet_real_id).subscribe(tweet=>{
-         
-          this.test+=tweet;           
+      this.test = '';
 
+      for (let i = 0; i < ids.length; i++) {
+        this.tweetService.getTweetsByTweetRealId(ids[i].tweet_real_id).subscribe(tweet => {        
+         
+          this.test += tweet;
+        
+          (<any>window).twttr.ready(() => {
+            console.log('twttr load', twttr);
+            (<any>window).twttr.widgets.load(document.getElementById('twitter-card'));
+          });
+          
+          //twttr.widgets.load();
         });
+        
       }
+      
     }
     );
   }
