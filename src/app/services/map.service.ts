@@ -71,7 +71,7 @@ export class MapService {
         source: 'polygon',
         layout: {},
         paint: {
-          'fill-color': '#fff',
+          'fill-color': '#f7786b',
           'fill-opacity': 0.3
         }
       });
@@ -109,7 +109,16 @@ export class MapService {
           coordinates: e.affected_area['coordinates'][0]
         }
       });
-    }
+   }else{
+     // hot fix
+    this.map.getSource('polygon').setData({
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[0,0],[0,0]]
+      }
+    });
+   }
     this.eventSource.next(e);
     // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
@@ -122,6 +131,16 @@ export class MapService {
    * @constructor
    */
   OnFilter(events: Event[]) {
+
+    // hot fix
+    this.map.getSource('polygon').setData({
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[0,0],[0,0]]
+      }
+    });
+   
 
     const el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
 

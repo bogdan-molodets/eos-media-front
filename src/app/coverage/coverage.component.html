@@ -12,10 +12,11 @@
 			</app-tweet>		
 	</div>-->
 	<div [ngClass]='{noActiveContainer:  selectedTab !== "twitter" }' id='twitter'>
-			<div *ngIf="tweet_articles==undefined || tweet_articles.length==0">
+			<!-- <div *ngIf="tweet_articles==undefined || tweet_articles.length==0">
 					<h3>No tweets for this event!</h3>
-			</div>
-		<div id='twitter-wjs' *ngFor="let tweet_article of tweet_articles" [innerHTML]="tweet_article">
+			</div> -->
+		<div id='twitter-card' [innerHTML]="test">
+	
 		</div>
 	</div>
 	<!--<div id='twitter-wjs' [innerHTML]="tweet_articles[0]"></div>-->
@@ -29,5 +30,7 @@
 		<app-photos></app-photos>
 	</div>
 </div>
+
+<!-- *ngFor="let tweet_article of tweet_articles" [innerHTML]="tweet_article" -->
 
 <!--*ngFor="let tweet_article of tweet_articles" [innerHTML]="test | safe: 'html' :'script':'style':'url':'resourceUrl' " -->

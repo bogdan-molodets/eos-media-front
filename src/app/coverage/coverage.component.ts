@@ -28,6 +28,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   public tweet_articles: String[];
   selectedTab = 'twitter';
   test = '';
+  timer = false;
   // id: number;
 
   constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
@@ -41,49 +42,51 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.mapService.currentEvent.subscribe(event => {
       try {
         // get news and tweets for event
-        this.twittInit();
+        //this.twittInit();
         this.getNewsByEventId(event.id);
-        this.getTweetsByEventId(event.id);
-
+        //  this.getTweetsByEventId(event.id);
+        this.getTweets(event.id);
       } catch (e) {
         // if no event make empty
         this.tweet_articles = [];
         this.news = [];
+        this.test = '';
       }
     });
 
 
   }
 
-  setActiveTab(tab: string){
+  setActiveTab(tab: string) {
     this.selectedTab = tab;
   }
 
-  twittInit(){
+  twittInit() {
 
-    const twit = setInterval(function(){
-      if (twttr.ready()){
-        twttr.widgets.load(document.getElementById('twitter'));
+    let timesRun = 0;
+    let timerId = setTimeout(function tw() {
+
+      if (timesRun == 30) {
+        console.log('more than 100');
+      } else if (twttr.ready()) {
+        timesRun += 1;
+        twttr.widgets.load(document.getElementById('twitter-card'));
+        timerId = setTimeout(tw, 100);
+        console.log('try to load');
       }
-    }, 4);
-    
+
+    }, 100);
+
   }
   ngAfterViewInit() {
 
 
-    // twttr.ready(() => {
-    //   console.log('twttr load', twttr);
-    //   twttr.widgets.load(document.getElementById('twitter'));
-    // });
+
   }
 
 
   getTweetsByEventId(id: number): void {
     this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-     // this.test = Object.values(tweets).join('');//.replace(new RegExp('<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>','g') ,'');
-
-
-
       this.tweet_articles = Object.values(tweets);
     });
   }
@@ -94,6 +97,29 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       this.news = Object.values(news);
 
     });
+  }
+
+  getTweets(id: number): void {
+    this.tweetService.getTweetsIdsByEventId(id).subscribe(ids => {
+      this.test = '';
+
+      for (let i = 0; i < ids.length; i++) {
+        this.tweetService.getTweetsByTweetRealId(ids[i].tweet_real_id).subscribe(tweet => {        
+         
+          this.test += tweet;
+        
+          (<any>window).twttr.ready(() => {
+            console.log('twttr load', twttr);
+            (<any>window).twttr.widgets.load(document.getElementById('twitter-card'));
+          });
+          
+          //twttr.widgets.load();
+        });
+        
+      }
+      
+    }
+    );
   }
 
 

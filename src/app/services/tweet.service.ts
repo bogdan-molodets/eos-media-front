@@ -27,6 +27,8 @@ export class TweetService {
 
  // private tweet_page: any;
 
+  private twit_ids= 'https://media-test-service.herokuapp.com/tweets/single/';
+  private twit_by_id='https://media-test-service.herokuapp.com/tweets/html/';
   constructor(private httpClient: HttpClient) {
   }
 
@@ -40,6 +42,23 @@ export class TweetService {
   //   );
   // }
 
+
+
+  /**
+   * get tweets(id, real_id, ...) by event id
+   * @param id event id
+   */
+  getTweetsIdsByEventId(id:number):Observable<Tweets[]>{
+    return this.httpClient.get<Tweets[]>(this.twit_ids + id).map(res=>{return res['results'];}).pipe(catchError(this.handleError('getTweetsIdsByEventId', [])));
+  }
+
+  /**
+   * get tweets by real id
+   * @param id reail tweet id
+   */
+  getTweetsByTweetRealId(id: string): Observable<any> {
+    return this.httpClient.get<any>(this.twit_by_id + id).pipe(catchError(this.handleError('getTweetsByTweetRealId', [])));
+  }
 
   /**
    * get tweets by event pk
