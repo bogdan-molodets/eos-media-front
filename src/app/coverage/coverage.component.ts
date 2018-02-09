@@ -66,6 +66,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
         twttr.widgets.load(document.getElementById('twitter'));
       }
     }, 4);
+    
   }
   ngAfterViewInit() {
 
