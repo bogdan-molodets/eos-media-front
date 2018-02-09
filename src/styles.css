@@ -66,10 +66,8 @@ app-coverage::-webkit-scrollbar-thumb
 
 app-card{
 	width: 100%;
-	height: 100px;	
-	/*box-shadow: 0 1px 2px rgba(0,0,0,0.5);*/
+	height: 100px;
 	margin: 15px 0;
-	/*padding: 5px;*/
 }
 app-root{
 	overflow: hidden
@@ -83,7 +81,6 @@ app-root{
 .block{
 	cursor: pointer;
 	background-color:#FAFAFA; 
-	/*width: 100%;*/
 	min-height: 100px;	
 	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 	margin: 15px 0;
@@ -124,7 +121,6 @@ app-root{
 	top:45px;
 	position: fixed;
 	background: white;
-	/*width: 224px;*/
 	width: inherit;
 	min-width: inherit;
 	z-index: 100;
@@ -134,15 +130,7 @@ app-root{
 	padding: 0 20px;
 	font-size: 14px;
 }
-/**
-* position for left/right sidebar tittle
-*/
-/*.left{
-	left: 0;
-}
-.right{
-	right:6px;
-}*/
+
 
 .card-container{
 	/*margin-top:140px;*/
@@ -427,7 +415,6 @@ app-auth{
 
 .fields{
 	width: 100%;
-	/*position: absolute;*/
 }
 .fields>input{
 	width: calc(100% - 10px);
@@ -437,14 +424,7 @@ app-auth{
 .fields>input [type='submit']{
 	width: 100%;
 }
-/**body:not(app-auth){
-	background-color: #333;
-	opacity: 0.9;
-}**/
-/*app-auth p{font-size: 120px}*/
 .filter-icon{
-	/*padding: 10px 20px;
-	cursor: pointer;*/
 	cursor: pointer;
     position: absolute;
     right: 20px;
@@ -495,11 +475,10 @@ app-auth{
 }
 .author-logo{
 	height: 30px;
+    max-width: 100%;
 }
 .tab{
 	margin-top: 50px;
-    /*padding: 0 5px;*/
-	/*width: calc(100% - 10px);*/
 	width: inherit;
 	min-width: inherit;
     position: fixed;
@@ -529,52 +508,128 @@ app-auth{
 	transform: translateX(5000px);
 	transition: .2s ease-out;
 }
-/*@media screen and (min-width: 768px){
-	app-map-box{
-		left:0; 
-		width: 100%; 
-	}
-	app-event, app-coverage{
-		display: none;
-	}
-}*/
+#menu-btn{	
+	right: 3%;
+}
+#events-btn{	
+	left: 5%;	
+}
+.mobile-btn{
+	position:absolute;
+	height: 50px;
+	top:0;
+	padding: 0 8px;
+	background: #F5F5F5;
+	margin:0;
+	z-index: 150;
+}
+.mobile-btn:before{
+	background: #555;
+}
 @media screen and (max-width: 899px){
+	.logo{
+		width:130px;
+		margin: 0 calc((100% - 130px)/2);
+	}
+	.logo>h1{
+		padding: 10px 0 0 0;
+	}
 	app-map-box{
 		left:0; 
 		width: 100%; 
 	}
 	app-event, app-coverage{
 		display: none;
+		font-size: 15px;
+	}
+	.activeSideBar{
+		display: block;
+    	position: fixed;
+    	width: 100%;
+	}
+	.title{
+		display:none;
+	}
+	.filter-side{
+		left: 0;
+		top: 0;
+		/* top: -5000px; */
+		width: 100%;
+		position: relative;
+		padding: 10px 0;
+		/* width: 230px; */
+		background: #eee;
+		min-height: 100px;
+		z-index: 30;
+		overflow: hidden;
+		transition: .5s ease;
+		box-shadow: 0 1px 1px rgba(0,0,0,0.5);
+	}
+	.filter-side::before{
+		content: '';
+		position: relative;
+		height: inherit;
+		width: inherit;
+	}
+	
+	.show {
+		position: relative;
+		top: 0;
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+		transition: .25s ease;
+	}
+	.filter{
+		position: relative;
+		top: 0;		
+		padding: 0 20px;
+		display: inline-flex;
+		width: calc(100% - 40px);
+		margin: 0;
+	}
+	.filter>li{
+		margin: 15px 20px;
+	}
+	.filter>li>span{
+		position: relative;
+		margin: 0;
+		padding: 0;
+	}
+	.tab{
+		margin:0;
+		top: 50px;
+	}
+	.tab>button{
+		padding: 20px 0;
+		font-size: 15px;
 	}
 }
 @media screen and (min-width: 900px){
 	app-event, app-coverage{
 		display: block;
-		/*width: 230px;*/
 		min-width: 220px;
 		width: 25%;
 	}
-	app-map-box{ 
-		/*right: 230px;
-		left: 230px;
-		width: calc(100% - 460px);*/
+	app-map-box{
 		right: 25%;
 		left: 25%;		
 		width: 50%;
+	}
+	.mobile-btn{
+		display:none;
 	}
 }
 @media screen and (min-width: 1200px){
 	app-event, app-coverage{
 		display: block;
 		width: 20%;
-		/*width: 350px;*/
 	}
 	app-map-box{
-		/*right: 350px;
-		left: 350px;
-		width: calc(100% - 700px);*/
 		right: 20%;
 		left: 20%;
 		width: 60%;
+	}
+	.mobile-btn{
+		display:none;
 	}
 }

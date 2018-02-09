@@ -1,4 +1,7 @@
 <app-header></app-header>
-<app-event></app-event>
-<app-coverage></app-coverage>
+<app-event [ngClass]='{activeSideBar: activeBar === "event"}'></app-event>
+<app-coverage [ngClass]='{activeSideBar: activeBar === "menu"}'></app-coverage>
 <app-map-box></app-map-box>
+<app-mobile></app-mobile>
+<button id ='events-btn' class='btn mobile-btn' (click)='setActiveBar("event")'>Events</button>
+<button id ='menu-btn' class='btn mobile-btn' (click)='setActiveBar("menu")'>Menu</button>

@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientComponent implements OnInit {
 
+  activeBar: string;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setActiveBar(active:string){
+    if(this.activeBar === active){
+      this.activeBar = '';
+    }else{
+      this.activeBar = active;
+    }    
   }
 
 }

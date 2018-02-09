@@ -1,7 +1,7 @@
 
 <div [ngClass]='{show : isVisible === true}' class='filter-side'>
     <div class='search'>
-        <input type='search' id='search' placeholder="Search" #search>
+        <input type='search' id='search' (keyup.enter)='CheckTitle($event,search.value)' (blur)='CheckTitle($event,search.value)' placeholder="Search" #search>
         
     </div>
     <ul class='filter'>
@@ -13,5 +13,5 @@
             <span>{{ event_type }}</span>
         </li>
     </ul>
-    <button class="filter-button" (click)="CheckTitle($event,search.value)">Find</button>
+    <!--<button class="filter-button" (click)="CheckTitle($event,search.value)">Find</button>-->
 </div>

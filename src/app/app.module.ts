@@ -26,6 +26,7 @@ import { NewsComponent } from './news/news.component';
 import { NewsService } from './services/news.service';
 import { PhotosComponent } from './photos/photos.component';
 import { SafePipe } from './safe.pipe';
+import { MobileComponent } from './mobile/mobile.component';
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 const appRoutes: Routes = [
@@ -52,7 +53,8 @@ const appRoutes: Routes = [
     FilterComponent,
     NewsComponent,
     PhotosComponent,
-    SafePipe
+    SafePipe,
+    MobileComponent
   ],
   imports: [
     BrowserModule,
