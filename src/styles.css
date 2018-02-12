@@ -528,6 +528,19 @@ app-auth{
 .mobile-btn:before{
 	background: #555;
 }
+.error-block{
+	width: 50%;
+    margin: 100px auto;
+    background-color: #e34761;
+    color: #fff;
+    border-radius: 4px;
+    padding: 30px;
+    min-height: 100px;
+}
+.error-code{
+	width: 20%;
+    
+}
 @media screen and (max-width: 899px){
 	.logo{
 		width:130px;
@@ -609,6 +622,16 @@ app-auth{
 	.mobile-btn:before{
 		display: none;
 	}
+	/**app-map-box::after{
+		position: absolute;
+		content: '';
+		top: 0;
+		left:0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+		background-color: rgba(0,0,0,0.5);
+	}**/
 }
 @media screen and (min-width: 900px){
 	app-event, app-coverage{

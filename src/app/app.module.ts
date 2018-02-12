@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 import { EventComponent } from './event/event.component';
 import { CoverageComponent } from './coverage/coverage.component';
@@ -12,10 +14,6 @@ import { CardComponent } from './card/card.component';
 import { HeaderComponent } from './header/header.component';
 import { MapBoxComponent } from './map-box/map-box.component';
 import { TweetComponent } from './tweet/tweet.component';
-
-import {EventsService} from './services/events.service';
-import {MapService } from './services/map.service';
-import {TweetService} from './services/tweet.service';
 import { ModalComponent } from './modal/modal.component';
 import { AdminComponent } from './admin/admin.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
@@ -23,10 +21,16 @@ import { ClientComponent } from './client/client.component';
 import { AuthComponent } from './auth/auth.component';
 import { FilterComponent } from './filter/filter.component';
 import { NewsComponent } from './news/news.component';
-import { NewsService } from './services/news.service';
 import { PhotosComponent } from './photos/photos.component';
-import { SafePipe } from './safe.pipe';
 import { MobileComponent } from './mobile/mobile.component';
+
+import {EventsService} from './services/events.service';
+import {MapService } from './services/map.service';
+import {TweetService} from './services/tweet.service';
+import { NewsService } from './services/news.service';
+
+import { SafePipe } from './safe.pipe';
+
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 const appRoutes: Routes = [
@@ -60,6 +64,7 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
