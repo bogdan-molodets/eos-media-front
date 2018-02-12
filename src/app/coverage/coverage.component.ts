@@ -104,7 +104,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
           document.getElementById('twitter-card'),
           {
            
-            align: 'left'
+            align: 'center'
             
           })
           .then(function (el) {
