@@ -56,7 +56,7 @@ export class TweetService {
    * get tweets by real id
    * @param id reail tweet id
    */
-  getTweetsByTweetRealId(id: string): Observable<any> {
+  getTweetsByTweetRealId(id: string):Observable<any> {
     return this.httpClient.get<any>(this.twit_by_id + id).pipe(catchError(this.handleError('getTweetsByTweetRealId', [])));
   }
 
