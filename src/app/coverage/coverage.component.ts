@@ -8,7 +8,7 @@ import { MapService } from '../services/map.service';
 import { error } from 'util';
 import { NewsService } from '../services/news.service';
 import { News } from '../news';
-import { forEach } from '@angular/router/src/utils/collection';
+
 
 
 declare const twttr: any;
@@ -25,11 +25,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   news: News[];
   private twitter: any;
   private callback: () => void;
-  public tweet_articles: String[];
+ 
   selectedTab = 'twitter';
-  test = '';
+
   timer = false;
-  // id: number;
+  
 
   constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
 
@@ -42,15 +42,16 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.mapService.currentEvent.subscribe(event => {
       try {
         // get news and tweets for event
-        //this.twittInit();
+       
         this.getNewsByEventId(event.id);
-        //  this.getTweetsByEventId(event.id);
+       
         this.getTweets(event.id);
       } catch (e) {
         // if no event make empty
-        this.tweet_articles = [];
+      
         this.news = [];
-        this.test = '';
+        this.emptyCoverage();
+      
       }
     });
 
@@ -61,23 +62,18 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.selectedTab = tab;
   }
 
-  twittInit() {
 
-    let timesRun = 0;
-    let timerId = setTimeout(function tw() {
-
-      if (timesRun == 30) {
-        console.log('more than 100');
-      } else if (twttr.ready()) {
-        timesRun += 1;
-        twttr.widgets.load(document.getElementById('twitter-card'));
-        timerId = setTimeout(tw, 100);
-        console.log('try to load');
-      }
-
-    }, 100);
-
+  /**
+   * remove all child elements from div
+   */
+  emptyCoverage(){
+    var elem=document.getElementById('twitter-card');
+    while(elem.firstChild){
+      elem.removeChild(elem.firstChild);
+    }
   }
+
+  
   ngAfterViewInit() {
 
 
@@ -85,11 +81,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   }
 
 
-  getTweetsByEventId(id: number): void {
-    this.tweetService.getTweetsByEventId(id).subscribe(tweets => {
-      this.tweet_articles = Object.values(tweets);
-    });
-  }
+ 
 
 
   getNewsByEventId(id: number): void {
@@ -101,20 +93,23 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   getTweets(id: number): void {
     this.tweetService.getTweetsIdsByEventId(id).subscribe(ids => {
-      this.test = '';
-
+     
+      //remove all child nodes
+      this.emptyCoverage();
+     
       for (let i = 0; i < ids.length; i++) {
-        this.tweetService.getTweetsByTweetRealId(ids[i].tweet_real_id).subscribe(tweet => {        
-         
-          this.test += tweet;
-        
-          (<any>window).twttr.ready(() => {
-            console.log('twttr load', twttr);
-            (<any>window).twttr.widgets.load(document.getElementById('twitter-card'));
+       
+        twttr.widgets.createTweet(
+          ids[i].tweet_real_id,
+          document.getElementById('twitter-card'),
+          {
+           
+            align: 'left'
+            
+          })
+          .then(function (el) {
+           // console.log("Tweet displayed.")
           });
-          
-          //twttr.widgets.load();
-        });
         
       }
       
