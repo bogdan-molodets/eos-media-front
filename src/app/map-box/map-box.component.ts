@@ -24,6 +24,8 @@ export class MapBoxComponent implements OnInit {
   layer: any;
   source: any;
 
+  next_page:string='https://media-test-service.herokuapp.com/events/?page=1';
+  
   constructor(private eventService: EventsService, private mapService: MapService) {
     (mapboxgl as any).accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
 
@@ -31,7 +33,16 @@ export class MapBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildMap();
-
+    // this.eventService.currentNextPage.subscribe(next_page=>{
+    //   console.log(next_page);
+    //   this.eventService.getEvents(this.next_page).subscribe(events => {
+    //     this.events = events['results'];
+    //     this.next_page = events['next'];
+    //     if (this.events) {
+    //       this.mapService.CreateMarkers(this.events);
+    //     }
+    //   });
+    // });
   }
 
   /**
@@ -42,13 +53,24 @@ export class MapBoxComponent implements OnInit {
     this.map = this.mapService.InitMap(-102, 35, 4);
 
     // get events and create markers
-    this.eventService.getEvents().subscribe(events => {
-      this.events = events;
-      if (this.events) {
-        this.mapService.CreateMarkers(this.events);
-      }
-    });
+    // this.eventService.getEvents(this.next_page).subscribe(events => {
+    //   this.events = events['results'];
+    //   this.next_page = events['next'];
+    //   if (this.events) {
+    //     this.mapService.CreateMarkers(this.events);
+    //   }
+    // });
 
+    this.eventService.currentNextPage.subscribe(next_page=>{
+      console.log(next_page);
+      this.eventService.getEvents(this.next_page).subscribe(events => {
+        this.events = events['results'];
+        this.next_page = events['next'];
+        if (this.events) {
+          this.mapService.CreateMarkers(this.events);
+        }
+      });
+    });
 
   }
 

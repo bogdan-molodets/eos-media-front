@@ -20,7 +20,8 @@ export class EventsService {
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
   private types_url = 'https://media-test-service.herokuapp.com/event-types/';
   private filters_url = 'https://media-test-service.herokuapp.com/events/many_filter/';
-
+  private nextPageSource = new BehaviorSubject<string>('https://media-test-service.herokuapp.com/events/?page=1');
+  currentNextPage = this.nextPageSource.asObservable();
   /*
     stateFire = new BehaviorSubject<boolean>(true);
     currentFire = this.stateFire.asObservable();
@@ -43,13 +44,13 @@ export class EventsService {
     }).pipe(catchError(this.handleError('getEventsByDate', [])));
   }
 
-  getEvents(): Observable<Event[]> {
-    return this.httpClient.get(this.url).map(res => {
-      return res['results'];
-    }).pipe(catchError(this.handleError('getEvents', [])));
+  getEvents(url:string): Observable<any> {    
+    return this.httpClient.get(url).pipe(catchError(this.handleError('getEvents', [])));
   }
 
-
+  setNextPage(next_page:string){
+    this.nextPageSource.next(next_page);
+  }
 
   getEvent(id: number): Observable<Event> {
     const url_one = `${this.url}${id}/`;
@@ -76,14 +77,12 @@ export class EventsService {
    * @param start_date start event date
    * @param end_date end event date
    */
-  getEventsByFilters(title: string, place: string, types: string, start_date: string, end_date: string): Observable<Event[]> {
+  getEventsByFilters(title: string, place: string, types: string, start_date: string, end_date: string): Observable<any> {
 
     const url_filter = `${this.filters_url}${title}/${place}/${types}/${start_date}/${end_date}`;
-    console.log(url_filter);
-    return this.httpClient.get<Event[]>(url_filter).map(res => {
-      return res['results'];
-    }).pipe(
-      catchError(this.handleError<Event[]>(`getEventsByFilters name=${name}`))
+    //console.log(url_filter);
+    return this.httpClient.get(url_filter).pipe(
+      catchError(this.handleError(`getEventsByFilters name=${name}`))
       );
   }
 

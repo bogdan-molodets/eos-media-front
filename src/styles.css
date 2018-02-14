@@ -514,7 +514,7 @@ app-auth{
 	right: 3%;
 }
 #events-btn{	
-	left: 5%;	
+	left: 3%;	
 }
 .mobile-btn{
 	position:fixed;
@@ -557,10 +557,14 @@ app-auth{
 		display: none;
 		font-size: 15px;
 	}
+	.tab>button{
+		width: 32%;
+	}
+
 	.activeSideBar{
 		display: block;
-    	position: fixed;
-    	width: 100%;
+		position: fixed;
+    	width: 85%;
 	}
 	.title{
 		display:none;
@@ -568,11 +572,9 @@ app-auth{
 	.filter-side{
 		left: 0;
 		top: 0;
-		/* top: -5000px; */
 		width: 100%;
 		position: relative;
 		padding: 10px 0;
-		/* width: 230px; */
 		background: #eee;
 		min-height: 100px;
 		z-index: 30;
@@ -622,7 +624,7 @@ app-auth{
 	.mobile-btn:before{
 		display: none;
 	}
-	/**app-map-box::after{
+	.hidenMap::after{
 		position: absolute;
 		content: '';
 		top: 0;
@@ -631,7 +633,8 @@ app-auth{
 		height: 100%;
 		z-index: 2;
 		background-color: rgba(0,0,0,0.5);
-	}**/
+		transition: .8s ease .5s;
+	}
 }
 @media screen and (min-width: 900px){
 	app-event, app-coverage{
