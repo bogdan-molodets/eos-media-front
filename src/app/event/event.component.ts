@@ -129,7 +129,7 @@ export class EventComponent implements OnInit {
     this.eventService.getEventsByFilters(t, 'all', types_str, 'all', 'all').subscribe(events => {
       this.events = events['results'];
       this.next_page = events['next'];
-
+      this.mapService.OnFilter(this.events);
       if (this.events.length > 0) {
         this.mapService.MakeActive(this.events[0]);
       } else {
