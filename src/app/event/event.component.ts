@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 // import {Events} from '../mock-events';
 import { Event } from '../event';
 import { EventsService } from '../services/events.service';
@@ -14,14 +14,14 @@ import { Type } from '../type';
 
 export class EventComponent implements OnInit {
 
-  events: Event[];
+  events: Event[] =[];
   event: Event;
   isEmpty = false;
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
   active_types: string[];
   checked_search = false;
-
+  next_page: string = 'https://media-test-service.herokuapp.com/events/?page=1';
   visible = false;
   title = '';
 
@@ -33,9 +33,18 @@ export class EventComponent implements OnInit {
   constructor(private mapService: MapService, private eventService: EventsService, private tweetService: TweetService) {
   }
 
+  @HostListener('scroll', ['$event'])
+    onScroll(e) {
+        let bottom = e.target.scrollHeight - e.target.scrollTop - e.target.offsetHeight;
+        //console.log(bottom);
+        if (bottom === 0 && this.next_page !== null){
+          //console.log("end of block"); if (filter === true) ? this.getEventsByFilters() : this.getEvents();
+          this.getEvents(this.next_page);
+        }
+    }
 
   ngOnInit(): void {
-    this.getEvents();
+    this.getEvents(this.next_page);
     this.getEventTypes();
 
   }
@@ -49,10 +58,14 @@ export class EventComponent implements OnInit {
     });
   }
 
-  getEvents(): void {
-    this.eventService.getEvents().subscribe(eventpages => {
+  getEvents(url): void {
+    this.eventService.getEvents(url).subscribe(eventpages => {
       try {
-        this.events = eventpages;
+        //this.events = eventpages['results'];
+        this.events=this.events.concat(eventpages['results']);
+        //console.log(eventpages);
+        this.next_page = eventpages['next'];
+        this.eventService.setNextPage(eventpages['next']);
         this.mapService.MakeActive(this.events[0]);
       } catch (err) {
       }
@@ -110,7 +123,9 @@ export class EventComponent implements OnInit {
     // const sd = (start_date === '') ? 'all' : start_date;
     // const ed = (end_date === '') ? 'all' : end_date;
     this.eventService.getEventsByFilters(t, 'all', types_str, 'all', 'all').subscribe(events => {
-      this.events = events;
+      this.events = events['results'];
+      this.next_page = events['next'];
+      this.eventService.setNextPage(events['next']);
       this.mapService.OnFilter(this.events);
       if (this.events.length > 0) {
         this.mapService.MakeActive(this.events[0]);
@@ -174,9 +189,9 @@ export class EventComponent implements OnInit {
       });
     } else {
       // this.eventService.getEvents().subscribe(events => {this.events = events;});
-      this.eventService.getEvents().subscribe(events => {
+      this.eventService.getEvents(this.next_page).subscribe(events => {
 
-        this.events = events;
+        this.events = events['results'];
         if (this.events) {
 
           this.mapService.OnFilter(this.events);
