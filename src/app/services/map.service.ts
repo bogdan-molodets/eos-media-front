@@ -115,7 +115,7 @@ export class MapService {
       type: 'Feature',
       geometry: {
         type: 'Polygon',
-        coordinates: [[0,0],[0,0]]
+        coordinates: [[0, 0], [0, 0]]
       }
     });
    }
@@ -133,14 +133,14 @@ export class MapService {
   OnFilter(events: Event[]) {
 
     // hot fix
-    this.map.getSource('polygon').setData({
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[0,0],[0,0]]
-      }
-    });
-   
+    // this.map.getSource('polygon').setData({
+    //   type: 'Feature',
+    //   geometry: {
+    //     type: 'Polygon',
+    //     coordinates: [[0,0],[0,0]]
+    //   }
+    // });
+
 
     const el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
 
@@ -178,7 +178,7 @@ export class MapService {
 
     events.forEach((event) => {
 
-      // this.map = mp;
+
       // create marker div
       if (!document.getElementById(event.id.toString())) {
         const el = document.createElement('div');

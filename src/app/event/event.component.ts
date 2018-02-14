@@ -14,14 +14,14 @@ import { Type } from '../type';
 
 export class EventComponent implements OnInit {
 
-  events: Event[] =[];
+  events: Event[] = [];
   event: Event;
   isEmpty = false;
   today = new Date().toJSON().split('T')[0];
   event_types: string[];
   active_types: string[];
   checked_search = false;
-  next_page: string = 'https://media-test-service.herokuapp.com/events/?page=1';
+  next_page = 'https://media-test-service.herokuapp.com/events/?page=1';
   visible = false;
   title = '';
 
@@ -34,14 +34,15 @@ export class EventComponent implements OnInit {
   }
 
   @HostListener('scroll', ['$event'])
-    onScroll(e) {
-        let bottom = e.target.scrollHeight - e.target.scrollTop - e.target.offsetHeight;
-        //console.log(bottom);
-        if (bottom === 0 && this.next_page !== null){
-          //console.log("end of block"); if (filter === true) ? this.getEventsByFilters() : this.getEvents();
-          this.getEvents(this.next_page);
-        }
+  onScroll(e) {
+    const bottom = e.target.scrollHeight - e.target.scrollTop - e.target.offsetHeight;
+    //console.log(bottom);
+    if (bottom === 0 && this.next_page !== null) {
+      //console.log("end of block"); if (filter === true) ? this.getEventsByFilters() : this.getEvents();
+      this.getEvents(this.next_page);
+
     }
+  }
 
   ngOnInit(): void {
     this.getEvents(this.next_page);
@@ -61,22 +62,25 @@ export class EventComponent implements OnInit {
   getEvents(url): void {
     this.eventService.getEvents(url).subscribe(eventpages => {
       try {
-        //this.events = eventpages['results'];
-        this.events=this.events.concat(eventpages['results']);
-        //console.log(eventpages);
+
+        this.events = this.events.concat(eventpages['results']);
+        this.mapService.OnFilter(this.events);
         this.next_page = eventpages['next'];
-        this.eventService.setNextPage(eventpages['next']);
-        this.mapService.MakeActive(this.events[0]);
+        if (!eventpages['previous']) {
+          this.mapService.MakeActive(this.events[0]);
+        }
+
       } catch (err) {
+        console.log(err);
       }
     });
   }
 
- /**
-   * add to array checked types and remove unchecked
-   * @param e event occured oncheckbox click
-   * @param name name of event type
-   */
+  /**
+    * add to array checked types and remove unchecked
+    * @param e event occured oncheckbox click
+    * @param name name of event type
+    */
   CheckType(e: any, name: string): void {
 
     if (e.target.checked) {
@@ -87,23 +91,23 @@ export class EventComponent implements OnInit {
 
   }
 
-  setVisible(){
+  setVisible() {
     this.visible = !this.visible;
-    if(this.visible === true){
-      document.querySelector('.target').scrollIntoView({ 
-      behavior: 'smooth' 
-    });
-    }    
+    if (this.visible === true) {
+      document.querySelector('.target').scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
   }
 
-  viewChanges(event){
+  viewChanges(event) {
     this.active_types = event;
     this.setVisible();
     //call filtering on filter icon click
     this.getEventsByFilters();
 
   }
-  viewTitle(event){
+  viewTitle(event) {
     this.title = event;
     this.setVisible();
     //call filtering on Enter click
@@ -125,8 +129,7 @@ export class EventComponent implements OnInit {
     this.eventService.getEventsByFilters(t, 'all', types_str, 'all', 'all').subscribe(events => {
       this.events = events['results'];
       this.next_page = events['next'];
-      this.eventService.setNextPage(events['next']);
-      this.mapService.OnFilter(this.events);
+
       if (this.events.length > 0) {
         this.mapService.MakeActive(this.events[0]);
       } else {
@@ -147,31 +150,31 @@ export class EventComponent implements OnInit {
 
 
 
-  getEventByDate(from: any, to: any): void {
-    console.log(`from: ${from}`);
-    console.log(`to: ${to}`);
+  /* getEventByDate(from: any, to: any): void {
+     console.log(`from: ${from}`);
+     console.log(`to: ${to}`);
 
-    if (from === '') { from = null; }
-    if (to === '') { to = null; }
-    console.log(from);
-    if ((from != null) && (to != null) && from > to) {
-      alert(`error`);
-    } else {
-      this.eventService.getEventsByDate(from, to).subscribe(events => {
-        this.events = events;
-        this.mapService.OnFilter(this.events);
-      });
-    }
+     if (from === '') { from = null; }
+     if (to === '') { to = null; }
+     console.log(from);
+     if ((from != null) && (to != null) && from > to) {
+       alert(`error`);
+     } else {
+       this.eventService.getEventsByDate(from, to).subscribe(events => {
+         this.events = events;
+         this.mapService.OnFilter(this.events);
+       });
+     }
 
 
-  }
+   }*/
 
   /**
    * trow ex if start date more then end date
    * @param from start date
    * @param to end date
    */
-  checkDate(from: any, to: any): any {
+  /*checkDate(from: any, to: any): any {
     if (from === '') { from = null; }
     if (to === '') { to = null; }
     if ((from != null) && (to != null) && from > to) {
@@ -203,7 +206,7 @@ export class EventComponent implements OnInit {
 
 
   }
-
+*/
 
 
 

@@ -25,11 +25,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   news: News[];
   private twitter: any;
   private callback: () => void;
- 
+
   selectedTab = 'twitter';
 
   timer = false;
-  
+
 
   constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
 
@@ -42,16 +42,16 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.mapService.currentEvent.subscribe(event => {
       try {
         // get news and tweets for event
-       
+
         this.getNewsByEventId(event.id);
-       
+
         this.getTweets(event.id);
       } catch (e) {
         // if no event make empty
-      
+
         this.news = [];
         this.emptyCoverage();
-      
+
       }
     });
 
@@ -67,13 +67,13 @@ export class CoverageComponent implements OnInit, AfterViewInit {
    * remove all child elements from div
    */
   emptyCoverage(){
-    var elem=document.getElementById('twitter-card');
-    while(elem.firstChild){
+    const elem = document.getElementById('twitter-card');
+    while (elem.firstChild){
       elem.removeChild(elem.firstChild);
     }
   }
 
-  
+
   ngAfterViewInit() {
 
 
@@ -81,7 +81,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   }
 
 
- 
+
 
 
   getNewsByEventId(id: number): void {
@@ -93,26 +93,26 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   getTweets(id: number): void {
     this.tweetService.getTweetsIdsByEventId(id).subscribe(ids => {
-     
+
       //remove all child nodes
       this.emptyCoverage();
-     
+
       for (let i = 0; i < ids.length; i++) {
-       
+
         twttr.widgets.createTweet(
           ids[i].tweet_real_id,
           document.getElementById('twitter-card'),
           {
-           
+
             align: 'center'
-            
+
           })
           .then(function (el) {
            // console.log("Tweet displayed.")
           });
-        
+
       }
-      
+
     }
     );
   }

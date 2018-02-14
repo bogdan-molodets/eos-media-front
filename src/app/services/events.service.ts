@@ -20,8 +20,7 @@ export class EventsService {
   private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
   private types_url = 'https://media-test-service.herokuapp.com/event-types/';
   private filters_url = 'https://media-test-service.herokuapp.com/events/many_filter/';
-  private nextPageSource = new BehaviorSubject<string>('https://media-test-service.herokuapp.com/events/?page=1');
-  currentNextPage = this.nextPageSource.asObservable();
+
   /*
     stateFire = new BehaviorSubject<boolean>(true);
     currentFire = this.stateFire.asObservable();
@@ -44,13 +43,11 @@ export class EventsService {
     }).pipe(catchError(this.handleError('getEventsByDate', [])));
   }
 
-  getEvents(url:string): Observable<any> {    
+  getEvents(url: string): Observable<any> {
     return this.httpClient.get(url).pipe(catchError(this.handleError('getEvents', [])));
   }
 
-  setNextPage(next_page:string){
-    this.nextPageSource.next(next_page);
-  }
+
 
   getEvent(id: number): Observable<Event> {
     const url_one = `${this.url}${id}/`;

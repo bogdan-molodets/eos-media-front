@@ -19,7 +19,7 @@ export class MobileComponent implements OnInit {
   //     this.activeBar = '';
   //   }else{
   //     this.activeBar = active;
-  //   }    
+  //   }
   // }
 
 }
