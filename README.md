@@ -1,1 +1,1 @@
-test
+# eos-media-front

@@ -1,0 +1,15 @@
+#map{
+    position: absolute;
+    margin: 0;
+    top:0;
+    height:100%;
+    width: 100%;
+}
+
+/* #menu {
+    opacity: 0.6;
+    position: absolute;
+    background: #fff;
+    padding: 10px;
+    right: 100px;
+  } */

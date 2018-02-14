@@ -1,0 +1,17 @@
+
+<div [ngClass]='{show : isVisible === true}' class='filter-side'>
+    <div class='search'>
+        <input type='search' id='search' (keyup.enter)='CheckTitle($event,search.value)' placeholder="Search" #search>
+        
+    </div>
+    <ul class='filter'>
+
+        <li *ngFor="let event_type of event_types" id='{{event_type}}' #{{event_type}} (click)="CheckType($event,event_type)">
+            <div [ngClass]='{noactiveicon : active_types.indexOf(event_type) === -1}' class='type-icon-container'>
+                <img src='/assets/{{event_type}}.png'>
+            </div>
+            <span>{{ event_type }}</span>
+        </li>
+    </ul>
+    <!--<button class="filter-button" (click)="CheckTitle($event,search.value)">Find</button>-->
+</div>
