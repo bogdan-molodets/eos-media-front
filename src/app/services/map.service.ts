@@ -9,20 +9,23 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-
+import { of } from 'rxjs/observable/of';
+import { catchError } from 'rxjs/operators';
 @Injectable()
 export class MapService {
 
 
   map: any;
   style: any;
-
+  beforeMap: any;
+  afterMap: any;
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
 
-
-  constructor(private eventService: EventsService) {
+  // url to satellite images
+  private url = 'http://a.render.eosda.com/';
+  constructor(private eventService: EventsService, private httpClient: HttpClient) {
 
   }
 
@@ -109,16 +112,16 @@ export class MapService {
           coordinates: e.affected_area['coordinates'][0]
         }
       });
-   }else{
-     // hot fix
-    this.map.getSource('polygon').setData({
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[0, 0], [0, 0]]
-      }
-    });
-   }
+    } else {
+      // hot fix
+      this.map.getSource('polygon').setData({
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[0, 0], [0, 0]]
+        }
+      });
+    }
     this.eventSource.next(e);
     // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
@@ -184,7 +187,8 @@ export class MapService {
         const el = document.createElement('div');
         el.id = event.id.toString();
         el.className = 'marker';
-        el.style.backgroundImage = (event.event_type.toString() === 'Wildfire') ? 'url(/assets/Wildfire.png)' : 'url(/assets/Flood.png)';
+        el.style.backgroundImage ='url(/assets/'+event.event_type.toString()+'.png)'; 
+        // (event.event_type.toString() === 'Wildfire') ? 'url(/assets/Wildfire.png)' : 'url(/assets/Flood.png)';
         el.style.cursor = 'pointer';
         el.style.width = '32px';
         el.style.height = '32px';
@@ -204,6 +208,122 @@ export class MapService {
 
   }
 
+
+  AddToCompare(before: string, after: string) {
+
+
+    this.beforeMap.getSource('raster').setData({
+      type: 'raster',
+      tiles: [
+        before
+      ]
+    });
+
+    this.afterMap.getSource('raster').setData({
+      type: 'raster',
+      tiles: [
+        after
+      ]
+    });
+    // this.beforeMaps
+    // var map = new mapboxgl.Compare(this.beforeMap, this.afterMap, {});
+
+  }
+
+  MakeTileUrl(obj: any): string {
+    let part_url = this.url;
+    switch (obj.satelliteName) {
+      case 'modis':
+        part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}{x}{y}';
+        break;
+      case 'Sentinel-2B' || 'Sentinel-2B':
+        part_url += 'S2/' + obj.sceneID + '/B04,B03,B02/{z}{x}{y}';
+        break;
+      case 'landsat-7':
+        part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}{x}{y}';
+        break;
+      case 'landsat-8':
+        part_url += 'L8/' + obj.sceneID + '/B3,B2,B1/{z}{x}{y}';
+        break;
+    }
+    return part_url;
+  }
+
+  InitMapModal() {
+    this.beforeMap = new mapboxgl.Map({
+      container: 'before',
+      style: {
+        version: 8,
+        sources: {
+          'raster': {
+            type: 'raster',
+            tiles: [
+
+            ],
+
+            tileSize: 256
+          }
+        },
+        layers: [{
+          id: 'compare-tiles',
+          type: 'raster',
+          source: 'raster',
+          minzoom: 0,
+          maxzoom: 22
+        }]
+      },
+      center: [0, 0],
+      zoom: 11
+    });
+
+    this.afterMap = new mapboxgl.Map({
+      container: 'after',
+      style: {
+        version: 8,
+        sources: {
+          'raster': {
+            type: 'raster',
+            tiles: [
+
+            ],
+
+            tileSize: 256
+          }
+        },
+        layers: [{
+          id: 'compare-tiles',
+          type: 'raster',
+          source: 'raster',
+          minzoom: 0,
+          maxzoom: 22
+        }]
+      },
+      center: [0, 0],
+      zoom: 11
+    });
+
+
+
+  }
+
+  getSatelliteImages(id: number): Observable<any> {
+    return this.httpClient.get<any>(this.url + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
+  }
+
+  /**
+     * Handle Http operation that failed.
+     * Let the app continue.
+     * @param operation - name of the operation that failed
+     * @param result - optional value to return as the observable result
+     */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 
 
 

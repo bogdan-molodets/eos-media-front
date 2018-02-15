@@ -122,17 +122,7 @@
     });
     var map = new mapboxgl.Compare(beforeMap, afterMap, {});
 
-$.ajax({
-    url: "api/v1/user/token/",
-    type : "GET",
-    xhrFields: { withCredentials: true},
-    success : function(r) {
-      console.log(r);
-    },
-    error: function(e){
-      console.log('Not authenticated');
-    }
-  });
+
   </script>
 
 </body>
