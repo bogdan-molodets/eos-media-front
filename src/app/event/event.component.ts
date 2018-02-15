@@ -130,6 +130,8 @@ export class EventComponent implements OnInit {
       this.events = events['results'];
       this.next_page = events['next'];
       this.mapService.OnFilter(this.events);
+      this.mapService.ResetZoom();
+      
       if (this.events.length > 0) {
         this.mapService.MakeActive(this.events[0]);
       } else {
