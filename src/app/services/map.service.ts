@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../event';
 import * as mapboxgl from 'mapbox-gl';
+
 import { EventsService } from '../services/events.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -11,6 +12,9 @@ import 'rxjs/add/operator/map';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
+import { EventSatellite } from '../EventSatellite';
+import * as Compare from 'mapbox-gl-compare';
+
 @Injectable()
 export class MapService {
 
@@ -24,12 +28,13 @@ export class MapService {
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
+  private url_media = '';
   private url = 'http://a.render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
   constructor(private httpClient: HttpClient) {
   }
-  
+
 
 
 
@@ -86,7 +91,7 @@ export class MapService {
     return this.map;
   }
 
-  setCompare(visible:boolean){
+  setCompare(visible: boolean) {
     this.compareSource.next(visible);
     console.log(visible);
   }
@@ -171,14 +176,15 @@ export class MapService {
         e.style.visibility = 'visible';
       }
     }
+  }
+  
+  ResetZoom(){
     this.map.flyTo({
       center: [-102, 35],
       zoom: 4
     });
-
-
   }
-
+   
   /**
    * create html markers
    * @param {Event[]} events
@@ -195,7 +201,7 @@ export class MapService {
         const el = document.createElement('div');
         el.id = event.id.toString();
         el.className = 'marker';
-        el.style.backgroundImage ='url(/assets/'+event.event_type.toString()+'.png)'; 
+        el.style.backgroundImage = 'url(/assets/' + event.event_type.toString() + '.png)';
         // (event.event_type.toString() === 'Wildfire') ? 'url(/assets/Wildfire.png)' : 'url(/assets/Flood.png)';
         el.style.cursor = 'pointer';
         el.style.width = '32px';
@@ -217,24 +223,24 @@ export class MapService {
   }
 
 
-  AddToCompare(before: string, after: string) {
-
-
-    this.beforeMap.getSource('raster').setData({
-      type: 'raster',
-      tiles: [
-        before
-      ]
-    });
-
-    this.afterMap.getSource('raster').setData({
-      type: 'raster',
-      tiles: [
-        after
-      ]
-    });
+  AddToCompare(before: string, after: string) {  
+     
+      this.beforeMap.getSource('raster-tiles').setData({
+        type: 'raster',
+        tiles: [
+          before
+        ]
+      });  
+      this.afterMap.getSource('raster-tiles').setData({
+        type: 'raster',
+        tiles: [
+          after
+        ]
+      });
+  
+    
     // this.beforeMaps
-    // var map = new mapboxgl.Compare(this.beforeMap, this.afterMap, {});
+    var map = new Compare(this.beforeMap, this.afterMap, {});
 
   }
 
@@ -258,14 +264,16 @@ export class MapService {
   }
 
   InitMapModal() {
+
     this.beforeMap = new mapboxgl.Map({
       container: 'before',
       style: {
         version: 8,
         sources: {
-          'raster': {
+          'raster-tiles': {
             type: 'raster',
             tiles: [
+              'http://b.render.eosda.com/S2/11/S/LU/2017/11/30/0/B04,B03,B02/{z}/{x}/{y}'
 
             ],
 
@@ -273,14 +281,14 @@ export class MapService {
           }
         },
         layers: [{
-          id: 'compare-tiles',
+          id: 'simple-tiles',
           type: 'raster',
-          source: 'raster',
+          source: 'raster-tiles',
           minzoom: 0,
           maxzoom: 22
         }]
       },
-      center: [0, 0],
+      center: [-119.1975416533983, 35.22312494055522],
       zoom: 11
     });
 
@@ -289,33 +297,32 @@ export class MapService {
       style: {
         version: 8,
         sources: {
-          'raster': {
+          'raster-tiles': {
             type: 'raster',
             tiles: [
-
+              ''//'http://a.render.eosda.com/S2/11/S/LU/2017/12/15/0/B04,B03,B02/{z}/{x}/{y}'
             ],
 
             tileSize: 256
           }
         },
         layers: [{
-          id: 'compare-tiles',
+          id: 'simple-tiles',
           type: 'raster',
-          source: 'raster',
+          source: 'raster-tiles',
           minzoom: 0,
           maxzoom: 22
         }]
       },
-      center: [0, 0],
+      center: [-119.1975416533983, 35.22312494055522],
       zoom: 11
     });
 
-
-
+    var map = new Compare(this.beforeMap, this.afterMap, {});
   }
 
   getSatelliteImages(id: number): Observable<any> {
-    return this.httpClient.get<any>(this.url + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
+    return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
 
   /**
