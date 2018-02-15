@@ -14,7 +14,6 @@ import { CardComponent } from './card/card.component';
 import { HeaderComponent } from './header/header.component';
 import { MapBoxComponent } from './map-box/map-box.component';
 import { TweetComponent } from './tweet/tweet.component';
-import { ModalComponent } from './modal/modal.component';
 import { AdminComponent } from './admin/admin.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import { ClientComponent } from './client/client.component';
@@ -30,6 +29,7 @@ import {TweetService} from './services/tweet.service';
 import { NewsService } from './services/news.service';
 
 import { SafePipe } from './safe.pipe';
+import { CompareComponent } from './compare/compare.component';
 
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
@@ -49,7 +49,6 @@ const appRoutes: Routes = [
     HeaderComponent,
     MapBoxComponent,
     TweetComponent,
-    ModalComponent,
     AdminComponent,
     PageNotFoundComponent,
     ClientComponent,
@@ -58,7 +57,8 @@ const appRoutes: Routes = [
     NewsComponent,
     PhotosComponent,
     SafePipe,
-    MobileComponent
+    MobileComponent,
+    CompareComponent
   ],
   imports: [
     BrowserModule,

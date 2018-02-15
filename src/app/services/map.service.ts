@@ -25,9 +25,12 @@ export class MapService {
 
   // url to satellite images
   private url = 'http://a.render.eosda.com/';
-  constructor(private eventService: EventsService, private httpClient: HttpClient) {
-
+  private compareSource = new BehaviorSubject<boolean>(false);
+  currentCompare = this.compareSource.asObservable();
+  constructor(private httpClient: HttpClient) {
   }
+  
+
 
 
   /**
@@ -81,6 +84,11 @@ export class MapService {
 
     });
     return this.map;
+  }
+
+  setCompare(visible:boolean){
+    this.compareSource.next(visible);
+    console.log(visible);
   }
 
   /**
