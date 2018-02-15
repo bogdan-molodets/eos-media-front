@@ -21,6 +21,9 @@ export class MapService {
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
 
+  private compareSource = new BehaviorSubject<boolean>(false);
+  currentCompare = this.compareSource.asObservable();
+  
 
   constructor(private eventService: EventsService) {
 
@@ -78,6 +81,11 @@ export class MapService {
 
     });
     return this.map;
+  }
+
+  setCompare(visible:boolean){
+    this.compareSource.next(visible);
+    console.log(visible);
   }
 
   /**
