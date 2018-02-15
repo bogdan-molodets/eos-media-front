@@ -138,15 +138,31 @@ app-compare{
 	transition-timing-function: ease-in;
   	transition: 0.2s;
 }
-
-.card-title{
+.card-title-header{
 	position: relative;
+	width: calc(100% - 20px);
+	min-height: 40px;
+	height: auto;
+	padding: 5px 10px;
+}
+.card-title{
+	position: absolute;
 	font-family: 'Montserrat', sans-serif;
-	padding: 10px 10px;
+	padding: 6px 10px;
 	text-transform: uppercase;
 	font-weight: 600;
+	max-width: calc(100% - 55px);
+    left: 40px;
+	word-wrap: break-word;
 	-webkit-margin-before: 0;
     -webkit-margin-after: 0;
+}
+.card-title-image{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: orange;
 }
 .card-content{
 	position: relative;
@@ -177,8 +193,7 @@ app-compare{
 
 
 .card-container{
-	/*margin-top:140px;*/
-	margin-top:35px;
+	margin-top:45px;
 }
 /**
 * logo of header
@@ -372,6 +387,9 @@ label {
 .btn:hover, .filter-button:hover {
     outline: none
 }
+.compare-open{
+	margin: 5px 10px;
+}
 .compare-close{
 	position: absolute;
 	right: 10px;
@@ -521,10 +539,20 @@ app-auth{
 	padding: 0 10px;
 	position: relative;
 }
+.article-title{
+	position: relative;
+	font-family: 'Montserrat', sans-serif;
+	padding: 10px 10px;
+	text-transform: uppercase;
+	font-weight: 600;
+	word-wrap: break-word;
+	-webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
 .article{
 	background-color: #faf6f4;
 }
-.article>.card-title{
+.article>.article-title{
 	font-size: 13px;
 	font-family: Oswald, sans-serif;
 	color: black;

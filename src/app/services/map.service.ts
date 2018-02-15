@@ -85,7 +85,6 @@ export class MapService {
 
   setCompare(visible:boolean){
     this.compareSource.next(visible);
-    console.log(visible);
   }
 
   /**

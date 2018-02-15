@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { MapService } from '../services/map.service';
+import { Event } from '../event';
 
 @Component({
   selector: 'app-client',
@@ -10,7 +11,7 @@ export class ClientComponent implements OnInit {
 
   activeBar = '';
   visible:boolean = false;
-  eventName:string;
+  event:Event;
 
   constructor(private mapService: MapService) { }
 
@@ -19,8 +20,7 @@ export class ClientComponent implements OnInit {
       this.visible = visible;
       if(visible){        
         this.mapService.currentEvent.subscribe(event=>{
-          this.eventName = event.title;
-          console.log(this.eventName);
+          this.event = event;
         });
       }      
     }
