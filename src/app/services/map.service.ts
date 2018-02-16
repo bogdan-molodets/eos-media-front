@@ -272,7 +272,7 @@ export class MapService {
           'raster-tiles': {
             type: 'raster',
             tiles: [
-              'http://b.render.eosda.com/S2/11/S/LU/2017/11/30/0/B04,B03,B02/{z}/{x}/{y}'
+              'http://a.render.eosda.com/L8/LC08_L1TP_041036_20171218_20171224_01_T1/B4,B3,B2/{z}/{x}/{y}'
 
             ],
 
@@ -287,7 +287,7 @@ export class MapService {
           maxzoom: 22
         }]
       },
-      center: [-119.1975416533983, 35.22312494055522],
+      center: [-118.48178, 34.09454],
       zoom: 11
     });
 
@@ -299,7 +299,7 @@ export class MapService {
           'raster-tiles': {
             type: 'raster',
             tiles: [
-              ''//'http://a.render.eosda.com/S2/11/S/LU/2017/12/15/0/B04,B03,B02/{z}/{x}/{y}'
+              'http://a.render.eosda.com/L8/LC08_L1TP_041036_20171202_20171207_01_T1/B4,B3,B2/{z}/{x}/{y}'
             ],
 
             tileSize: 256
@@ -313,7 +313,7 @@ export class MapService {
           maxzoom: 22
         }]
       },
-      center: [-119.1975416533983, 35.22312494055522],
+      center: [-118.48178, 34.09454],
       zoom: 11
     });
 
