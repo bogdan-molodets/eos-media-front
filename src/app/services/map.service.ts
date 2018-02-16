@@ -115,7 +115,7 @@ export class MapService {
       center: [ln, lt],
       zoom: 10
     });
-    
+
     // check if event has an aoi and draw it
     if (e.affected_area) {
       this.map.getSource('polygon').setData({
@@ -135,7 +135,7 @@ export class MapService {
         }
       });
     }
-    
+
     this.eventSource.next(e);
     // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
@@ -226,30 +226,43 @@ export class MapService {
 
   AddToCompare(before: string, after: string) {
 
-    let bm = this.beforeMap;
-
-    this.beforeMap.on('load', function () {
-      console.log('ok');
-      bm.getSource('raster-tiles').setData({
-        type: 'raster',
-        tiles: [
-          before
-        ]
-      });
+    this.beforeMap.removeLayer('simple-tiles');
+    this.beforeMap.removeSource('raster-tiles');
+    this.beforeMap.addSource('raster-tiles', {
+      type: 'raster',
+      tiles: [
+       before
+      ],
+      tileSize: 256
     });
 
-
-    let am = this.afterMap;
-    this.afterMap.on('load', function () {
-      am.getSource('raster-tiles').setData({
-        type: 'raster',
-        tiles: [
-          after
-        ]
-      });
+    this.beforeMap.addLayer({
+      id: 'simple-tiles',
+      type: 'raster',
+      source: 'raster-tiles',
+      minzoom: 0,
+      maxzoom: 22
     });
 
-   
+    this.afterMap.removeLayer('simple-tiles');
+    this.afterMap.removeSource('raster-tiles');
+    this.afterMap.addSource('raster-tiles', {
+      type: 'raster',
+      tiles: [
+       after
+      ],
+      tileSize: 256
+    });
+
+    this.afterMap.addLayer({
+      id: 'simple-tiles',
+      type: 'raster',
+      source: 'raster-tiles',
+      minzoom: 0,
+      maxzoom: 22
+    });
+
+    
 
   }
 
@@ -280,10 +293,9 @@ export class MapService {
         version: 8,
         sources: {
           'raster-tiles': {
-            type: 'raster',           
+            type: 'raster',
             tiles: [
-             ''// 'http://a.render.eosda.com/L8/LC08_L1TP_041036_20171218_20171224_01_T1/B4,B3,B2/{z}/{x}/{y}'
-              
+              ''
             ],
 
             tileSize: 256
@@ -300,7 +312,7 @@ export class MapService {
       center: [-118.48178, 34.09454],
       zoom: 11
     });
- 
+
 
     this.afterMap = new mapboxgl.Map({
       container: 'after',
@@ -310,7 +322,7 @@ export class MapService {
           'raster-tiles': {
             type: 'raster',
             tiles: [
-            ''//  'http://a.render.eosda.com/L8/LC08_L1TP_041036_20171202_20171207_01_T1/B4,B3,B2/{z}/{x}/{y}'
+              ''  
             ],
 
             tileSize: 256

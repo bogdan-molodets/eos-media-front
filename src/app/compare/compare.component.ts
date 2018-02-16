@@ -17,10 +17,10 @@ export class CompareComponent implements OnInit {
   ngOnInit() {
    
     // init compare modal maps
-    // this.mapService.InitMapModal();
+     this.mapService.InitMapModal();
     
     
-    this.mapService.AddToCompare('http://a.render.eosda.com/S2/11/S/LU/2017/11/30/0/B04,B03,B02/{z}/{x}/{y}','http://a.render.eosda.com/L8/LC08_L1TP_041036_20171202_20171207_01_T1/B4,B3,B2/{z}/{x}/{y}');
+  //  this.mapService.AddToCompare('http://a.render.eosda.com/S2/11/S/LU/2017/11/30/0/B04,B03,B02/{z}/{x}/{y}','http://a.render.eosda.com/L8/LC08_L1TP_041036_20171202_20171207_01_T1/B4,B3,B2/{z}/{x}/{y}');
    /*
     this.mapService.getSatelliteImages(7).subscribe(res=>{
 
@@ -48,6 +48,8 @@ export class CompareComponent implements OnInit {
   }
 
   hideCompare(){
+   // this.mapService.AddToCompare('http://a.render.eosda.com/S2/11/S/LU/2017/11/30/0/B04,B03,B02/{z}/{x}/{y}','http://a.render.eosda.com/L8/LC08_L1TP_041036_20171202_20171207_01_T1/B4,B3,B2/{z}/{x}/{y}');
+   
     this.mapService.setCompare(false);
   }
 }
