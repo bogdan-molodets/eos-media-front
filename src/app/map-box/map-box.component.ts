@@ -33,7 +33,7 @@ export class MapBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.buildMap();
-   
+
   }
 
   /**
