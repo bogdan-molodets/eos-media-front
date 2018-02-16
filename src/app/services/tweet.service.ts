@@ -48,8 +48,14 @@ export class TweetService {
    * get tweets(id, real_id, ...) by event id
    * @param id event id
    */
-  getTweetsIdsByEventId(id: number): Observable<Tweets[]>{
-    return this.httpClient.get<Tweets[]>(this.twit_ids + id).map(res => res['results']).pipe(catchError(this.handleError('getTweetsIdsByEventId', [])));
+  getTweetsIdsByEventId(id: number, next_page: string): Observable<any>{
+    let url;
+    if(next_page !== null){
+      url = next_page;
+    }else{
+      url = this.twit_ids + id;
+    }
+    return this.httpClient.get<any>(url).pipe(catchError(this.handleError('getTweetsIdsByEventId', [])));
   }
 
   /**
