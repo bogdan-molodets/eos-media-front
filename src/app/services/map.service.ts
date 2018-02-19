@@ -28,7 +28,7 @@ export class MapService {
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
-  private url_media = 'http://media-test-service.herokuapp.com/images/event/';
+  private url_media = 'http://media-test-service.herokuapp.com/images/event/'; 
   private url = 'http://a.render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
@@ -101,7 +101,7 @@ export class MapService {
    */
   MakeActive(event: Event) {
     //Check if we choose the same event twice
-    if(this.current_id !== event.id){
+    if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
       //console.log('changed');
@@ -238,14 +238,13 @@ export class MapService {
    */
   AddToCompare(beforeObj: any, afterObj: any) {
 
-    // remove previous layer and source from before map
-    this.beforeMap.removeLayer('simple-tiles');
-    this.beforeMap.removeSource('raster-tiles');
+    //console.log(  this.MakeTileUrl(afterObj));
+    this.ClearMaps();
     // add new source and layer
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
       tiles:
-        this.MakeTileUrl(beforeObj)
+        this.MakeTileUrl(afterObj)
       ,
       tileSize: 256
     });
@@ -262,14 +261,13 @@ export class MapService {
     this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
 
 
-    // remove previous layer and source from after map
-    this.afterMap.removeLayer('simple-tiles');
-    this.afterMap.removeSource('raster-tiles');
+
     this.afterMap.addSource('raster-tiles', {
       type: 'raster',
       tiles:
         //array of tiles
-        this.MakeTileUrl(afterObj)
+
+        this.MakeTileUrl(beforeObj)
       ,
       tileSize: 256
     });
@@ -286,6 +284,18 @@ export class MapService {
 
   }
 
+  ClearMaps() {
+    // delete only if sources and layers are present
+    if(!this.beforeMap.getSource('raster-tiles'))
+    return;
+    // remove previous layer and source from before map
+    this.beforeMap.removeLayer('simple-tiles');
+    this.beforeMap.removeSource('raster-tiles');
+    // remove previous layer and source from after map
+    this.afterMap.removeLayer('simple-tiles');
+    this.afterMap.removeSource('raster-tiles');
+  }
+
   /**
    * make url to antarctica depend on satellite
    * @param obj image obj 
@@ -298,7 +308,7 @@ export class MapService {
         part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}/{x}/{y}';
         break;
       case 'Sentinel-2B' || 'Sentinel-2A':
-        part_url += 'S2/' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
+        part_url += 'S2' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
         break;
       case 'landsat-7':
         part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}/{x}/{y}';
@@ -388,8 +398,17 @@ export class MapService {
    * @param id event id
    */
   getSatelliteImages(id: number): Observable<any> {
-    console.log(this.url_media + id+'/');
+    //console.log(this.url_media + id+'/');
     return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
+  }
+
+  /**
+   * returns two images for initial comparer  
+   * @param id event id
+   */
+  getSatelliteImagesCompare(id: number): Observable<any> {
+    // console.log(this.url_media_compare + id+'/more');
+    return this.httpClient.get<any>(this.url_media + id + '/more').pipe(catchError(this.handleError('getSatelliteImagesCompare', [])));
   }
 
   /**
