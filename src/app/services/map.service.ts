@@ -28,7 +28,7 @@ export class MapService {
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
-  private url_media = '';
+  private url_media = 'http://media-test-service.herokuapp.com/images/event/';
   private url = 'http://a.render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
@@ -179,6 +179,9 @@ export class MapService {
     }
   }
 
+  /** 
+   * reset zoom after pagination
+  */
   ResetZoom() {
     this.map.flyTo({
       center: [-102, 35],
@@ -224,15 +227,22 @@ export class MapService {
   }
 
 
-  AddToCompare(before: string, after: string) {
+  /**
+   * add two images to compare slider
+   * @param beforeObj image to compare before
+   * @param afterObj image to compare after
+   */
+  AddToCompare(beforeObj: any, afterObj: any) {
 
+    // remove previous layer and source from before map
     this.beforeMap.removeLayer('simple-tiles');
     this.beforeMap.removeSource('raster-tiles');
+    // add new source and layer
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
-      tiles: [
-       before
-      ],
+      tiles:
+        this.MakeTileUrl(beforeObj)
+      ,
       tileSize: 256
     });
 
@@ -244,13 +254,19 @@ export class MapService {
       maxzoom: 22
     });
 
+    // set new center
+    this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
+
+
+    // remove previous layer and source from after map
     this.afterMap.removeLayer('simple-tiles');
     this.afterMap.removeSource('raster-tiles');
     this.afterMap.addSource('raster-tiles', {
       type: 'raster',
-      tiles: [
-       after
-      ],
+      tiles:
+        //array of tiles
+        this.MakeTileUrl(afterObj)
+      ,
       tileSize: 256
     });
 
@@ -262,31 +278,46 @@ export class MapService {
       maxzoom: 22
     });
 
-    
+    this.afterMap.setCenter([afterObj.tileCenter_lon, afterObj.tileCenter_lat]);
 
   }
 
-  MakeTileUrl(obj: any): string {
+  /**
+   * make url to antarctica depend on satellite
+   * @param obj image obj 
+   */
+  MakeTileUrl(obj: any): any[] {
+
     let part_url = this.url;
     switch (obj.satelliteName) {
       case 'modis':
-        part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}{x}{y}';
+        part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}/{x}/{y}';
         break;
       case 'Sentinel-2B' || 'Sentinel-2A':
-        part_url += 'S2/' + obj.sceneID + '/B04,B03,B02/{z}{x}{y}';
+        part_url += 'S2/' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
         break;
       case 'landsat-7':
-        part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}{x}{y}';
+        part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}/{x}/{y}';
         break;
       case 'landsat-8':
-        part_url += 'L8/' + obj.sceneID + '/B4,B3,B2/{z}{x}{y}';
+        part_url += 'L8/' + obj.sceneID + '/B4,B3,B2/{z}/{x}/{y}';
         break;
-      
+
 
     }
-    return part_url;
+    // create url to {a-d} servers
+    let arr = [];
+    arr.push(part_url);
+    arr.push(part_url.replace('a', 'b'));
+    arr.push(part_url.replace('a', 'c'));
+    arr.push(part_url.replace('a', 'd'));
+
+    return arr;
   }
 
+  /** 
+   * init map for compare slider
+  */
   InitMapModal() {
 
     this.beforeMap = new mapboxgl.Map({
@@ -311,7 +342,7 @@ export class MapService {
           maxzoom: 22
         }]
       },
-      center: [-118.48178, 34.09454],
+      center: [0, 0],
       zoom: 11
     });
 
@@ -324,7 +355,7 @@ export class MapService {
           'raster-tiles': {
             type: 'raster',
             tiles: [
-              ''  
+              ''
             ],
 
             tileSize: 256
@@ -338,15 +369,20 @@ export class MapService {
           maxzoom: 22
         }]
       },
-      center: [-118.48178, 34.09454],
+      center: [0, 0],
       zoom: 11
     });
 
 
 
+    // add to compare slider
     var map = new Compare(this.beforeMap, this.afterMap, {});
   }
 
+  /**
+   * returns array of sat image object
+   * @param id event id
+   */
   getSatelliteImages(id: number): Observable<any> {
     return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
