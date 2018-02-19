@@ -28,7 +28,7 @@ export class MapService {
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
-  private url_media = '';
+  private url_media = 'http://media-test-service.herokuapp.com/images/event/';
   private url = 'http://a.render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
@@ -270,16 +270,16 @@ export class MapService {
     let part_url = this.url;
     switch (obj.satelliteName) {
       case 'modis':
-        part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}{x}{y}';
+        part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}/{x}/{y}';
         break;
       case 'Sentinel-2B' || 'Sentinel-2B':
-        part_url += 'S2/' + obj.sceneID + '/B04,B03,B02/{z}{x}{y}';
+        part_url += 'S2/' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
         break;
       case 'landsat-7':
-        part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}{x}{y}';
+        part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}/{x}/{y}';
         break;
       case 'landsat-8':
-        part_url += 'L8/' + obj.sceneID + '/B3,B2,B1/{z}{x}{y}';
+        part_url += 'L8/' + obj.sceneID + '/B3,B2,B1/{z}/{x}/{y}';
         break;
     }
     return part_url;
@@ -310,7 +310,7 @@ export class MapService {
         }]
       },
       center: [-118.48178, 34.09454],
-      zoom: 11
+      zoom: 4
     });
 
 
@@ -337,7 +337,7 @@ export class MapService {
         }]
       },
       center: [-118.48178, 34.09454],
-      zoom: 11
+      zoom: 4
     });
 
 
@@ -346,6 +346,7 @@ export class MapService {
   }
 
   getSatelliteImages(id: number): Observable<any> {
+    console.log(this.url_media + id+'/?page=10/');
     return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
 
