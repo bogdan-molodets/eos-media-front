@@ -47,22 +47,15 @@ export class CardComponent implements OnInit {
   }
 
   showCompare(){
-   // this.mapService.InitMapModal();
-   //this.mapService.AddToCompare('http://a.render.eosda.com/L8/LC08_L1TP_041036_20171218_20171224_01_T1/B4,B3,B2/{z}/{x}/{y}','http://a.render.eosda.com/L8/LC08_L1TP_041036_20171202_20171207_01_T1/B4,B3,B2/{z}/{x}/{y}');
    this.mapService.getSatelliteImages(30).subscribe(res=>{
     //this.next_page = res['next'];
     //console.log(res);
     res = Object.values(res['results']);
-    //console.log(res);
-    let images =[];
-    for(var i = 0; i < res.length; i++){
-      images[i] = this.mapService.MakeTileUrl(res[i]);
-    }
-    //console.log(images);
-    this.mapService.AddToCompare(images[0],images[4]);
+   
+    this.mapService.AddToCompare(res[0],res[4]);
     this.mapService.setCompare(true);
   });
-    //this.mapService.setCompare(true);
+    
   }
   // обрабатываем клик и в ивентах находим одно событие
 
