@@ -100,7 +100,12 @@ export class MapService {
    * @param event
    */
   MakeActive(event: Event) {
-    this.eventSource.next(event);
+    //Check if we choose the same event twice
+    if(this.current_id !== event.id){
+      this.eventSource.next(event);
+      this.current_id = event.id;
+      //console.log('changed');
+    }
   }
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
@@ -135,11 +140,7 @@ export class MapService {
         }
       });
     }
-    if(this.current_id !== e.id){
-      this.eventSource.next(e);
-      this.current_id = e.id;
-      console.log('changed');
-    }
+    this.MakeActive(e);
     // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
 
