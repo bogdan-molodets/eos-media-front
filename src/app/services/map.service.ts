@@ -281,6 +281,8 @@ export class MapService {
       case 'landsat-8':
         part_url += 'L8/' + obj.sceneID + '/B3,B2,B1/{z}/{x}/{y}';
         break;
+      
+
     }
     return part_url;
   }
