@@ -343,7 +343,7 @@ export class MapService {
         }]
       },
       center: [0, 0],
-      zoom: 11
+      zoom: 4
     });
 
 
@@ -370,7 +370,7 @@ export class MapService {
         }]
       },
       center: [0, 0],
-      zoom: 11
+      zoom: 4
     });
 
 
@@ -384,6 +384,7 @@ export class MapService {
    * @param id event id
    */
   getSatelliteImages(id: number): Observable<any> {
+    console.log(this.url_media + id+'/?page=10/');
     return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
 
