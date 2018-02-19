@@ -9,7 +9,7 @@ import { EventSatellite } from '../EventSatellite';
   styleUrls: ['./compare.component.css']
 })
 export class CompareComponent implements OnInit {
-  @Input() event: Event;
+  @Input() event: Event; 
   next_page: string;
   constructor(private mapService: MapService) { }
 
@@ -18,6 +18,22 @@ export class CompareComponent implements OnInit {
    
     // init compare modal maps
      this.mapService.InitMapModal();
+     this.mapService.currentEvent.subscribe(event => {
+      try {
+        
+        this.mapService.getSatelliteImages(event.id).subscribe(res => {
+          //this.next_page = res['next'];
+    console.log(res);
+          res = Object.values(res['results']);
+    
+          if (res.length !== 0) {
+            this.mapService.AddToCompare(res[0], res[4]);
+          }
+          
+        });
+      } catch (e) {
+      }
+    });
      /*this.mapService.getSatelliteImages(7).subscribe(res=>{
       this.next_page = res['next'];
       res = res['result'];

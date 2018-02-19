@@ -18,7 +18,7 @@ import * as Compare from 'mapbox-gl-compare';
 @Injectable()
 export class MapService {
 
-
+  current_id: number;
   map: any;
   style: any;
   beforeMap: any;
@@ -135,8 +135,11 @@ export class MapService {
         }
       });
     }
-
-    this.eventSource.next(e);
+    if(this.current_id !== e.id){
+      this.eventSource.next(e);
+      this.current_id = e.id;
+      console.log('changed');
+    }
     // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
 
@@ -150,13 +153,13 @@ export class MapService {
   OnFilter(events: Event[]) {
 
     // hot fix
-    this.map.getSource('polygon').setData({
-      type: 'Feature',
-      geometry: {
-        type: 'Polygon',
-        coordinates: [[0,0],[0,0]]
-      }
-    });
+    // this.map.getSource('polygon').setData({
+    //   type: 'Feature',
+    //   geometry: {
+    //     type: 'Polygon',
+    //     coordinates: [[0,0],[0,0]]
+    //   }
+    // });
 
 
     const el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
