@@ -46,8 +46,8 @@ export class CardComponent implements OnInit {
     
   }
 
-  showCompare(){
-   this.mapService.getSatelliteImages(30).subscribe(res=>{
+  showCompare(id:number){
+   this.mapService.getSatelliteImages(id).subscribe(res=>{
     //this.next_page = res['next'];
     //console.log(res);
     res = Object.values(res['results']);

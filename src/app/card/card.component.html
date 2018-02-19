@@ -5,5 +5,5 @@
     </div>    
     <p class='card-content indent-3'>Event type: {{ event.event_type }}</p>
     <p class='card-content indent-3'>Date of start: {{ event.start_date }}</p>
-    <button class='btn compare-open' (click)='showCompare()'>Compare</button>
+    <button class='btn compare-open' (click)='showCompare(event.id)'>Compare</button>
 </div>

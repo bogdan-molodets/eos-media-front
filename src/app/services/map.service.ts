@@ -384,7 +384,7 @@ export class MapService {
    * @param id event id
    */
   getSatelliteImages(id: number): Observable<any> {
-    console.log(this.url_media + id+'/?page=10/');
+    console.log(this.url_media + id+'/');
     return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
 
