@@ -49,10 +49,11 @@ export class CardComponent implements OnInit {
   showCompare(id:number){
    this.mapService.getSatelliteImages(id).subscribe(res=>{
     //this.next_page = res['next'];
-    //console.log(res);
+  
     res = Object.values(res['results']);
-   
-    this.mapService.AddToCompare(res[0],res[4]);
+    
+   if(res.length!==0){
+    this.mapService.AddToCompare(res[0],res[4]);}
     this.mapService.setCompare(true);
   });
     
