@@ -37,15 +37,22 @@ export class CompareComponent implements OnInit {
      this.mapService.currentEvent.subscribe(event => {
       try {
         
+        this.mapService.getSatelliteImagesCompare(event.id).subscribe(res=>{
+      
+          // check if results empty
+          if (res['results'] && res['results'].length > 1) {            
+            this.mapService.AddToCompare(res['results'][0], res['results'][1]);
+            }else{         
+              // if no res delete previous rasters
+              this.mapService.ClearMaps();
+            }
+        
+          
+        });
+
         this.mapService.getSatelliteImages(event.id).subscribe(res => {
-          this.next_page = res['next'];
-          //console.log(res);
-          res = Object.values(res['results']);
-          this.images = res;
-          console.log(this.images);
-          if (res.length !== 0) {
-            this.mapService.AddToCompare(res[0], res[4]);
-          }
+          this.next_page = res['next'];         
+          res = Object.values(res['results']);      
           
         });
       } catch (e) {
