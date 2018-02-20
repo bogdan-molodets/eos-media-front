@@ -6,3 +6,44 @@
   <div id='before' class='map'></div>
   <div id='after' class='map'></div>
 </div>
+<div class = 'compare-carousel'>
+    <ngx-carousel
+    [inputs]="carouselOne"
+    (carouselLoad)="myfunc($event)">
+    <ngx-tile NgxCarouselItem *ngFor="let image of images">
+      <img   src = 'image.imageURL'>
+    </ngx-tile>
+      <!--<ngx-tile NgxCarouselItem>
+        1
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        2
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        3
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        4
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        5
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        6
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        7
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+        8
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+          9
+      </ngx-tile>
+      <ngx-tile NgxCarouselItem>
+          10
+      </ngx-tile>-->
+      <button NgxCarouselPrev class='leftRs'>&lt;</button>
+      <button NgxCarouselNext class='rightRs'>&gt;</button>
+</ngx-carousel>
+</div>

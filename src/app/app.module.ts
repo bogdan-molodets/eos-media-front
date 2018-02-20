@@ -28,6 +28,9 @@ import {MapService } from './services/map.service';
 import {TweetService} from './services/tweet.service';
 import { NewsService } from './services/news.service';
 
+import { NgxCarouselModule } from 'ngx-carousel';
+import 'hammerjs';
+
 import { SafePipe } from './safe.pipe';
 import { CompareComponent } from './compare/compare.component';
 
@@ -68,7 +71,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: false } // <-- debugging purposes only
-    )
+    ),
+    NgxCarouselModule
    // AngularOpenlayersModule
   ],
   providers: [ EventsService, MapService, TweetService, NewsService ],
