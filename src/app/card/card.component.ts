@@ -43,8 +43,13 @@ export class CardComponent implements OnInit {
     this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
 
     this.tweetService.getTweetsByEventId(event.id);
+
   }
 
+  showCompare(id: number) {
+  
+    this.mapService.setCompare(true);
+  }
   // обрабатываем клик и в ивентах находим одно событие
 
 }

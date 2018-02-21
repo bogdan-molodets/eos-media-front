@@ -72,9 +72,195 @@ app-card{
 app-root{
 	overflow: hidden
 }
-.container{
-	padding: 20px;
+app-compare{
+	width: 90%;
+	height: 90%;
+	position: fixed;
+	visibility: hidden;
+    z-index: 2000;
+    background: #fff;
+	margin: 2.5% 5% 0 5%;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
+.activeCompare{
+	visibility: visible;
+}
+.shadowCompare{
+	width: 100%;
+	height: 100%;
+	position:fixed;
+	z-index: 1999;
+	background-color: rgba(0,0,0,0.5);
+}
+.compare-header{
+	position: absolute;
+	top: 0;
+	height:50px;
+	width: calc(100% - 20px);
+	padding: 10px;
+}
+.compare-container{
+	position: absolute;
+    top: 50px;
+    height: calc(100% - 70px - 200px);
+    width: calc( 100% - 20px);
+    padding: 10px;
+}
+.compare-carousel{
+	position: absolute;
+    bottom: 0;
+    height: calc(200px - 10px);
+    width: calc( 100% - 80px);
+    margin: 10px 40px;
+    overflow: hidden;
+}
+.compare-carousel>h1{
+	min-height: 200px;
+	background-color: #ccc;
+	text-align: center;
+	line-height: 200px;
+  }
+  .tile>img{
+	  width: 100%;
+	  max-height: 95px;
+  }
+  .tile>p{
+	-webkit-margin-before: 0.15em;
+    -webkit-margin-after: 0.15em;
+    -webkit-margin-start: 0.25em;
+    -webkit-margin-end: 0.25em;
+    padding-bottom: 0.5em;
+  }
+  .leftRs {
+	  position: absolute;
+	  margin: auto;
+	  top: 0;
+	  bottom: 40px;
+	  width: 50px;
+	  height: 50px;
+	  box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+	  border-radius: 999px;
+	  left: 0;
+  }
+
+  .rightRs {
+	  position: absolute;
+	  margin: auto;
+	  top: 0;
+	  bottom: 40px;
+	  width: 50px;
+	  height: 50px;
+	  box-shadow: 1px 2px 10px -1px rgba(0, 0, 0, .3);
+	  border-radius: 999px;
+	  right: 0;
+  }
+/*.compare-image{
+	min-width: 190px;
+	width: calc(25% - 20px);
+	height: inherit;
+	background: darkorange;
+	margin-left: 10px;
+	left: 30%;
+	float: left;
+}
+.carousel-items{
+	width: 5000px;
+	height: inherit;
+}
+.cursor-left{
+	position: absolute;
+	left: 10px;
+	width: 20px;
+	height: 20px;
+	top: 85px;
+	border-radius: 50%;
+	background: grey;
+}
+.cursor-right{
+	position: absolute;
+	right: 10px;
+	width: 20px;
+	top: 85px;
+	height: 20px;
+
+	border-radius: 50%;
+	background: grey;
+}*/
+.compare-header>h3{
+	margin: 7px 0 0 0;
+}
+.container{
+	padding: 0 10px;
+}
+.map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: calc(100% - 20px);
+    height: calc(100% - 10px);
+  }
+  .drag-coverage{
+	  visibility: hidden;
+  }
+  .dragActiveLeft{
+	  left:10px;
+	  background-color: rgba(0, 0, 0, .5);
+  }
+  .dragActiveRight{
+	right:10px;
+	background-color: rgba(0, 0, 0, .5);
+	}
+.drop-area{
+	position: absolute;
+    width: 100%;
+    height: 100%;
+}
+  .dragActiveRight,.dragActiveLeft{
+	  visibility: visible;
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  height: calc(100% - 10px);
+	  width: calc(50% - 10px);	  
+	  font-size: 20px;
+	  text-transform: uppercase;
+	  /*background-color: rgba(0, 0, 0, .5);*/
+	  z-index: 100;
+	  color: #F5F5F5;	
+  }
+  .dragActiveRight>h3,.dragActiveLeft>h3{
+	  width: 196px;
+	  margin: 20% calc((100% - 196px)/2);
+  }
+  /*.dragActiveRight:hover,.dragActiveLeft:hover{
+	  opacity: 0.1;
+  }*/
+  .right-date{
+	position: absolute;
+	z-index: 90;
+	top: 20px;
+	right: 20px;
+	background-color: #F5F5F5;
+	border-radius: 4px;
+	padding: 0 10px;
+  }
+  .left-date{
+	position: absolute;
+	z-index: 90;
+	top: 20px;
+	left: 20px;
+	background-color: #F5F5F5;
+	border-radius: 4px;
+	padding: 0 10px;
+  }
+  .no-image{
+	  width: calc(100% - 20px);
+	  height: calc(100% - 20px);
+	  padding: 10px;
+  }
+  .no-image>img{
+	margin: 0 calc((100% - 256px)/2);
+  }
 /**
 * style of event block
 */
@@ -94,15 +280,31 @@ app-root{
 	transition-timing-function: ease-in;
   	transition: 0.2s;
 }
-
-.card-title{
+.card-title-header{
 	position: relative;
+	width: calc(100% - 20px);
+	min-height: 40px;
+	height: auto;
+	padding: 5px 10px;
+}
+.card-title{
+	position: absolute;
 	font-family: 'Montserrat', sans-serif;
-	padding: 10px 10px;
+	padding: 6px 10px;
 	text-transform: uppercase;
 	font-weight: 600;
+	max-width: calc(100% - 55px);
+    left: 40px;
+	word-wrap: break-word;
 	-webkit-margin-before: 0;
     -webkit-margin-after: 0;
+}
+.card-title-image{
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: orange;
 }
 .card-content{
 	position: relative;
@@ -133,8 +335,7 @@ app-root{
 
 
 .card-container{
-	/*margin-top:140px;*/
-	margin-top:35px;
+	margin-top:45px;
 }
 /**
 * logo of header
@@ -328,7 +529,14 @@ label {
 .btn:hover, .filter-button:hover {
     outline: none
 }
-
+.compare-open{
+	margin: 5px 10px;
+}
+.compare-close{
+	position: absolute;
+	right: 10px;
+    margin: 5px 0 0 0;
+}
 /**
 *styles for tweet block(old version)
 **/
@@ -426,12 +634,25 @@ app-auth{
 .fields>input [type='submit']{
 	width: 100%;
 }
-.filter-icon{
+.filter-icon-container{
 	cursor: pointer;
-    position: absolute;
+	position: absolute;
+	width: 32px;
+	height: 32px;
     right: 20px;
     top: 9px;
     border-radius: 100%;
+}
+.filter-icon-container:before{
+	content:'';
+	border-radius: 100%;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+}
+.filter-icon-container:hover:before{
+	box-shadow: 0 1px 3px rgba(0,0,0,1);
+    transition: ease-out .1s;
 }
 .filter-side{
 	left: 0;
@@ -460,10 +681,20 @@ app-auth{
 	padding: 0 10px;
 	position: relative;
 }
+.article-title{
+	position: relative;
+	font-family: 'Montserrat', sans-serif;
+	padding: 10px 10px;
+	text-transform: uppercase;
+	font-weight: 600;
+	word-wrap: break-word;
+	-webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
 .article{
 	background-color: #faf6f4;
 }
-.article>.card-title{
+.article>.article-title{
 	font-size: 13px;
 	font-family: Oswald, sans-serif;
 	color: black;

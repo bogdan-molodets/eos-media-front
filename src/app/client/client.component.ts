@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { MapService } from '../services/map.service';
+import { Event } from '../event';
 
 @Component({
   selector: 'app-client',
@@ -8,10 +10,21 @@ import { Component, OnInit } from '@angular/core';
 export class ClientComponent implements OnInit {
 
   activeBar = '';
+  visible:boolean = false;
+  event:Event;
 
-  constructor() { }
+  constructor(private mapService: MapService) { }
 
   ngOnInit() {
+    this.mapService.currentCompare.subscribe(visible=>{
+      this.visible = visible;
+      if(visible){        
+        this.mapService.currentEvent.subscribe(event=>{
+          this.event = event;
+        });
+      }      
+    }
+    );
   }
 
   setActiveBar(active: string){

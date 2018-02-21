@@ -1,7 +1,9 @@
 <div class='block' id='{{event.id+"card"}}' [ngClass]="{'active': id === event.id}" (click)="onClick(event)">
-    <p class='card-title'>
-        {{ event.title }}
-    </p>
+    <div class='card-title-header'>
+        <div class='card-title-image'><img src='/assets/{{event.event_type}}.png'></div>
+        <p class='card-title'>{{ event.title }}</p>    
+    </div>    
     <p class='card-content indent-3'>Event type: {{ event.event_type }}</p>
     <p class='card-content indent-3'>Date of start: {{ event.start_date }}</p>
+    <button class='btn compare-open' (click)='showCompare(event.id)'>Compare</button>
 </div>

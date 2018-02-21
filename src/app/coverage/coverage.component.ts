@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, HostListener } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Tweet } from '../tweet';
 import { Tweets } from '../tweets';
@@ -26,6 +26,8 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   private twitter: any;
   private callback: () => void;
 
+  next_page: string = null;
+
   selectedTab = 'twitter';
 
   timer = false;
@@ -36,6 +38,13 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
   }
 
+  @HostListener('scroll', ['$event'])
+  onScroll(e) {
+    const bottom = e.target.scrollHeight - e.target.scrollTop - e.target.offsetHeight;
+    if (bottom === 0 && this.next_page !== null && this.selectedTab === 'twitter') {
+      this.getTweets(0, this.next_page);
+    }
+  }
 
   ngOnInit() {
 
@@ -45,7 +54,10 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
         this.getNewsByEventId(event.id);
 
-        this.getTweets(event.id);
+        //remove all child nodes
+        this.emptyCoverage();
+
+        this.getTweets(event.id, null);
       } catch (e) {
         // if no event make empty
 
@@ -91,12 +103,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     });
   }
 
-  getTweets(id: number): void {
-    this.tweetService.getTweetsIdsByEventId(id).subscribe(ids => {
+  getTweets(id: number, next_page: string): void {
+    this.tweetService.getTweetsIdsByEventId(id,next_page).subscribe(ids => {
 
-      //remove all child nodes
-      this.emptyCoverage();
-
+      this.next_page = ids['next'];
+      ids = ids['results'];
       for (let i = 0; i < ids.length; i++) {
 
         twttr.widgets.createTweet(
