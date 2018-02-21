@@ -1,4 +1,4 @@
-<div *ngIf="images == undefined || images.length == 0 ">
+<div *ngIf="images == undefined || images.length < 2 ">
 <div    class='no-image'>
   <button class='btn compare-close' (click)='hideCompare()'>Close</button>
   <h1 *ngIf="event !==undefined">Images of "{{event.title}}" are coming soon...</h1>

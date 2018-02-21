@@ -90,9 +90,12 @@ export class EventComponent implements OnInit {
     }
 
   }
-
+  /**
+   * Set filter visible
+   */
   setVisible() {
     this.visible = !this.visible;
+    //scroll to the top when filter is visible (because filter block has relative position)
     if (this.visible === true) {
       document.querySelector('.target').scrollIntoView({
         behavior: 'smooth'
@@ -100,16 +103,25 @@ export class EventComponent implements OnInit {
     }
   }
 
+  /**
+   * Emit changing in active types by filter icon click
+   * @param event - new array of active types
+   */
   viewChanges(event) {
     this.active_types = event;
-    this.setVisible();
+    //this.setVisible();
     //call filtering on filter icon click
     this.getEventsByFilters();
 
   }
+
+  /**
+   * Emit changing in name search by enter click
+   * @param event - current value in search input
+   */
   viewTitle(event) {
     this.title = event;
-    this.setVisible();
+    //this.setVisible();
     //call filtering on Enter click
     this.getEventsByFilters();
 

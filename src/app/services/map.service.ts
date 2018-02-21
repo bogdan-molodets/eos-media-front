@@ -307,7 +307,8 @@ export class MapService {
       case 'modis':
         part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}/{x}/{y}';
         break;
-      case 'Sentinel-2B' || 'Sentinel-2A':
+      case 'Sentinel-2A' :
+      case 'Sentinel-2B' :
         part_url += 'S2' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
         break;
       case 'landsat-7':
@@ -424,6 +425,12 @@ export class MapService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  public changeHttp(res) {
+    res["imageURL"] = res["imageURL"].replace('http:','https:');
+    console.log(res);
+    return res;
   }
 
 

@@ -33,6 +33,7 @@ export class CompareComponent implements OnInit {
           
           // check if results empty
           if (res['results'] && res['results'].length > 1) {
+            
             this.leftImage = res['results'][0];
             this.rightImage = res['results'][1];            
             this.mapService.AddToCompare(this.leftImage, this.rightImage);
@@ -46,8 +47,8 @@ export class CompareComponent implements OnInit {
 
         this.mapService.getSatelliteImages(event.id).subscribe(res => {
           this.next_page = res['next'];         
-          this.images = Object.values(res['results']);      
-          
+          this.images = Object.values(res['results']).map(this.mapService.changeHttp);      
+          console.log(this.images);
         });
       } catch (e) {
       }
