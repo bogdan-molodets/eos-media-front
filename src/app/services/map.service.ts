@@ -29,7 +29,7 @@ export class MapService {
 
   // url to satellite images
   private url_media = 'https://media-test-service.herokuapp.com/images/event/'; 
-  private url = 'http://a.render.eosda.com/';
+  private url = 'https://render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
   constructor(private httpClient: HttpClient) {
@@ -322,9 +322,9 @@ export class MapService {
     // create url to {a-d} servers
     let arr = [];
     arr.push(part_url);
-    arr.push(part_url.replace('a', 'b'));
+    /*arr.push(part_url.replace('a', 'b'));
     arr.push(part_url.replace('a', 'c'));
-    arr.push(part_url.replace('a', 'd'));
+    arr.push(part_url.replace('a', 'd'));*/
 
     return arr;
   }
