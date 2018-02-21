@@ -122,7 +122,7 @@ export class MapService {
     });
 
     // check if event has an aoi and draw it
-    if (e.affected_area) {
+    if (e.affected_area && e.affected_area['coordinates'].length>0) {
       this.map.getSource('polygon').setData({
         type: 'Feature',
         geometry: {
@@ -244,7 +244,7 @@ export class MapService {
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
       tiles:
-        this.MakeTileUrl(afterObj)
+        this.MakeTileUrl(beforeObj)
       ,
       tileSize: 256
     });
@@ -267,7 +267,7 @@ export class MapService {
       tiles:
         //array of tiles
 
-        this.MakeTileUrl(beforeObj)
+        this.MakeTileUrl(afterObj)
       ,
       tileSize: 256
     });
@@ -357,7 +357,7 @@ export class MapService {
         }]
       },
       center: [0, 0],
-      zoom: 4
+      zoom: 7
     });
 
 
@@ -384,7 +384,7 @@ export class MapService {
         }]
       },
       center: [0, 0],
-      zoom: 4
+      zoom: 7
     });
 
 

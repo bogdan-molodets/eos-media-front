@@ -1,49 +1,45 @@
-<div class = 'compare-header'>
+<div class='compare-header'>
   <button class='btn compare-close' (click)='hideCompare()'>Close</button>
-  <h3 *ngIf="event !==undefined" >{{event.title}}</h3>
-</div> 
-<div class = 'compare-container'>
+  <h3 *ngIf="event !==undefined">{{event.title}}</h3>
+
+</div>
+<div class='compare-container'>
+  <div class='drag-coverage' [ngClass]="{'dragActiveLeft': dragActiveLeft === true}" (dragover)="dragOver($event, 'left')"
+    (drop)="dropImage($event, 'left')">
+    <h3>Drop to left</h3>
+  </div>
+  <div class='drag-coverage' [ngClass]="{'dragActiveRight': dragActiveRight === true}" (dragover)="dragOver($event, 'right')"
+    (drop)="dropImage($event, 'right')">
+    <h3>Drop to right</h3>
+  </div>
   <div id='before' class='map'></div>
   <div id='after' class='map'></div>
+  <div *ngIf="leftImage !== undefineed && rightImage !== undefineed">
+    <div class='left-date'>
+      <p>{{leftImage.date}}</p>
+    </div>
+    <div class='right-date'>
+      <p>{{rightImage.date}}</p>
+    </div>
+  </div>
+
 </div>
-<div class = 'compare-carousel'>
-    <ngx-carousel
-    [inputs]="carouselOne"
-    (carouselLoad)="myfunc($event)">
-    <ngx-tile NgxCarouselItem *ngFor="let image of images">
-      <img   src = 'image.imageURL'>
+<div class='compare-carousel'>
+  <ngx-carousel [inputs]="carouselOne" (carouselLoad)="myfunc($event)">
+    <ngx-tile draggable="true" NgxCarouselItem *ngFor="let image of images" (dragstart)="dragStart($event, image)">
+      <img src='{{image.imageURL}}'>
+      <p>{{image.satelliteName}} | {{image.date}} | {{image.cloudCoverage}}</p>
     </ngx-tile>
-      <!--<ngx-tile NgxCarouselItem>
-        1
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        2
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        3
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        4
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        5
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        6
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        7
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-        8
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-          9
-      </ngx-tile>
-      <ngx-tile NgxCarouselItem>
-          10
-      </ngx-tile>-->
-      <button NgxCarouselPrev class='leftRs'>&lt;</button>
-      <button NgxCarouselNext class='rightRs'>&gt;</button>
-</ngx-carousel>
+
+    <button NgxCarouselPrev class='leftRs'>&lt;</button>
+    <button NgxCarouselNext class='rightRs'>&gt;</button>
+  </ngx-carousel>
 </div>
+
+<!--</div>-->
+
+<!--<div  *ngIf="images == undefined || images.length == 0 "  class='no-image'>
+    <button class='btn compare-close' (click)='hideCompare()'>Close</button>
+    <h1 *ngIf="event !==undefined">Images of "{{event.title}}" are coming soon...</h1>
+    <img src="assets/Satellite.png">
+</div>-->
