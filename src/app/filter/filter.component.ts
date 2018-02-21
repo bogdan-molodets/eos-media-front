@@ -30,20 +30,15 @@ export class FilterComponent implements OnInit {
   }
 
   CheckType(e: any, event_type: string): any{
-    //console.log(this.active_types);
     if (this.active_types.indexOf(event_type) !== -1){
-      console.log('exist');
       this.active_types.splice(this.active_types.indexOf(event_type), 1);
     }else{
-      console.log('doesnt exist');
       this.active_types.push(event_type);
     }
-    //console.log(this.active_types);
     this.changeActiveTypes.emit(this.active_types);
   }
 
   CheckTitle(e: any, title: string): any{
-    //console.log(title);
     this.title = title;
     this.changeTitle.emit(this.title);
   }

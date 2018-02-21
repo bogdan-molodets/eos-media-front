@@ -48,7 +48,7 @@ export class CompareComponent implements OnInit {
         this.mapService.getSatelliteImages(event.id).subscribe(res => {
           this.next_page = res['next'];         
           this.images = Object.values(res['results']).map(this.mapService.changeHttp);      
-          console.log(this.images);
+          
         });
       } catch (e) {
       }
@@ -87,8 +87,6 @@ export class CompareComponent implements OnInit {
    */
   dropImage(event, side){
     event.preventDefault();
-    console.log('drop image to compare');
-    console.log(this.currentImage);
     switch(side){
       case 'left':{
         this.leftImage = this.currentImage;
@@ -113,7 +111,6 @@ export class CompareComponent implements OnInit {
    * @param image - current drag variable
    */
   dragStart(event, image){
-    console.log('drop start');
     this.currentImage = image;
     this.dragActiveRight = true;
     this.dragActiveLeft = true;

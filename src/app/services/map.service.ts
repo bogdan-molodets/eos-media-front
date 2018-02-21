@@ -429,7 +429,6 @@ export class MapService {
 
   public changeHttp(res) {
     res["imageURL"] = res["imageURL"].replace('http:','https:');
-    console.log(res);
     return res;
   }
 

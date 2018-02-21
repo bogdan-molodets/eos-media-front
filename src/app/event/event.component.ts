@@ -36,9 +36,7 @@ export class EventComponent implements OnInit {
   @HostListener('scroll', ['$event'])
   onScroll(e) {
     const bottom = e.target.scrollHeight - e.target.scrollTop - e.target.offsetHeight;
-    //console.log(bottom);
     if (bottom === 0 && this.next_page !== null) {
-      //console.log("end of block"); if (filter === true) ? this.getEventsByFilters() : this.getEvents();
       this.getEvents(this.next_page);
 
     }

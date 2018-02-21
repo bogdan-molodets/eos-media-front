@@ -23,6 +23,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   tweet: Tweets;
   html: String[];
   news: News[];
+  ids: any[];
   private twitter: any;
   private callback: () => void;
 
@@ -102,7 +103,6 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       //change url of image( http to https)
       this.news.map((article)=>{       
         article['urlToImage'] = article['urlToImage'].replace('http:','https:');
-        console.log(article['urlToImage']);
       });
     });
   }
@@ -111,11 +111,11 @@ export class CoverageComponent implements OnInit, AfterViewInit {
     this.tweetService.getTweetsIdsByEventId(id,next_page).subscribe(ids => {
 
       this.next_page = ids['next'];
-      ids = ids['results'];
-      for (let i = 0; i < ids.length; i++) {
+      this.ids = ids['results'];
+      for (let i = 0; i < this.ids.length; i++) {
 
         twttr.widgets.createTweet(
-          ids[i].tweet_real_id,
+          this.ids[i].tweet_real_id,
           document.getElementById('twitter-card'),
           {
 
@@ -123,7 +123,6 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
           })
           .then(function (el) {
-           // console.log("Tweet displayed.")
           });
 
       }
