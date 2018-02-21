@@ -188,8 +188,8 @@ export class MapService {
   */
   ResetZoom() {
     this.map.flyTo({
-      center: [-102, 35],
-      zoom: 4
+      center: [39, 34],
+      zoom: 1
     });
   }
 
