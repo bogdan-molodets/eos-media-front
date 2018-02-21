@@ -254,9 +254,12 @@ app-compare{
 	padding: 0 10px;
   }
   .no-image{
+	  position: absolute;
 	  width: calc(100% - 20px);
 	  height: calc(100% - 20px);
 	  padding: 10px;
+	  z-index: 100;
+	  background-color: white;
   }
   .no-image>img{
 	margin: 0 calc((100% - 256px)/2);

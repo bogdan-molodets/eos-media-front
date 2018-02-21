@@ -1,3 +1,10 @@
+<div *ngIf="images == undefined || images.length == 0 ">
+<div    class='no-image'>
+  <button class='btn compare-close' (click)='hideCompare()'>Close</button>
+  <h1 *ngIf="event !==undefined">Images of "{{event.title}}" are coming soon...</h1>
+  <img src="assets/Satellite.png">
+</div>
+</div>
 <div class='compare-header'>
   <button class='btn compare-close' (click)='hideCompare()'>Close</button>
   <h3 *ngIf="event !==undefined">{{event.title}}</h3>
@@ -38,8 +45,3 @@
 
 <!--</div>-->
 
-<!--<div  *ngIf="images == undefined || images.length == 0 "  class='no-image'>
-    <button class='btn compare-close' (click)='hideCompare()'>Close</button>
-    <h1 *ngIf="event !==undefined">Images of "{{event.title}}" are coming soon...</h1>
-    <img src="assets/Satellite.png">
-</div>-->

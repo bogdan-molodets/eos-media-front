@@ -95,11 +95,15 @@ export class CoverageComponent implements OnInit, AfterViewInit {
 
 
 
-
+  
   getNewsByEventId(id: number): void {
     this.newsService.getNewsByEventId(id).subscribe(news => {
       this.news = Object.values(news);
-
+      //change url of image( http to https)
+      this.news.map((article)=>{       
+        article['urlToImage'] = article['urlToImage'].replace('http:','https:');
+        console.log(article['urlToImage']);
+      });
     });
   }
 

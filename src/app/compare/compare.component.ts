@@ -70,12 +70,20 @@ export class CompareComponent implements OnInit {
     }
 
   }
-
+  /**
+   * Event when you set drop target
+   * @param event 
+   * @param side - focused side
+   */
   dragOver(event, side){
     event.preventDefault();
-    console.log('dragOver');
   }
 
+  /**
+   * Drop image event, checked focused side and change image
+   * @param event 
+   * @param side - focused side 
+   */
   dropImage(event, side){
     event.preventDefault();
     console.log('drop image to compare');
@@ -98,10 +106,11 @@ export class CompareComponent implements OnInit {
     this.dragActiveLeft = false;
   }
 
-  dragLeave(event,side){
-    console.log(`you left ${side} side`);
-  }
-
+  /**
+   * drag start event listener, set drag image, set drag blur 
+   * @param event 
+   * @param image - current drag variable
+   */
   dragStart(event, image){
     console.log('drop start');
     this.currentImage = image;
@@ -109,19 +118,10 @@ export class CompareComponent implements OnInit {
     this.dragActiveLeft = true;
   }
 
-  dragEnd(event){
-    console.log('drag end');
-    console.log(event);
-    this.dragActiveRight = false;
-    this.dragActiveLeft = false;
-
-  }
-
   public myfunc(event: Event) {}
   
+  /** Hide compare after button click**/
   hideCompare(){
-   
-   
     this.mapService.setCompare(false);
   }
 }
