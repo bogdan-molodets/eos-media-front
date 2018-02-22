@@ -28,7 +28,7 @@ export class MapService {
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
-  private url_media = 'https://media-test-service.herokuapp.com/images/event/'; 
+  private url_media = 'https://media-test-service.herokuapp.com/images/event/';
   private url = 'https://render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
@@ -122,7 +122,7 @@ export class MapService {
     });
 
     // check if event has an aoi and draw it
-    if (e.affected_area && e.affected_area['coordinates'].length>0) {
+    if (e.affected_area && e.affected_area['coordinates'].length > 0) {
       this.map.getSource('polygon').setData({
         type: 'Feature',
         geometry: {
@@ -154,15 +154,15 @@ export class MapService {
   OnFilter(events: Event[]) {
 
     // hot fix
-    // this.map.getSource('polygon').setData({
-    //   type: 'Feature',
-    //   geometry: {
-    //     type: 'Polygon',
-    //     coordinates: [[0,0],[0,0]]
-    //   }
-    // });
-
-
+    if (this.map.getSource('polygon')) {
+      this.map.getSource('polygon').setData({
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[0, 0], [0, 0]]
+        }
+      });
+    }
     const el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
 
     this.CreateMarkers(events);
@@ -286,8 +286,8 @@ export class MapService {
 
   ClearMaps() {
     // delete only if sources and layers are present
-    if(!this.beforeMap.getSource('raster-tiles'))
-    return;
+    if (!this.beforeMap.getSource('raster-tiles'))
+      return;
     // remove previous layer and source from before map
     this.beforeMap.removeLayer('simple-tiles');
     this.beforeMap.removeSource('raster-tiles');
@@ -307,8 +307,8 @@ export class MapService {
       case 'modis':
         part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}/{x}/{y}';
         break;
-      case 'Sentinel-2A' :
-      case 'Sentinel-2B' :
+      case 'Sentinel-2A':
+      case 'Sentinel-2B':
         part_url += 'S2' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
         break;
       case 'landsat-7':
@@ -428,7 +428,7 @@ export class MapService {
   }
 
   public changeHttp(res) {
-    res["imageURL"] = res["imageURL"].replace('http:','https:');
+    res["imageURL"] = res["imageURL"].replace('http:', 'https:');
     return res;
   }
 
