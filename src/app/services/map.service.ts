@@ -259,7 +259,7 @@ export class MapService {
 
     // set new center
     this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
-
+    this.beforeMap.setZoom(7);
 
 
     this.afterMap.addSource('raster-tiles', {
@@ -281,7 +281,7 @@ export class MapService {
     });
 
     this.afterMap.setCenter([afterObj.tileCenter_lon, afterObj.tileCenter_lat]);
-
+    this.afterMap.setZoom(7);
   }
 
   ClearMaps() {
