@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-event [ngClass]='{activeSideBar: activeBar === "event"}'></app-event>
+<app-event id='event-container' [ngClass]='{activeSideBar: activeBar === "event"}'></app-event>
 <app-coverage [ngClass]='{activeSideBar: activeBar === "menu"}'></app-coverage>
 <app-map-box [ngClass]= "{hidenMap: activeBar !== '' }"></app-map-box>
 <div [ngClass]="{shadowCompare : visible === true}"></div>

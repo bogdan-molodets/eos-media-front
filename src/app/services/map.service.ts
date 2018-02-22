@@ -143,7 +143,7 @@ export class MapService {
     this.MakeActive(e);
     // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
-
+    document.getElementById('event-container').scrollTop -= 50;
   }
 
   /**
