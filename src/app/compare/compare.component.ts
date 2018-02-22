@@ -90,17 +90,18 @@ export class CompareComponent implements OnInit {
     switch(side){
       case 'left':{
         this.leftImage = this.currentImage;
+        this.mapService.AddToCompare(this.leftImage, this.rightImage);
         break;
       }
       case 'right':{
         this.rightImage = this.currentImage;
+        this.mapService.AddToCompare(this.leftImage, this.rightImage);
         break;
       }
       default:{
         break;
       }
     }
-    this.mapService.AddToCompare(this.leftImage, this.rightImage);
     this.dragActiveRight = false;
     this.dragActiveLeft = false;
   }
@@ -120,6 +121,8 @@ export class CompareComponent implements OnInit {
   
   /** Hide compare after button click**/
   hideCompare(){
+    this.dragActiveRight = false;
+    this.dragActiveLeft = false;
     this.mapService.setCompare(false);
   }
 }

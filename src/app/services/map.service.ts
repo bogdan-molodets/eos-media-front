@@ -28,7 +28,7 @@ export class MapService {
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
-  private url_media = 'https://media-test-service.herokuapp.com/images/event/'; 
+  private url_media = 'http://media-test-service.herokuapp.com/images/event/'; 
   private url = 'https://render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();

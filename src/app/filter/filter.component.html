@@ -1,7 +1,7 @@
 
 <div [ngClass]='{show : isVisible === true}' class='filter-side'>
     <div class='search'>
-        <input type='search' id='search' (keyup.enter)='CheckTitle($event,search.value)' placeholder="Search" #search>
+        <input type='search' id='search' (input)='CheckTitle($event,search.value)' (keyup.enter)='CheckTitle($event,search.value)' placeholder="Search" #search>
         
     </div>
     <ul class='filter'>

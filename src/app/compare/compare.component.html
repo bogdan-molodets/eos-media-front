@@ -5,6 +5,7 @@
   <img src="assets/Satellite.png">
 </div>
 </div>
+<div class='drop-area' (dragover)="dragOver($event, 'other')" (drop)="dropImage($event, 'other')">
 <div class='compare-header'>
   <button class='btn compare-close' (click)='hideCompare()'>Close</button>
   <h3 *ngIf="event !==undefined">{{event.title}}</h3>
@@ -42,6 +43,5 @@
     <button NgxCarouselNext class='rightRs'>&gt;</button>
   </ngx-carousel>
 </div>
-
-<!--</div>-->
+</div>
 
