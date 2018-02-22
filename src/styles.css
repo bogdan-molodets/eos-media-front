@@ -103,8 +103,16 @@ app-compare{
 	position: absolute;
     top: 50px;
     height: calc(100% - 70px - 200px);
-    width: calc( 100% - 20px);
-    padding: 10px;
+    width: calc( 100% - 20px - 300px);
+	padding: 10px;
+}
+.compare-info{
+	position: absolute;
+	top: 50px;
+	height: calc(100% - 80px - 200px);
+	width: calc(300px - 20px);
+	right: 0 ;
+	padding: 10px;
 }
 .compare-carousel{
 	position: absolute;

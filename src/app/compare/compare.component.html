@@ -32,6 +32,18 @@
   </div>
 
 </div>
+<div *ngIf="event !==undefined" class='compare-info'>
+  <h2>Info</h2>
+  <p>Date of start: {{event.start_date}}</p>
+  <p>Date of end: {{event.end_date}}</p>
+  <h3>Place</h3>
+  <p></p>
+  <h3>Coordinates</h3>
+  <p>Latitude: {{event.event_lat}}</p>
+  <p>Longtitude: {{event.event_lon}}</p>
+  
+  
+</div>
 <div class='compare-carousel'>
   <ngx-carousel [inputs]="carouselOne" (carouselLoad)="myfunc($event)">
     <ngx-tile draggable="true" NgxCarouselItem *ngFor="let image of images" (dragstart)="dragStart($event, image)">

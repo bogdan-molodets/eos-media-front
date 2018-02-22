@@ -23,7 +23,6 @@ export class CompareComponent implements OnInit {
 
   images:any[];
   ngOnInit() {
-    
     // init compare modal maps
      this.mapService.InitMapModal();
      this.mapService.currentEvent.subscribe(event => {
@@ -66,7 +65,7 @@ export class CompareComponent implements OnInit {
       },
       load: 2,
       touch: true,
-      loop: true,
+      loop: false,
       easing: 'ease'
     }
 
