@@ -15,6 +15,33 @@ import { catchError } from 'rxjs/operators';
 import { EventSatellite } from '../EventSatellite';
 import * as Compare from 'mapbox-gl-compare';
 
+// class Map  {
+//   container: string;
+//   style?: string;
+//   center?: any;
+//   zoom?: number;
+//   attributionControl?: boolean;
+//   private map: any;
+//   /**
+//    *
+//    */
+//   constructor(cont: string, st?: string, cen?: any, z?: number, attrib?: boolean) {
+   
+//     this.map = new mapboxgl.Map({
+//       container: cont,
+//       style: st,
+//       center: cen,
+//       zoom: z,
+//       attributionControl: attrib
+//     });
+
+//   }
+
+//   getMap() {
+//     return this.map;
+//   }
+// }
+
 @Injectable()
 export class MapService {
 
@@ -46,13 +73,22 @@ export class MapService {
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
 
+// this.map=new Map('map', window.location.origin + '/assets/osm.json',[-102, 35],4,false);
+// this.map.getMap().addControl(new mapboxgl.NavigationControl());
+// this.map.getMap().addControl(new mapboxgl.ScaleControl(), 'bottom-left');
+// this.map.getMap().addControl(new MapboxGeocoder({
+//   accessToken: mapboxgl.accessToken,
+//   placeholder: 'Search for a place',
+// }), 'top-left');
+
     this.map = new mapboxgl.Map({
       container: 'map',
       style: window.location.origin + '/assets/osm.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
-    }).addControl(new mapboxgl.NavigationControl());
+    }).
+   addControl(new mapboxgl.NavigationControl());
 
     this.map.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
 
@@ -240,6 +276,17 @@ export class MapService {
 
     //console.log(  this.MakeTileUrl(afterObj));
     this.ClearMaps();
+
+    var layers = this.beforeMap.getStyle().layers;
+    // Find the index of the first symbol layer in the map style
+    var firstSymbolId;
+    for (var i = 0; i < layers.length; i++) {
+      if (layers[i].type === 'symbol') {
+        firstSymbolId = layers[i].id;
+
+        break;
+      }
+    }
     // add new source and layer
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
@@ -255,7 +302,9 @@ export class MapService {
       source: 'raster-tiles',
       minzoom: 0,
       maxzoom: 22
-    });
+    }, firstSymbolId);
+
+
 
     // set new center
     this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
@@ -278,7 +327,8 @@ export class MapService {
       source: 'raster-tiles',
       minzoom: 0,
       maxzoom: 22
-    });
+    }, firstSymbolId);
+
 
     this.afterMap.setCenter([afterObj.tileCenter_lon, afterObj.tileCenter_lat]);
     this.afterMap.setZoom(7);
@@ -289,9 +339,11 @@ export class MapService {
     if (!this.beforeMap.getSource('raster-tiles'))
       return;
     // remove previous layer and source from before map
+    // this.beforeMap.removeLayer('overlay');
     this.beforeMap.removeLayer('simple-tiles');
     this.beforeMap.removeSource('raster-tiles');
     // remove previous layer and source from after map
+    //this.afterMap.removeLayer('overlay');
     this.afterMap.removeLayer('simple-tiles');
     this.afterMap.removeSource('raster-tiles');
   }
@@ -335,58 +387,61 @@ export class MapService {
   */
   InitMapModal() {
 
+
+
     this.beforeMap = new mapboxgl.Map({
       container: 'before',
-      style: {
-        version: 8,
-        sources: {
-          'raster-tiles': {
-            type: 'raster',
-            tiles: [
-              ''
-            ],
-
-            tileSize: 256
-          }
-        },
-        layers: [{
-          id: 'simple-tiles',
-          type: 'raster',
-          source: 'raster-tiles',
-          minzoom: 0,
-          maxzoom: 22
-        }]
-      },
+      style: window.location.origin + '/assets/osm.json',
       center: [0, 0],
       zoom: 7
+    });
+
+    var m = this.beforeMap;
+    this.beforeMap.on('load', function () {
+      m.addSource('raster-tiles', {
+        type: 'raster',
+        tiles: [
+          ''
+        ],
+
+        tileSize: 256
+      });
+      m.addLayer({
+        id: 'simple-tiles',
+        type: 'raster',
+        source: 'raster-tiles',
+        minzoom: 0,
+        maxzoom: 22
+      });
     });
 
 
     this.afterMap = new mapboxgl.Map({
       container: 'after',
-      style: {
-        version: 8,
-        sources: {
-          'raster-tiles': {
-            type: 'raster',
-            tiles: [
-              ''
-            ],
-
-            tileSize: 256
-          }
-        },
-        layers: [{
-          id: 'simple-tiles',
-          type: 'raster',
-          source: 'raster-tiles',
-          minzoom: 0,
-          maxzoom: 22
-        }]
-      },
+      style: window.location.origin + '/assets/osm.json',
       center: [0, 0],
       zoom: 7
     });
+
+    var ma = this.afterMap;
+    this.beforeMap.on('load', function () {
+      ma.addSource('raster-tiles', {
+        type: 'raster',
+        tiles: [
+          ''
+        ],
+
+        tileSize: 256
+      });
+      ma.addLayer({
+        id: 'simple-tiles',
+        type: 'raster',
+        source: 'raster-tiles',
+        minzoom: 0,
+        maxzoom: 22
+      });
+    });
+
 
 
 
