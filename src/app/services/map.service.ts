@@ -14,7 +14,8 @@ import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 import { EventSatellite } from '../EventSatellite';
 import * as Compare from 'mapbox-gl-compare';
-
+import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
+import * as turf from 'turf';
 // class Map  {
 //   container: string;
 //   style?: string;
@@ -26,7 +27,7 @@ import * as Compare from 'mapbox-gl-compare';
 //    *
 //    */
 //   constructor(cont: string, st?: string, cen?: any, z?: number, attrib?: boolean) {
-   
+
 //     this.map = new mapboxgl.Map({
 //       container: cont,
 //       style: st,
@@ -73,13 +74,7 @@ export class MapService {
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
 
-// this.map=new Map('map', window.location.origin + '/assets/osm.json',[-102, 35],4,false);
-// this.map.getMap().addControl(new mapboxgl.NavigationControl());
-// this.map.getMap().addControl(new mapboxgl.ScaleControl(), 'bottom-left');
-// this.map.getMap().addControl(new MapboxGeocoder({
-//   accessToken: mapboxgl.accessToken,
-//   placeholder: 'Search for a place',
-// }), 'top-left');
+  
 
     this.map = new mapboxgl.Map({
       container: 'map',
@@ -88,7 +83,7 @@ export class MapService {
       zoom: 4,
       attributionControl: false
     }).
-   addControl(new mapboxgl.NavigationControl());
+      addControl(new mapboxgl.NavigationControl());
 
     this.map.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
 
@@ -96,6 +91,39 @@ export class MapService {
       accessToken: mapboxgl.accessToken,
       placeholder: 'Search for a place',
     }), 'top-left');
+
+    let draw = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+
+        polygon: true,
+
+        trash: true
+      }
+    });
+   
+   // var featureIds = draw.add(feature);
+    //console.log(featureIds);
+    this.map.addControl(draw);
+    
+    // this.map.on('draw.create', updateArea);
+    // this.map.on('draw.delete', updateArea);
+    // this.map.on('draw.update', updateArea);
+    
+    
+    // function updateArea(e) {
+    //     var data = draw.getAll();
+    //     var answer = document.getElementById('calculated-area');
+    //     if (data.features.length > 0) {
+    //         var area = turf.area(data);
+    //         // restrict to area to 2 decimal points
+    //         var rounded_area = Math.round(area*100)/100;
+    //         answer.innerHTML = '<p><strong>' + rounded_area + '</strong></p><p>square meters</p>';
+    //     } else {
+    //         answer.innerHTML = '';
+    //         // if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
+    //     }
+    // }
 
     const m = this.map;
     this.map.on('load', function () {
@@ -287,6 +315,7 @@ export class MapService {
         break;
       }
     }
+    console.log('added compare');
     // add new source and layer
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
@@ -336,16 +365,16 @@ export class MapService {
 
   ClearMaps() {
     // delete only if sources and layers are present
-    if (!this.beforeMap.getSource('raster-tiles'))
-      return;
-    // remove previous layer and source from before map
-    // this.beforeMap.removeLayer('overlay');
-    this.beforeMap.removeLayer('simple-tiles');
-    this.beforeMap.removeSource('raster-tiles');
-    // remove previous layer and source from after map
-    //this.afterMap.removeLayer('overlay');
-    this.afterMap.removeLayer('simple-tiles');
-    this.afterMap.removeSource('raster-tiles');
+    if (this.beforeMap.getSource('raster-tiles')) {
+      // remove previous layer and source from before map
+      // this.beforeMap.removeLayer('overlay');
+      this.beforeMap.removeLayer('simple-tiles');
+      this.beforeMap.removeSource('raster-tiles');
+      // remove previous layer and source from after map
+      //this.afterMap.removeLayer('overlay');
+      this.afterMap.removeLayer('simple-tiles');
+      this.afterMap.removeSource('raster-tiles');
+    }
   }
 
   /**
@@ -396,24 +425,27 @@ export class MapService {
       zoom: 7
     });
 
-    var m = this.beforeMap;
-    this.beforeMap.on('load', function () {
-      m.addSource('raster-tiles', {
-        type: 'raster',
-        tiles: [
-          ''
-        ],
+  //   var m = this.beforeMap;
+   
+  //   this.beforeMap.on('load', function () {
+  //  //   console.log(m.getSource('raster-tiles'));
+  //     console.log('added init');
+  //     m.addSource('raster-tiles', {
+  //       type: 'raster',
+  //       tiles: [
+  //         ''
+  //       ],
 
-        tileSize: 256
-      });
-      m.addLayer({
-        id: 'simple-tiles',
-        type: 'raster',
-        source: 'raster-tiles',
-        minzoom: 0,
-        maxzoom: 22
-      });
-    });
+  //       tileSize: 256
+  //     });
+  //     m.addLayer({
+  //       id: 'simple-tiles',
+  //       type: 'raster',
+  //       source: 'raster-tiles',
+  //       minzoom: 0,
+  //       maxzoom: 22
+  //     });
+  //   });
 
 
     this.afterMap = new mapboxgl.Map({
@@ -423,24 +455,24 @@ export class MapService {
       zoom: 7
     });
 
-    var ma = this.afterMap;
-    this.beforeMap.on('load', function () {
-      ma.addSource('raster-tiles', {
-        type: 'raster',
-        tiles: [
-          ''
-        ],
+    // var ma = this.afterMap;
+    // this.beforeMap.on('load', function () {
+    //   ma.addSource('raster-tiles', {
+    //     type: 'raster',
+    //     tiles: [
+    //       ''
+    //     ],
 
-        tileSize: 256
-      });
-      ma.addLayer({
-        id: 'simple-tiles',
-        type: 'raster',
-        source: 'raster-tiles',
-        minzoom: 0,
-        maxzoom: 22
-      });
-    });
+    //     tileSize: 256
+    //   });
+    //   ma.addLayer({
+    //     id: 'simple-tiles',
+    //     type: 'raster',
+    //     source: 'raster-tiles',
+    //     minzoom: 0,
+    //     maxzoom: 22
+    //   });
+    // });
 
 
 
