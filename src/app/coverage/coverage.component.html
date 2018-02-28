@@ -31,7 +31,10 @@
 		<app-news *ngFor="let article of news" [article]='article'></app-news>
 	</div>
 	<div [ngClass]='{noActiveContainer:  selectedTab !== "photos" }' class='photos-container'>
-		<app-photos></app-photos>
+			<div *ngIf="photos==undefined || photos.length==0">
+					<h3>No photos for this event!</h3>
+			</div>
+		<app-photos *ngFor="let photo of photos" [photo]='photo'></app-photos>
 	</div>
 </div>
 
