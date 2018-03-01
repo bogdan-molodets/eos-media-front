@@ -51,6 +51,8 @@ export class MapService {
   style: any;
   beforeMap: any;
   afterMap: any;
+  feature: any;
+  draw:any;
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
@@ -74,7 +76,7 @@ export class MapService {
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
 
-  
+
 
     this.map = new mapboxgl.Map({
       container: 'map',
@@ -101,33 +103,49 @@ export class MapService {
         trash: true
       }
     });
-   
-   // var featureIds = draw.add(feature);
+
+    // var featureIds = draw.add(feature);
     //console.log(featureIds);
     this.map.addControl(draw);
-    
+
     this.map.on('draw.create', updateArea);
     this.map.on('draw.delete', updateArea);
     this.map.on('draw.update', updateArea);
+
+    function updateArea(e) {
+      let data = draw.getAll();
+      // delete all features when new one is created
+      if (e.type = 'draw.create') {
+        if (data.features.length > 1) {
+          draw.delete(this.feature.id);
+        }
+        // current feature
+        this.feature = e.features[0];
+      }
   
+      var answer = document.getElementById('calculated-area');
+       data = draw.getAll();
+      if (data.features.length > 0) {
+        let area = turf.area(data);      
+        // convert to km2 if area more than 1000000
+        if (area < (1e6)) {
+          console.log('convert to meters');
+          console.log(Math.round(area * 100) / 100);
+               // restrict to area to 2 decimal points
+          answer.innerHTML = '<p><strong>' + Math.round(area * 100) / 100 + '</strong></p><p>square meters</p>';
+  
+        } else {
+          console.log('convert to kilometers');
+          console.log(Math.round((area * 1e-6) * 100) / 100);
+          answer.innerHTML = '<p><strong>' + Math.round((area * 1e-6) * 100) / 100 + '</strong></p><p>square km</p>';
+        }
+      } else {
+        answer.innerHTML = '';
+        // if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
+      }
+    }
 
     
-    function updateArea(e) {
-     if(e.type='draw.update'){
-     // draw.deleteAll();
-     }
-        var data = draw.getAll();
-        var answer = document.getElementById('calculated-area');
-        if (data.features.length > 0) {
-            var area = turf.area(data);
-            // restrict to area to 2 decimal points
-            var rounded_area = Math.round(area*100)/100;
-            answer.innerHTML = '<p><strong>' + rounded_area + '</strong></p><p>square meters</p>';
-        } else {
-            answer.innerHTML = '';
-            // if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
-        }
-    }
 
     const m = this.map;
     this.map.on('load', function () {
@@ -158,6 +176,8 @@ export class MapService {
     });
     return this.map;
   }
+
+   
 
   setCompare(visible: boolean) {
     this.compareSource.next(visible);
@@ -319,7 +339,7 @@ export class MapService {
         break;
       }
     }
-    console.log('added compare');
+
     // add new source and layer
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
@@ -333,16 +353,9 @@ export class MapService {
       id: 'simple-tiles',
       type: 'raster',
       source: 'raster-tiles',
-      minzoom: 0,
-      maxzoom: 22
+      minzoom: 5,
+      maxzoom: 16
     }, firstSymbolId);
-
-
-
-    // set new center
-    this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
-    this.beforeMap.setZoom(7);
-
 
     this.afterMap.addSource('raster-tiles', {
       type: 'raster',
@@ -358,13 +371,20 @@ export class MapService {
       id: 'simple-tiles',
       type: 'raster',
       source: 'raster-tiles',
-      minzoom: 0,
-      maxzoom: 22
+      minzoom: 5,
+      maxzoom: 16
     }, firstSymbolId);
 
+    // set new center and zoom
+    this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
+    this.beforeMap.setZoom(7);
+    this.beforeMap.setMinZoom(5);
+    this.beforeMap.setMaxZoom(15);
 
     this.afterMap.setCenter([afterObj.tileCenter_lon, afterObj.tileCenter_lat]);
     this.afterMap.setZoom(7);
+    this.afterMap.setMinZoom(5);
+    this.afterMap.setMaxZoom(15);
   }
 
   ClearMaps() {
@@ -419,68 +439,21 @@ export class MapService {
    * init map for compare slider
   */
   InitMapModal() {
-
-
-
     this.beforeMap = new mapboxgl.Map({
       container: 'before',
       style: window.location.origin + '/assets/osm.json',
       center: [0, 0],
-      zoom: 7
+      zoom: 7,
+
     });
-
-  //   var m = this.beforeMap;
-   
-  //   this.beforeMap.on('load', function () {
-  //  //   console.log(m.getSource('raster-tiles'));
-  //     console.log('added init');
-  //     m.addSource('raster-tiles', {
-  //       type: 'raster',
-  //       tiles: [
-  //         ''
-  //       ],
-
-  //       tileSize: 256
-  //     });
-  //     m.addLayer({
-  //       id: 'simple-tiles',
-  //       type: 'raster',
-  //       source: 'raster-tiles',
-  //       minzoom: 0,
-  //       maxzoom: 22
-  //     });
-  //   });
-
 
     this.afterMap = new mapboxgl.Map({
       container: 'after',
       style: window.location.origin + '/assets/osm.json',
       center: [0, 0],
-      zoom: 7
+      zoom: 7,
+
     });
-
-    // var ma = this.afterMap;
-    // this.beforeMap.on('load', function () {
-    //   ma.addSource('raster-tiles', {
-    //     type: 'raster',
-    //     tiles: [
-    //       ''
-    //     ],
-
-    //     tileSize: 256
-    //   });
-    //   ma.addLayer({
-    //     id: 'simple-tiles',
-    //     type: 'raster',
-    //     source: 'raster-tiles',
-    //     minzoom: 0,
-    //     maxzoom: 22
-    //   });
-    // });
-
-
-
-
     // add to compare slider
     var map = new Compare(this.beforeMap, this.afterMap, {});
   }
