@@ -16,31 +16,29 @@ export class EventComponent implements OnInit {
 
   events: Event[] = [];
   event: Event;
-  isEmpty = false;
-  today = new Date().toJSON().split('T')[0];
   event_types: string[];
   active_types: string[];
-  checked_search = false;
   next_page = 'https://media-test-service.herokuapp.com/events/?page=1';
   previous_page = null;
   visible = false;
+  filter = false;
   title = '';
   private sub: any;
   current_id:number;
-  current_page:number;
   shown_pages:number[] = [];
 
   constructor(private mapService: MapService, private eventService: EventsService, private tweetService: TweetService, private route: ActivatedRoute, private router: Router) {
     /**
      * Subscribe to /event route params
      */
-    this.sub = this.route.params.subscribe(params =>{
+    this.sub = this.route.queryParams.subscribe(params =>{
       //check id not equal selected id
-      if(params['id'] && this.current_id!=params['id']){
+      if(params['id'] && this.current_id!=params['id'] && this.filter === false){
         this.current_id = params['id'];
         this.getPageByEventId(this.current_id);
       }
     });
+    //console.log(this.route);
   }
 
   /**
@@ -63,7 +61,6 @@ export class EventComponent implements OnInit {
   ngOnInit(): void {
     this.getEvents(this.next_page, this.current_id, '');
     this.getEventTypes();
-    this.route.snapshot.params.id;
   }
   
   ngOnDestroy():void{
@@ -142,7 +139,6 @@ export class EventComponent implements OnInit {
             this.next_page = eventpages['next'];
             this.previous_page = eventpages['previous'];
             this.events = this.events.concat(new_events);
-            console.log('default');
             break; 
           }
         }
@@ -160,7 +156,7 @@ export class EventComponent implements OnInit {
         }
 
       } catch (err) {
-        console.log(err);
+        //console.log(err);
       }
     });
   }
@@ -200,7 +196,7 @@ export class EventComponent implements OnInit {
     this.active_types = event;
     //call filtering on filter icon click
     this.getEventsByFilters();
-
+    //this.router.navigate(['event']);
   }
 
   /**
@@ -211,7 +207,7 @@ export class EventComponent implements OnInit {
     this.title = event;
     //call filtering on Enter click
     this.getEventsByFilters();
-
+    //this.router.navigate(['event']);
   }
 
   /**
@@ -222,16 +218,18 @@ export class EventComponent implements OnInit {
     // if types empty assign 'none', else make a string
     const types_str = this.active_types.length !== 0 ? this.active_types.join('&') : 'none';
     const t = (this.title === '') ? 'all' : this.title;
-
+    this.filter = (this.title !== '' || this.active_types.length !== this.event_types.length)? true : false;
     // const sd = (start_date === '') ? 'all' : start_date;
     // const ed = (end_date === '') ? 'all' : end_date;
     this.eventService.getEventsByFilters(t, 'all', types_str, 'all', 'all').subscribe(events => {
+      //this.router.navigate(['event']);
       this.events = events['results'];
       this.next_page = events['next'];
       this.mapService.OnFilter(this.events);
       this.mapService.ResetZoom();
 
       if (this.events.length > 0) {
+        this.current_id = this.events[0].id;
         this.mapService.MakeActive(this.events[0]);
       } else {
         this.mapService.MakeActive(null);

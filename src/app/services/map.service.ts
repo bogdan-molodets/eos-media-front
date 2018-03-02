@@ -193,7 +193,7 @@ export class MapService {
     if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
-      this.router.navigate(['event', { id: event.id} ]);
+      this.router.navigate(['event'], {queryParams:{id: event.id} } );
       //console.log('changed');
     }
   }
