@@ -23,6 +23,11 @@
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:url"           content="https://news-dev.eos.com/" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="EOS-media" />
+  <meta property="og:description"   content="Progressive news platform" />
+  <meta property="og:image"         content="eos_media.ico" />
   <link rel="icon" type="image/x-icon" href="eos_media.ico">
   <link href="https://fonts.googleapis.com/css?family=Montserrat|Oswald" rel="stylesheet">
   <!-- mapbox geocoder -->
@@ -38,6 +43,27 @@
 </head>
 
 <body>
+    <div id="fb-root"></div>
+    <script>
+        /*window.fbAsyncInit = function() {
+          FB.init({
+            appId            : '154857128563447',
+            autoLogAppEvents : true,
+            xfbml            : true,
+            status           : true,
+            version          : 'v2.12'
+          });
+        };*/
+      
+        (function(d, s, id){
+           var js, fjs = d.getElementsByTagName(s)[0];
+           if (d.getElementById(id)) {return;}
+           js = d.createElement(s); js.id = id;
+           js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=154857128563447&autoLogAppEvents=1";
+           fjs.parentNode.insertBefore(js, fjs);
+         }(document, 'script', 'facebook-jssdk'));
+      </script>
+      
   <app-root></app-root>
   
 </body>
