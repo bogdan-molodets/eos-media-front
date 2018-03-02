@@ -14,6 +14,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 import { EventSatellite } from '../EventSatellite';
 import * as Compare from 'mapbox-gl-compare';
+import { Router } from '@angular/router'; 
 
 @Injectable()
 export class MapService {
@@ -32,7 +33,7 @@ export class MapService {
   private url = 'https://render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
   }
 
 
@@ -104,6 +105,7 @@ export class MapService {
     if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
+      this.router.navigate(['event', { id: event.id} ]);
       //console.log('changed');
     }
   }
@@ -141,9 +143,8 @@ export class MapService {
       });
     }
     this.MakeActive(e);
-    // scroll to card
+    // scroll to card  
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
-    document.getElementById('event-container').scrollTop -= 50;
   }
 
   /**
