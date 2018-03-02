@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../event';
 import * as mapboxgl from 'mapbox-gl';
-
 import { EventsService } from '../services/events.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -17,50 +16,24 @@ import * as Compare from 'mapbox-gl-compare';
 import { Router } from '@angular/router'; 
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as turf from 'turf';
-// class Map  {
-//   container: string;
-//   style?: string;
-//   center?: any;
-//   zoom?: number;
-//   attributionControl?: boolean;
-//   private map: any;
-//   /**
-//    *
-//    */
-//   constructor(cont: string, st?: string, cen?: any, z?: number, attrib?: boolean) {
 
-//     this.map = new mapboxgl.Map({
-//       container: cont,
-//       style: st,
-//       center: cen,
-//       zoom: z,
-//       attributionControl: attrib
-//     });
-
-//   }
-
-//   getMap() {
-//     return this.map;
-//   }
-// }
 
 @Injectable()
 export class MapService {
 
   current_id: number;
-  map: any;
-  style: any;
+  map: any;  
   beforeMap: any;
   afterMap: any;
   feature: any;
-  draw:any;
+  
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
 
   // url to satellite images
   private url_media = 'https://media-test-service.herokuapp.com/images/event/';
-  private url = 'https://render.eosda.com/';
+  private url = 'https://a-render.eosda.com/';
   private compareSource = new BehaviorSubject<boolean>(false);
   currentCompare = this.compareSource.asObservable();
   constructor(private httpClient: HttpClient, private router: Router) {
@@ -77,13 +50,11 @@ export class MapService {
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
 
-
-
     this.map = new mapboxgl.Map({
       container: 'map',
       style: window.location.origin + '/assets/osm.json',
-      center: [-102, 35], // starting position [lng, lat]
-      zoom: 4,
+      center: [centerLon, centerLat], // starting position [lng, lat]
+      zoom: zoom,
       attributionControl: false
     }).
       addControl(new mapboxgl.NavigationControl());
@@ -98,9 +69,7 @@ export class MapService {
     let draw = new MapboxDraw({
       displayControlsDefault: false,
       controls: {
-
         polygon: true,
-
         trash: true
       }
     });
@@ -123,21 +92,16 @@ export class MapService {
         // current feature
         this.feature = e.features[0];
       }
-  
+
       var answer = document.getElementById('calculated-area');
-       data = draw.getAll();
+      data = draw.getAll();
       if (data.features.length > 0) {
-        let area = turf.area(data);      
+        let area = turf.area(data);
         // convert to km2 if area more than 1000000
         if (area < (1e6)) {
-          console.log('convert to meters');
-          console.log(Math.round(area * 100) / 100);
-               // restrict to area to 2 decimal points
+          // restrict to area to 2 decimal points
           answer.innerHTML = '<p><strong>' + Math.round(area * 100) / 100 + '</strong></p><p>square meters</p>';
-  
         } else {
-          console.log('convert to kilometers');
-          console.log(Math.round((area * 1e-6) * 100) / 100);
           answer.innerHTML = '<p><strong>' + Math.round((area * 1e-6) * 100) / 100 + '</strong></p><p>square km</p>';
         }
       } else {
@@ -146,7 +110,7 @@ export class MapService {
       }
     }
 
-    
+
 
     const m = this.map;
     this.map.on('load', function () {
@@ -178,7 +142,7 @@ export class MapService {
     return this.map;
   }
 
-   
+
 
   setCompare(visible: boolean) {
     this.compareSource.next(visible);
@@ -291,8 +255,6 @@ export class MapService {
   CreateMarkers(events: Event[]) {
 
     events.forEach((event) => {
-
-
       // create marker div
       if (!document.getElementById(event.id.toString())) {
         const el = document.createElement('div');
@@ -429,9 +391,9 @@ export class MapService {
     // create url to {a-d} servers
     let arr = [];
     arr.push(part_url);
-    /*arr.push(part_url.replace('a', 'b'));
+    arr.push(part_url.replace('a', 'b'));
     arr.push(part_url.replace('a', 'c'));
-    arr.push(part_url.replace('a', 'd'));*/
+    arr.push(part_url.replace('a', 'd'));
 
     return arr;
   }
