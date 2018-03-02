@@ -10,7 +10,7 @@
 		<div *ngIf="events==undefined || events.length==0">
 			<h3>Event list is empty</h3>
 		</div>
-		<app-card *ngFor="let event of events" [event]="event">
+		<app-card *ngFor="let event of events; trackBy:trackByEventId" [event]="event">
 		</app-card>
 	</div>
 </div>

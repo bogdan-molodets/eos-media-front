@@ -9,7 +9,8 @@ import {
   animate,
   transition
 } from '@angular/animations';
-
+import { Router } from '@angular/router';
+declare const FB: any;
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -18,8 +19,7 @@ import {
 export class CardComponent implements OnInit {
   @Input() event: Event;
 
-  /*@Input() visible: boolean;*/
-  constructor(private mapService: MapService, private tweetService: TweetService) {
+  constructor(private mapService: MapService, private tweetService: TweetService, private router: Router) {
   }
 
   public id = -1;
@@ -27,7 +27,7 @@ export class CardComponent implements OnInit {
   ngOnInit() {
     // subscribe for event change and make card active
     this.mapService.currentEvent.subscribe(event => {
-      try {
+      try {      
         this.id = event.id;
       } catch (e) {
       }
@@ -43,7 +43,7 @@ export class CardComponent implements OnInit {
     this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
 
     this.tweetService.getTweetsByEventId(event.id);
-
+    
   }
 
   showCompare(id: number) {
