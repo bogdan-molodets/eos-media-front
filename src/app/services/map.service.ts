@@ -15,6 +15,34 @@ import { catchError } from 'rxjs/operators';
 import { EventSatellite } from '../EventSatellite';
 import * as Compare from 'mapbox-gl-compare';
 import { Router } from '@angular/router'; 
+import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
+import * as turf from 'turf';
+// class Map  {
+//   container: string;
+//   style?: string;
+//   center?: any;
+//   zoom?: number;
+//   attributionControl?: boolean;
+//   private map: any;
+//   /**
+//    *
+//    */
+//   constructor(cont: string, st?: string, cen?: any, z?: number, attrib?: boolean) {
+
+//     this.map = new mapboxgl.Map({
+//       container: cont,
+//       style: st,
+//       center: cen,
+//       zoom: z,
+//       attributionControl: attrib
+//     });
+
+//   }
+
+//   getMap() {
+//     return this.map;
+//   }
+// }
 
 @Injectable()
 export class MapService {
@@ -24,6 +52,8 @@ export class MapService {
   style: any;
   beforeMap: any;
   afterMap: any;
+  feature: any;
+  draw:any;
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
@@ -47,13 +77,16 @@ export class MapService {
    */
   InitMap(centerLon: number, centerLat: number, zoom: number): any {
 
+
+
     this.map = new mapboxgl.Map({
       container: 'map',
       style: window.location.origin + '/assets/osm.json',
       center: [-102, 35], // starting position [lng, lat]
       zoom: 4,
       attributionControl: false
-    }).addControl(new mapboxgl.NavigationControl());
+    }).
+      addControl(new mapboxgl.NavigationControl());
 
     this.map.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
 
@@ -61,6 +94,59 @@ export class MapService {
       accessToken: mapboxgl.accessToken,
       placeholder: 'Search for a place',
     }), 'top-left');
+
+    let draw = new MapboxDraw({
+      displayControlsDefault: false,
+      controls: {
+
+        polygon: true,
+
+        trash: true
+      }
+    });
+
+    // var featureIds = draw.add(feature);
+    //console.log(featureIds);
+    this.map.addControl(draw);
+
+    this.map.on('draw.create', updateArea);
+    this.map.on('draw.delete', updateArea);
+    this.map.on('draw.update', updateArea);
+
+    function updateArea(e) {
+      let data = draw.getAll();
+      // delete all features when new one is created
+      if (e.type = 'draw.create') {
+        if (data.features.length > 1) {
+          draw.delete(this.feature.id);
+        }
+        // current feature
+        this.feature = e.features[0];
+      }
+  
+      var answer = document.getElementById('calculated-area');
+       data = draw.getAll();
+      if (data.features.length > 0) {
+        let area = turf.area(data);      
+        // convert to km2 if area more than 1000000
+        if (area < (1e6)) {
+          console.log('convert to meters');
+          console.log(Math.round(area * 100) / 100);
+               // restrict to area to 2 decimal points
+          answer.innerHTML = '<p><strong>' + Math.round(area * 100) / 100 + '</strong></p><p>square meters</p>';
+  
+        } else {
+          console.log('convert to kilometers');
+          console.log(Math.round((area * 1e-6) * 100) / 100);
+          answer.innerHTML = '<p><strong>' + Math.round((area * 1e-6) * 100) / 100 + '</strong></p><p>square km</p>';
+        }
+      } else {
+        answer.innerHTML = '';
+        // if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
+      }
+    }
+
+    
 
     const m = this.map;
     this.map.on('load', function () {
@@ -91,6 +177,8 @@ export class MapService {
     });
     return this.map;
   }
+
+   
 
   setCompare(visible: boolean) {
     this.compareSource.next(visible);
@@ -241,6 +329,18 @@ export class MapService {
 
     //console.log(  this.MakeTileUrl(afterObj));
     this.ClearMaps();
+
+    var layers = this.beforeMap.getStyle().layers;
+    // Find the index of the first symbol layer in the map style
+    var firstSymbolId;
+    for (var i = 0; i < layers.length; i++) {
+      if (layers[i].type === 'symbol') {
+        firstSymbolId = layers[i].id;
+
+        break;
+      }
+    }
+
     // add new source and layer
     this.beforeMap.addSource('raster-tiles', {
       type: 'raster',
@@ -254,14 +354,9 @@ export class MapService {
       id: 'simple-tiles',
       type: 'raster',
       source: 'raster-tiles',
-      minzoom: 0,
-      maxzoom: 22
-    });
-
-    // set new center
-    this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
-
-
+      minzoom: 5,
+      maxzoom: 16
+    }, firstSymbolId);
 
     this.afterMap.addSource('raster-tiles', {
       type: 'raster',
@@ -277,24 +372,34 @@ export class MapService {
       id: 'simple-tiles',
       type: 'raster',
       source: 'raster-tiles',
-      minzoom: 0,
-      maxzoom: 22
-    });
+      minzoom: 5,
+      maxzoom: 16
+    }, firstSymbolId);
+
+    // set new center and zoom
+    this.beforeMap.setCenter([beforeObj.tileCenter_lon, beforeObj.tileCenter_lat]);
+    this.beforeMap.setZoom(7);
+    this.beforeMap.setMinZoom(5);
+    this.beforeMap.setMaxZoom(15);
 
     this.afterMap.setCenter([afterObj.tileCenter_lon, afterObj.tileCenter_lat]);
-
+    this.afterMap.setZoom(7);
+    this.afterMap.setMinZoom(5);
+    this.afterMap.setMaxZoom(15);
   }
 
   ClearMaps() {
     // delete only if sources and layers are present
-    if (!this.beforeMap.getSource('raster-tiles'))
-      return;
-    // remove previous layer and source from before map
-    this.beforeMap.removeLayer('simple-tiles');
-    this.beforeMap.removeSource('raster-tiles');
-    // remove previous layer and source from after map
-    this.afterMap.removeLayer('simple-tiles');
-    this.afterMap.removeSource('raster-tiles');
+    if (this.beforeMap.getSource('raster-tiles')) {
+      // remove previous layer and source from before map
+      // this.beforeMap.removeLayer('overlay');
+      this.beforeMap.removeLayer('simple-tiles');
+      this.beforeMap.removeSource('raster-tiles');
+      // remove previous layer and source from after map
+      //this.afterMap.removeLayer('overlay');
+      this.afterMap.removeLayer('simple-tiles');
+      this.afterMap.removeSource('raster-tiles');
+    }
   }
 
   /**
@@ -335,62 +440,21 @@ export class MapService {
    * init map for compare slider
   */
   InitMapModal() {
-
     this.beforeMap = new mapboxgl.Map({
       container: 'before',
-      style: {
-        version: 8,
-        sources: {
-          'raster-tiles': {
-            type: 'raster',
-            tiles: [
-              ''
-            ],
-
-            tileSize: 256
-          }
-        },
-        layers: [{
-          id: 'simple-tiles',
-          type: 'raster',
-          source: 'raster-tiles',
-          minzoom: 0,
-          maxzoom: 22
-        }]
-      },
+      style: window.location.origin + '/assets/osm.json',
       center: [0, 0],
-      zoom: 7
-    });
+      zoom: 7,
 
+    });
 
     this.afterMap = new mapboxgl.Map({
       container: 'after',
-      style: {
-        version: 8,
-        sources: {
-          'raster-tiles': {
-            type: 'raster',
-            tiles: [
-              ''
-            ],
-
-            tileSize: 256
-          }
-        },
-        layers: [{
-          id: 'simple-tiles',
-          type: 'raster',
-          source: 'raster-tiles',
-          minzoom: 0,
-          maxzoom: 22
-        }]
-      },
+      style: window.location.origin + '/assets/osm.json',
       center: [0, 0],
-      zoom: 7
+      zoom: 7,
+
     });
-
-
-
     // add to compare slider
     var map = new Compare(this.beforeMap, this.afterMap, {});
   }

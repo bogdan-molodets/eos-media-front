@@ -27,7 +27,7 @@ export class TweetService {
 
  // private tweet_page: any;
 
-  private twit_ids= 'https://media-test-service.herokuapp.com/tweets/single/';
+  private twit_ids= 'https://media-test-service.herokuapp.com/tweets/event/';
   private twit_by_id= 'https://media-test-service.herokuapp.com/tweets/html/';
   constructor(private httpClient: HttpClient) {
   }

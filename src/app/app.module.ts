@@ -33,6 +33,8 @@ import 'hammerjs';
 
 import { SafePipe } from './safe.pipe';
 import { CompareComponent } from './compare/compare.component';
+import { PhotosService } from './services/photos.service';
+
 
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
@@ -68,7 +70,8 @@ const appRoutes: Routes = [
     PhotosComponent,
     SafePipe,
     MobileComponent,
-    CompareComponent
+    CompareComponent,
+   
   ],
   imports: [
     BrowserModule,
@@ -84,7 +87,7 @@ const appRoutes: Routes = [
     NgxCarouselModule
     // AngularOpenlayersModule
   ],
-  providers: [EventsService, MapService, TweetService, NewsService],
+  providers: [ EventsService, MapService, TweetService, NewsService ,PhotosService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -8,7 +8,8 @@ import { MapService } from '../services/map.service';
 import { error } from 'util';
 import { NewsService } from '../services/news.service';
 import { News } from '../news';
-
+import { PhotosService } from '../services/photos.service';
+import { Photo } from '../photo';
 
 
 declare const twttr: any;
@@ -18,11 +19,12 @@ declare const twttr: any;
   templateUrl: './coverage.component.html',
   styleUrls: ['./coverage.component.css']
 })
-export class CoverageComponent implements OnInit, AfterViewInit {
+export class CoverageComponent implements OnInit {
   tweets: Tweets[];
   tweet: Tweets;
   html: String[];
   news: News[];
+  photos: Photo[];
   ids: any[];
   private twitter: any;
   private callback: () => void;
@@ -34,7 +36,7 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   timer = false;
 
 
-  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService) {
+  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService,private photosService: PhotosService) {
 
 
   }
@@ -59,12 +61,13 @@ export class CoverageComponent implements OnInit, AfterViewInit {
         this.emptyCoverage();
 
         this.getTweets(event.id, null);
+        this.getPhotosByEventId(event.id);
       } catch (e) {
         // if no event make empty
 
         this.news = [];
         this.emptyCoverage();
-
+this.photos=[];
       }
     });
 
@@ -87,13 +90,6 @@ export class CoverageComponent implements OnInit, AfterViewInit {
   }
 
 
-  ngAfterViewInit() {
-
-
-
-  }
-
-
 
 
   
@@ -104,6 +100,15 @@ export class CoverageComponent implements OnInit, AfterViewInit {
       this.news.map((article)=>{       
         article['urlToImage'] = article['urlToImage'].replace('http:','https:');
       });
+    });
+  }
+
+  getPhotosByEventId(id: number): void {
+    this.photosService.getPhotosByEventId(id).subscribe(photos=> {
+      
+      this.photos = Object.values(photos);
+      
+     
     });
   }
 
