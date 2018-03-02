@@ -154,11 +154,13 @@ export class MapService {
    */
   MakeActive(event: Event) {
     //Check if we choose the same event twice
-    if (this.current_id !== event.id) {
+    if (event == null){
+      this.eventSource.next(event);
+      this.router.navigate(['event']);
+    } else if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
       this.router.navigate(['event'], {queryParams:{id: event.id} } );
-      //console.log('changed');
     }
   }
   /**
