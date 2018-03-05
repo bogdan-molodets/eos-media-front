@@ -5,5 +5,9 @@
     </div>    
     <p class='card-content indent-3'>Event type: {{ event.event_type }}</p>
     <p class='card-content indent-3'>Date of start: {{ event.start_date }}</p>
-    <button class='btn compare-open' (click)='showCompare(event.id)'>Compare</button>
+    
+    <a class='share-btn' (click)='shareFacebook()'><img src='assets/Facebook.png'></a>
+    <a class='share-btn' target='_blank' href='{{twitter_link}}'><img src='assets/Twitter.png'></a>
+    <a class='btn compare-open' (click)='showCompare(event.id)'>Compare</a>
+
 </div>
