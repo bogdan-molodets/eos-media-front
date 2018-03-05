@@ -47,7 +47,8 @@ const appRoutes: Routes = [
     { path: '', component: EventComponent, outlet: 'event' },
     { path: '', component: CoverageComponent, outlet: 'coverage' },
     { path: '', component: MapBoxComponent, outlet: 'map' },
-    { path: './event/not-found', component: PageNotFoundComponent }
+    { path: 'compare', children:[]},
+    { path: 'not-found', component: PageNotFoundComponent, outlet:'error' }
   ] },
   { path: '**', component: PageNotFoundComponent }];
     

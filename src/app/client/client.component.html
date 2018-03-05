@@ -5,6 +5,7 @@
 <router-outlet name = 'event'></router-outlet>
 <router-outlet name = 'map'></router-outlet>
 <router-outlet name = 'coverage'></router-outlet>
+<router-outlet name = 'error'></router-outlet>
 <div [ngClass]="{shadowCompare : visible === true}"></div>
 <app-compare [ngClass]="{activeCompare: visible === true}" [event]="event"></app-compare>
 <button id ='events-btn' class='btn mobile-btn' (click)='setActiveBar("event")'>Events</button>
