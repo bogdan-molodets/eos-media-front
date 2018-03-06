@@ -27,13 +27,15 @@ import { EventsService } from './services/events.service';
 import { MapService } from './services/map.service';
 import { TweetService } from './services/tweet.service';
 import { NewsService } from './services/news.service';
-
+import { PhotosService } from './services/photos.service';
+import {RegisterService} from './services/register.service';
 import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
 
 import { SafePipe } from './safe.pipe';
 import { CompareComponent } from './compare/compare.component';
-import { PhotosService } from './services/photos.service';
+import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
+
 
 
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
@@ -77,8 +79,14 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
+    HttpClientModule,    
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: ['http://www.angular.at/api'],
+        sendAccessToken: true
+    }
+    }),
     RouterModule.forRoot(
       appRoutes,
       {
@@ -88,7 +96,7 @@ const appRoutes: Routes = [
     NgxCarouselModule
     // AngularOpenlayersModule
   ],
-  providers: [ EventsService, MapService, TweetService, NewsService ,PhotosService],
+  providers: [ EventsService, MapService, TweetService, NewsService ,PhotosService , RegisterService, OAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
