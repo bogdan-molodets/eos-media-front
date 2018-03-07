@@ -34,9 +34,6 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
   }
 
-  logout() {
-    this.oauthService.logOut();
-  }
 
   /**
    * Init form auth group
