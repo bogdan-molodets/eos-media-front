@@ -13,7 +13,7 @@ export class RegisterService {
 
   constructor(private httpClient: HttpClient) {}
 
-  register(registerData: Register): Observable<any> {
+  register(registerData: any): Observable<any> {    
     return this.httpClient.post(this.register_url, registerData).pipe(catchError(this.handleError('register', [])));
   }
 

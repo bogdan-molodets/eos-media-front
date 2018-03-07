@@ -11,19 +11,19 @@ export class AppComponent {
   
   constructor(private oauthService: OAuthService) {
     // Login-Url
-    this.oauthService.tokenEndpoint = "https://media-test-service.herokuapp.com/auth/token";
+    this.oauthService.tokenEndpoint = "https://media-test-service.herokuapp.com/user/auth/token/";
 
     // Url with user info endpoint
     // This endpont is described by OIDC and provides data about the loggin user
     // This sample uses it, because we don't get an id_token when we use the password flow
     // If you don't want this lib to fetch data about the user (e. g. id, name, email) you can skip this line
-   // this.oauthService.userinfoEndpoint = "https://steyer-identity-server.azurewebsites.net/identity/connect/userinfo";
+    this.oauthService.userinfoEndpoint = "https://steyer-identity-server.azurewebsites.net/identity/connect/userinfo";
 
     // The SPA's id. Register SPA with this id at the auth-server
     this.oauthService.clientId = "SGzI7E7KWxJ93z2YeiH7QY3Kz406D9Tm3jLAq83Q";
 
     // set the scope for the permissions the client should request
-    this.oauthService.scope = "openid profile email voucher offline_access";
+    this.oauthService.scope = "read write";
 
     // Set a dummy secret
     // Please note that the auth-server used here demand the client to transmit a client secret, although

@@ -7,7 +7,7 @@ import {
 import {
   FormBuilder,
   FormGroup,
-  FormControl, 
+  FormControl,
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
@@ -20,12 +20,12 @@ import { Register } from '../register';
   styleUrls: ['./reg.component.css']
 })
 export class RegComponent implements OnInit {
-  public regForm:FormGroup;
+  public regForm: FormGroup;
   //Init form reg fields
   firstName = new FormControl('', Validators.required);
   lastName = new FormControl('', Validators.required);
   userName = new FormControl('', [Validators.required, Validators.maxLength(150)]);
-  email = new FormControl('', [Validators.required,Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]);
+  email = new FormControl('', [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]);
   firstField = new FormControl('', [Validators.required, Validators.minLength(8)]);
   secondField = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
@@ -39,7 +39,7 @@ export class RegComponent implements OnInit {
   /**
    * Init form reg group
    */
-  initForm(){
+  initForm() {
     this.regForm = new FormGroup({
       name: new FormGroup({
         firstName: this.firstName,
@@ -51,20 +51,32 @@ export class RegComponent implements OnInit {
         firstField: this.firstField,
         secondField: this.secondField
       })
-  })
+    })
   }
 
   /**
    * Submit reg form event
    */
   onSubmit() {
-    if(this.regForm.valid){
-      console.log(this.regForm.value);
-      this.registerService.register(new Register(this.regForm.value.name.value.firstName,this.regForm.value.name.value.lastName,this.regForm.value.password.value.firstField,this.regForm.value.password.value.secondField,this.regForm.value.email,this.regForm.value.userName)).subscribe(res=>{console.log(res)});
-    }else{
+
+    if (this.regForm.valid) {
+
+      this.registerService.register({
+        first_name: this.regForm.value.name.firstName,
+        last_name: this.regForm.value.name.lastName,
+        password: this.regForm.value.password.firstField,
+        repeat_password: this.regForm.value.password.secondField,
+        email: this.regForm.value.email,
+        username: this.regForm.value.userName
+      }).subscribe(res => {
+        console.log('ok')
+        console.log(res)
+      },
+        error => { console.log(error) });
+    } else {
       console.log('error');
     }
-    
+
   }
 
 }
