@@ -59,7 +59,10 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvents(this.next_page, this.current_id, '');
+    if (this.current_id == undefined){
+      this.getEvents(this.next_page, this.current_id, '');
+    }
+    //this.getEvents(this.next_page, this.current_id, '');
     this.getEventTypes();
   }
   

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -28,7 +29,7 @@ import { MapService } from './services/map.service';
 import { TweetService } from './services/tweet.service';
 import { NewsService } from './services/news.service';
 import { PhotosService } from './services/photos.service';
-import {RegisterService} from './services/register.service';
+import { RegisterService } from './services/register.service';
 import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
 
@@ -36,24 +37,28 @@ import { SafePipe } from './safe.pipe';
 import { CompareComponent } from './compare/compare.component';
 import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
 
+import { RegComponent } from './reg/reg.component';
 
 
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
 
 const appRoutes: Routes = [
 
-  { path: '',  redirectTo: 'event', pathMatch: 'full'  },
+  { path: '', redirectTo: 'event', pathMatch: 'full' },
   { path: 'admin', component: AdminComponent },
   { path: 'auth', component: AuthComponent },
-  { path: 'event', component: ClientComponent, children:[
-    { path: '', component: EventComponent, outlet: 'event' },
-    { path: '', component: CoverageComponent, outlet: 'coverage' },
-    { path: '', component: MapBoxComponent, outlet: 'map' },
-    { path: 'compare', children:[]},
-    { path: 'not-found', component: PageNotFoundComponent, outlet:'error' }
-  ] },
+  { path: 'reg', component: RegComponent },
+  {
+    path: 'event', component: ClientComponent, children: [
+      { path: '', component: EventComponent, outlet: 'event' },
+      { path: '', component: CoverageComponent, outlet: 'coverage' },
+      { path: '', component: MapBoxComponent, outlet: 'map' },
+      { path: 'compare', children: [] },
+      { path: 'not-found', component: PageNotFoundComponent, outlet: 'error' }
+    ]
+  },
   { path: '**', component: PageNotFoundComponent }];
-    
+
 
 @NgModule({
   declarations: [
@@ -74,18 +79,21 @@ const appRoutes: Routes = [
     SafePipe,
     MobileComponent,
     CompareComponent,
-   
+    RegComponent,
+
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,    
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: ['http://www.angular.at/api'],
         sendAccessToken: true
-    }
+      }
     }),
     RouterModule.forRoot(
       appRoutes,
@@ -96,7 +104,7 @@ const appRoutes: Routes = [
     NgxCarouselModule
     // AngularOpenlayersModule
   ],
-  providers: [ EventsService, MapService, TweetService, NewsService ,PhotosService , RegisterService, OAuthService],
+  providers: [EventsService, MapService, TweetService, NewsService, PhotosService, RegisterService, OAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,5 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import {OAuthService} from 'angular-oauth2-oidc';
+
+import { OAuthService } from 'angular-oauth2-oidc';
+import {
+  NgModule,
+  Component,
+  Pipe,
+  OnInit
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+  ReactiveFormsModule
+} from '@angular/forms';
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -7,7 +21,14 @@ import {OAuthService} from 'angular-oauth2-oidc';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private oauthService: OAuthService) { }
+
+  authForm: FormGroup;
+  //init form auth fields
+  userName = new FormControl('');
+  password = new FormControl('');
+  constructor(private oauthService: OAuthService) {
+    this.initForm();
+  }
 
   ngOnInit() {
   }
@@ -19,8 +40,25 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  logout(){
+  logout() {
     this.oauthService.logOut();
   }
 
+  /**
+   * Init form auth group
+   */
+  initForm() {
+    this.authForm = new FormGroup({
+      userName: this.userName,
+      password: this.password
+    });
+  }
+
+  /**
+   * Submit auth form event
+   */
+  onSubmit() {
+
+
+  }
 }
