@@ -427,9 +427,9 @@ export class MapService {
    * returns array of sat image object
    * @param id event id
    */
-  getSatelliteImages(id: number): Observable<any> {
+  getSatelliteImages(page: string): Observable<any> {
     //console.log(this.url_media + id+'/');
-    return this.httpClient.get<any>(this.url_media + id).pipe(catchError(this.handleError('getSatelliteImages', [])));
+    return this.httpClient.get<any>(page).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
 
   /**

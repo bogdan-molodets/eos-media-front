@@ -12,7 +12,8 @@ import { Router  } from "@angular/router";
 })
 export class CompareComponent implements OnInit {
   @Input() event: Event; 
-  next_page: string;
+  next_page: string = null;// `https://media-test-service.herokuapp.com/images/event/${this.event.id}?page=1`;
+  prev_page:string = null;
   currentImage: any;
   rightImage: any;
   leftImage: any;
@@ -28,7 +29,7 @@ export class CompareComponent implements OnInit {
      this.mapService.InitMapModal();
      this.mapService.currentEvent.subscribe(event => {
       try {
-        
+        this.next_page = `https://media-test-service.herokuapp.com/images/event/${event.id}?page=1`;
         this.mapService.getSatelliteImagesCompare(event.id).subscribe(res=>{
           
           // check if results empty
@@ -44,12 +45,9 @@ export class CompareComponent implements OnInit {
         
           
         });
-
-        this.mapService.getSatelliteImages(event.id).subscribe(res => {
-          this.next_page = res['next'];         
-          this.images = Object.values(res['results']).map(this.mapService.changeHttp);      
-          
-        });
+        
+        this.getImages(this.next_page);
+        
       } catch (e) {
       }
     });
@@ -65,11 +63,34 @@ export class CompareComponent implements OnInit {
         visible: true
       },
       load: 2,
-      touch: false,
-      loop: false,
+      touch: true,
+      custom: 'banner',
       easing: 'ease'
     }
+    document.getElementsByClassName("rightRs")[0].addEventListener('click',this.righClick.bind(this),false);
+    document.getElementsByClassName("leftRs")[0].addEventListener('click',this.leftClick.bind(this),false);
+  }
 
+  getImages(page:string){
+    console.log(this);
+    this.mapService.getSatelliteImages(page).subscribe(res => {
+      this.next_page = res['next'];  
+      this.prev_page = res['previous'];       
+      this.images = Object.values(res['results']).map(this.mapService.changeHttp);
+    });
+  }
+
+  righClick(event){
+    if(this.next_page != null){
+      this.getImages(this.next_page);
+    }
+    
+  }
+  leftClick(event){
+    if(this.prev_page != null){
+      this.getImages(this.prev_page);
+    }
+    
   }
   /**
    * Event when you set drop target
