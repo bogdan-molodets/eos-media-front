@@ -11,6 +11,8 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
+import { RegisterService } from '../services/register.service';
+import { Register } from '../register';
 
 @Component({
   selector: 'app-reg',
@@ -26,7 +28,9 @@ export class RegComponent implements OnInit {
   email = new FormControl('', [Validators.required,Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]);
   firstField = new FormControl('', [Validators.required, Validators.minLength(8)]);
   secondField = new FormControl('', [Validators.required, Validators.minLength(8)]);
-  constructor() {
+
+
+  constructor(private registerService: RegisterService) {
     this.initForm();
   }
 
@@ -55,6 +59,8 @@ export class RegComponent implements OnInit {
    */
   onSubmit() {
     if(this.regForm.valid){
+      console.log(this.regForm.value);
+      this.registerService.register(new Register(this.regForm.value.name.value.firstName,this.regForm.value.name.value.lastName,this.regForm.value.password.value.firstField,this.regForm.value.password.value.secondField,this.regForm.value.email,this.regForm.value.userName)).subscribe(res=>{console.log(res)});
     }else{
       console.log('error');
     }

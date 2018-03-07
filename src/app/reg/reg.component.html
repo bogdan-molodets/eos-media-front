@@ -66,6 +66,6 @@
       </div>
     
   </fieldset>
-  <!--<p class="alert" *ngIf='firstField.valid  && secondField.valid '>Passwords arent equal! </p>-->
+  <p class="alert" *ngIf='firstField.valid  && secondField.valid && p1.value != p2.value'>Passwords arent equal! </p>
   <input [disabled]='regForm.invalid || p1.value != p2.value' class='btn' type="submit" value='Sign up'>
 </form>

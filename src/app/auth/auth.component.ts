@@ -33,13 +33,6 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
   }
 
-  login() {
-    this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile('username', 'password').then(() => {
-      let claims = this.oauthService.getIdentityClaims();
-      if (claims) console.debug('given_name', claims);
-    });
-  }
-
   logout() {
     this.oauthService.logOut();
   }
@@ -58,7 +51,10 @@ export class AuthComponent implements OnInit {
    * Submit auth form event
    */
   onSubmit() {
-
+    this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(this.authForm.value.userName, this.authForm.value.password).then(() => {
+      let claims = this.oauthService.getIdentityClaims();
+      if (claims) console.debug('given_name', claims);
+    });
 
   }
 }
