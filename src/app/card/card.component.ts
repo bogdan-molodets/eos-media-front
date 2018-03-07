@@ -64,7 +64,7 @@ export class CardComponent implements OnInit {
       action_type: 'og.shares',
       action_properties: JSON.stringify({
         object: {
-          'og:url': "https://news-dev.eos.com/#/event?id=393",
+          'og:url': `https://news-dev.eos.com/#/event?id=${this.event.id}`,
           'og:title':  this.event.title,
           'og:description': `That ${this.event.event_type} happend in ${this.event.place} on ${this.event.start_date}`,
           'og:og:image:width': '512',

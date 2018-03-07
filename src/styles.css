@@ -96,6 +96,16 @@ app-compare {
     -khtml-user-drag: element;
     -webkit-user-drag: element;
   }
+  /**
+  *FOR Carousel
+  *TODO: crete own cariusel after getting design
+  **/
+  .rightRs{
+    display: block!important;
+  }
+  .leftRs{
+    display: block!important;
+  }
 .activeCompare {
     visibility: visible;
 }

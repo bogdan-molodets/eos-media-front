@@ -5,7 +5,7 @@ import { MapService } from '../services/map.service';
 import { TweetService } from '../services/tweet.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
-import { Routes, RouterModule, ActivatedRoute, Router  } from "@angular/router";
+import { ActivatedRoute, Router  } from "@angular/router";
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']

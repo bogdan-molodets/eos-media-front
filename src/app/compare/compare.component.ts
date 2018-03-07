@@ -3,6 +3,7 @@ import { MapService } from '../services/map.service';
 import { Event } from '../event';
 import { EventSatellite } from '../EventSatellite';
 import { NgxCarousel } from 'ngx-carousel';
+import { Router  } from "@angular/router";
 
 @Component({
   selector: 'app-compare',
@@ -19,7 +20,7 @@ export class CompareComponent implements OnInit {
   dragActiveRight:boolean = false;
   public carouselOne: NgxCarousel;
 
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService, private router: Router) { }
 
   images:any[];
   ngOnInit() {
@@ -64,7 +65,7 @@ export class CompareComponent implements OnInit {
         visible: true
       },
       load: 2,
-      touch: true,
+      touch: false,
       loop: false,
       easing: 'ease'
     }
@@ -123,5 +124,6 @@ export class CompareComponent implements OnInit {
     this.dragActiveRight = false;
     this.dragActiveLeft = false;
     this.mapService.setCompare(false);
+    this.router.navigateByUrl(`/event?id=${this.event.id}`);
   }
 }
