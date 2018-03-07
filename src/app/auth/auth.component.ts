@@ -13,6 +13,7 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
+import { Router  } from "@angular/router";
 
 @Component({
   selector: 'app-auth',
@@ -26,7 +27,7 @@ export class AuthComponent implements OnInit {
   //init form auth fields
   userName = new FormControl('');
   password = new FormControl('');
-  constructor(private oauthService: OAuthService) {
+  constructor(private oauthService: OAuthService, private router: Router) {
     this.initForm();
   }
 
@@ -52,8 +53,7 @@ export class AuthComponent implements OnInit {
    */
   onSubmit() {
     this.oauthService.fetchTokenUsingPasswordFlow(this.authForm.value.userName, this.authForm.value.password).then(() => {
-      console.log('ok');
-      console.log(this.oauthService.getAccessToken());
+      this.router.navigateByUrl('');
      // let claims = this.oauthService.getIdentityClaims();
      // if (claims) console.debug('given_name', claims);
     }).catch(err=>{

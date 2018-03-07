@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import { RegisterService } from '../services/register.service';
 import { Register } from '../register';
+import { Router  } from "@angular/router";
 
 @Component({
   selector: 'app-reg',
@@ -30,7 +31,7 @@ export class RegComponent implements OnInit {
   secondField = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
 
-  constructor(private registerService: RegisterService) {
+  constructor(private registerService: RegisterService, private router: Router) {
     this.initForm();
   }
 
@@ -69,8 +70,7 @@ export class RegComponent implements OnInit {
         email: this.regForm.value.email,
         username: this.regForm.value.userName
       }).subscribe(res => {
-        console.log('ok')
-        console.log(res)
+        this.router.navigateByUrl('');
       },
         error => { console.log(error) });
     } else {
