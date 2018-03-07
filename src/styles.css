@@ -87,7 +87,15 @@ app-compare {
     margin: 2.5% 5% 0 5%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
-
+[draggable] {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    /* Required to make elements draggable in old WebKit */
+    -khtml-user-drag: element;
+    -webkit-user-drag: element;
+  }
 .activeCompare {
     visibility: visible;
 }
@@ -741,6 +749,17 @@ label {
     font-size: 12px;
 }
 
+/**Reg page**/
+app-reg {
+    position: absolute;
+    background-color: #eee;
+    top: 100px;
+    margin: 0 calc((100% - 250px)/2);
+    width: 250px;
+    min-height: 100px;
+    padding: 20px;
+    border-radius: 4px
+}
 
 /**Auth page**/
 
@@ -755,18 +774,36 @@ app-auth {
     border-radius: 4px
 }
 
+fieldset{
+    border: 1px dashed #999;
+}
+.alert{
+    font-size: 10px;
+    color: red;
+}
+.alert>p{
+    margin: 0 0 10px 0;
+}
 .fields {
     width: 100%;
 }
-
-.fields>input {
+.error{
+    border-color: transparent;
+    border-left: 2px solid red;
+}
+.success{
+    border-color: transparent;
+    border-left: 2px solid green;
+}
+.fields>input, .fields>fieldset>input {
     width: calc(100% - 10px);
-    margin: 15px 0;
+    margin: 15px 0 10px 0;
     padding: 10px 5px;
 }
 
-.fields>input [type='submit'] {
+.fields>input[type='submit'] {
     width: 100%;
+    margin: 5px 0;
 }
 
 .filter-icon-container {
