@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -34,6 +35,7 @@ import 'hammerjs';
 import { SafePipe } from './safe.pipe';
 import { CompareComponent } from './compare/compare.component';
 import { PhotosService } from './services/photos.service';
+import { RegComponent } from './reg/reg.component';
 
 
 // import {AngularOpenlayersModule} from 'ngx-openlayers';
@@ -43,6 +45,7 @@ const appRoutes: Routes = [
   { path: '',  redirectTo: 'event', pathMatch: 'full'  },
   { path: 'admin', component: AdminComponent },
   { path: 'auth', component: AuthComponent },
+  { path: 'reg', component: RegComponent },
   { path: 'event', component: ClientComponent, children:[
     { path: '', component: EventComponent, outlet: 'event' },
     { path: '', component: CoverageComponent, outlet: 'coverage' },
@@ -72,12 +75,15 @@ const appRoutes: Routes = [
     SafePipe,
     MobileComponent,
     CompareComponent,
+    RegComponent,
    
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     RouterModule.forRoot(
       appRoutes,
