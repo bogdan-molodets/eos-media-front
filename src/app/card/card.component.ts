@@ -37,12 +37,12 @@ export class CardComponent implements OnInit {
   ngOnInit() {
     // subscribe for event change and make card active
     this.mapService.currentEvent.subscribe(event => {
-      try {      
+      try {
         this.id = event.id;
       } catch (e) {
       }
     });
-    this.twitter_link = `https://twitter.com/share?url=https%3A%2F%2Fnews-dev.eos.com%2Fevent?id=${this.event.id}&hashtags=${this.event.event_type}%2C${this.event.title.replace(/ /g,'')}%2CEOSmedia%2CEOS&text=That%20${this.event.event_type}%20happened%20in%20${this.event.place}%20on%20${this.event.start_date}`;
+    this.twitter_link = `https://twitter.com/share?url=https%3A%2F%2Fnews-dev.eos.com%2Fevent?id=${this.event.id}&hashtags=${this.event.event_type}%2C${this.event.title.replace(/ /g, '')}%2CEOSmedia%2CEOS&text=That%20${this.event.event_type}%20happened%20in%20${this.event.place}%20on%20${this.event.start_date}`;
   }
 
   /**
@@ -54,10 +54,10 @@ export class CardComponent implements OnInit {
     this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
 
     this.tweetService.getTweetsByEventId(event.id);
-    
+
   }
 
-  shareFacebook(){
+  shareFacebook() {
     console.log(this.url);
     FB.ui({
       method: 'share_open_graph',
@@ -77,12 +77,12 @@ export class CardComponent implements OnInit {
     // Action after response
     });
   }
-  
 
-  showCompare(id: number){
-    this.router.navigateByUrl('/event/compare',{queryParams:{id: id}});
+
+  showCompare(id: number) {
+    this.router.navigateByUrl('/event/compare', {queryParams: {id: id}});
     this.mapService.setCompare(true);
-    
+
   }
 
 }

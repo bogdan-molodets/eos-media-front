@@ -16,7 +16,7 @@ export class NewsService {
    * get news for event
    * @param id event pk
    */
-  getNewsByEventId(id: number): Observable<News[]>{
+  getNewsByEventId(id: number): Observable<News[]> {
     return this.httpClient.get<any>(this.news_event_url + id).pipe(catchError(this.handleError('getNewsByEventId', [])));
   }
 

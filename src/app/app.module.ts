@@ -33,7 +33,6 @@ import { RegisterService } from './services/register.service';
 import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
 
-import { SafePipe } from './safe.pipe';
 import { CompareComponent } from './compare/compare.component';
 import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
 
@@ -76,7 +75,6 @@ const appRoutes: Routes = [
     FilterComponent,
     NewsComponent,
     PhotosComponent,
-    SafePipe,
     MobileComponent,
     CompareComponent,
     RegComponent,

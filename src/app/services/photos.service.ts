@@ -9,7 +9,7 @@ import { Photo } from '../photo';
 @Injectable()
 export class PhotosService {
 
-  
+
   private photos_event_url= 'https://media-test-service.herokuapp.com/photos/event/';
   constructor(private httpClient: HttpClient) { }
 
@@ -17,7 +17,7 @@ export class PhotosService {
    * get photos for event
    * @param id event pk
    */
-  getPhotosByEventId(id: number): Observable<Photo[]>{
+  getPhotosByEventId(id: number): Observable<Photo[]> {
     return this.httpClient.get<any>(this.photos_event_url + id).pipe(catchError(this.handleError('getPhotosByEventId', [])));
   }
 

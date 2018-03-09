@@ -13,7 +13,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 import { EventSatellite } from '../EventSatellite';
 import * as Compare from 'mapbox-gl-compare';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as turf from 'turf';
 
@@ -22,11 +22,11 @@ import * as turf from 'turf';
 export class MapService {
 
   current_id: number;
-  map: any;  
+  map: any;
   beforeMap: any;
   afterMap: any;
   feature: any;
-  
+
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
@@ -56,8 +56,7 @@ export class MapService {
       center: [centerLon, centerLat], // starting position [lng, lat]
       zoom: zoom,
       attributionControl: false
-    }).
-      addControl(new mapboxgl.NavigationControl());
+    }).addControl(new mapboxgl.NavigationControl());
 
     this.map.addControl(new mapboxgl.ScaleControl(), 'bottom-left');
 
@@ -66,7 +65,7 @@ export class MapService {
       placeholder: 'Search for a place',
     }), 'top-left');
 
-    let draw = new MapboxDraw({
+    const draw = new MapboxDraw({
       displayControlsDefault: false,
       controls: {
         polygon: true,
@@ -74,8 +73,7 @@ export class MapService {
       }
     });
 
-    // var featureIds = draw.add(feature);
-    //console.log(featureIds);
+
     this.map.addControl(draw);
 
     this.map.on('draw.create', updateArea);
@@ -93,10 +91,10 @@ export class MapService {
         this.feature = e.features[0];
       }
 
-      var answer = document.getElementById('calculated-area');
+      const answer = document.getElementById('calculated-area');
       data = draw.getAll();
       if (data.features.length > 0) {
-        let area = turf.area(data);
+        const area = turf.area(data);
         // convert to km2 if area more than 1000000
         if (area < (1e6)) {
           // restrict to area to 2 decimal points
@@ -109,36 +107,6 @@ export class MapService {
         // if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
       }
     }
-
-
-
-    const m = this.map;
-    this.map.on('load', function () {
-
-      // add source with our polygon
-      m.addSource('polygon', {
-        type: 'geojson',
-        data: {
-          type: 'Feature',
-          geometry: {
-            type: 'Polygon',
-            coordinates: [[[0, 0], [0, 0]]]
-          }
-        }
-      });
-      // layer for source display
-      m.addLayer({
-        id: 'showpoly',
-        type: 'fill',
-        source: 'polygon',
-        layout: {},
-        paint: {
-          'fill-color': '#f7786b',
-          'fill-opacity': 0.3
-        }
-      });
-
-    });
     return this.map;
   }
 
@@ -153,14 +121,14 @@ export class MapService {
    * @param event
    */
   MakeActive(event: Event) {
-    //Check if we choose the same event twice
-    if (event == null){
+    // Check if we choose the same event twice
+    if (event == null) {
       this.eventSource.next(event);
       this.router.navigate(['event']);
     } else if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
-      this.router.navigate(['event'], {queryParams:{id: event.id} } );
+      this.router.navigate(['event'], { queryParams: { id: event.id } });
     }
   }
   /**
@@ -172,32 +140,37 @@ export class MapService {
    */
   OnCardClick(e: Event, ln: number, lt: number): void {
     // center and zoom map to chosen event
-    this.map.flyTo({
-      center: [ln, lt],
-      zoom: 10
-    });
-
-    // check if event has an aoi and draw it
+    this.ResetZoom(ln, lt, 10);
+    this.ClearPolygonSources();
+    // check for polygon existence
     if (e.affected_area && e.affected_area['coordinates'].length > 0) {
-      this.map.getSource('polygon').setData({
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: e.affected_area['coordinates'][0]
+      // add source with our polygon
+      this.map.addSource('polygon', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: {
+            type: 'Polygon',
+            coordinates: e.affected_area['coordinates'][0]
+          }
         }
       });
-    } else {
-      // hot fix
-      this.map.getSource('polygon').setData({
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[0, 0], [0, 0]]
+      // layer for source display
+      this.map.addLayer({
+        id: 'showpoly',
+        type: 'fill',
+        source: 'polygon',
+        layout: {},
+        paint: {
+          'fill-color': '#f7786b',
+          'fill-opacity': 0.3
         }
       });
-    }
+    } 
+
+
     this.MakeActive(e);
-    // scroll to card  
+    // scroll to card
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -208,16 +181,7 @@ export class MapService {
    */
   OnFilter(events: Event[]) {
 
-    // hot fix
-    if (this.map.getSource('polygon')) {
-      this.map.getSource('polygon').setData({
-        type: 'Feature',
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[0, 0], [0, 0]]
-        }
-      });
-    }
+    this.ClearPolygonSources();
     const el: HTMLCollectionOf<Element> = document.getElementsByClassName('marker');
 
     this.CreateMarkers(events);
@@ -238,13 +202,13 @@ export class MapService {
     }
   }
 
-  /** 
+  /**
    * reset zoom after pagination
   */
-  ResetZoom() {
+  ResetZoom(ln: number, lt: number, zoom: number) {
     this.map.flyTo({
-      center: [39, 34],
-      zoom: 1
+      center: [ln, lt],
+      zoom: zoom
     });
   }
 
@@ -263,7 +227,6 @@ export class MapService {
         el.id = event.id.toString();
         el.className = 'marker';
         el.style.backgroundImage = 'url(/assets/' + event.event_type.toString() + '.png)';
-        // (event.event_type.toString() === 'Wildfire') ? 'url(/assets/Wildfire.png)' : 'url(/assets/Flood.png)';
         el.style.cursor = 'pointer';
         el.style.width = '32px';
         el.style.height = '32px';
@@ -291,13 +254,13 @@ export class MapService {
    */
   AddToCompare(beforeObj: any, afterObj: any) {
 
-    //console.log(  this.MakeTileUrl(afterObj));
+
     this.ClearMaps();
 
-    var layers = this.beforeMap.getStyle().layers;
+    const layers = this.beforeMap.getStyle().layers;
     // Find the index of the first symbol layer in the map style
-    var firstSymbolId;
-    for (var i = 0; i < layers.length; i++) {
+    let firstSymbolId;
+    for (let i = 0; i < layers.length; i++) {
       if (layers[i].type === 'symbol') {
         firstSymbolId = layers[i].id;
 
@@ -325,7 +288,7 @@ export class MapService {
     this.afterMap.addSource('raster-tiles', {
       type: 'raster',
       tiles:
-        //array of tiles
+        // array of tiles
 
         this.MakeTileUrl(afterObj)
       ,
@@ -352,15 +315,22 @@ export class MapService {
     this.afterMap.setMaxZoom(15);
   }
 
+  ClearPolygonSources() {
+    // delete only if sources and layers are present
+    if (this.map.getSource('polygon')) {
+      // remove previous layer and source from main map
+      this.map.removeLayer('showpoly');
+      this.map.removeSource('polygon');
+    }
+  }
+
   ClearMaps() {
     // delete only if sources and layers are present
     if (this.beforeMap.getSource('raster-tiles')) {
       // remove previous layer and source from before map
-      // this.beforeMap.removeLayer('overlay');
       this.beforeMap.removeLayer('simple-tiles');
       this.beforeMap.removeSource('raster-tiles');
       // remove previous layer and source from after map
-      //this.afterMap.removeLayer('overlay');
       this.afterMap.removeLayer('simple-tiles');
       this.afterMap.removeSource('raster-tiles');
     }
@@ -368,7 +338,7 @@ export class MapService {
 
   /**
    * make url to antarctica depend on satellite
-   * @param obj image obj 
+   * @param obj image obj
    */
   MakeTileUrl(obj: any): any[] {
 
@@ -391,7 +361,7 @@ export class MapService {
 
     }
     // create url to {a-d} servers
-    let arr = [];
+    const arr = [];
     arr.push(part_url);
     arr.push(part_url.replace('a', 'b'));
     arr.push(part_url.replace('a', 'c'));
@@ -400,7 +370,7 @@ export class MapService {
     return arr;
   }
 
-  /** 
+  /**
    * init map for compare slider
   */
   InitMapModal() {
@@ -411,7 +381,7 @@ export class MapService {
       zoom: 7,
 
     });
-
+    this.beforeMap.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
     this.afterMap = new mapboxgl.Map({
       container: 'after',
       style: window.location.origin + '/assets/osm.json',
@@ -419,8 +389,9 @@ export class MapService {
       zoom: 7,
 
     });
+
     // add to compare slider
-    var map = new Compare(this.beforeMap, this.afterMap, {});
+    const map = new Compare(this.beforeMap, this.afterMap, {});
   }
 
   /**
@@ -428,16 +399,14 @@ export class MapService {
    * @param id event id
    */
   getSatelliteImages(page: string): Observable<any> {
-    //console.log(this.url_media + id+'/');
     return this.httpClient.get<any>(page).pipe(catchError(this.handleError('getSatelliteImages', [])));
   }
 
   /**
-   * returns two images for initial comparer  
+   * returns two images for initial comparer
    * @param id event id
    */
   getSatelliteImagesCompare(id: number): Observable<any> {
-    // console.log(this.url_media_compare + id+'/more');
     return this.httpClient.get<any>(this.url_media + id + '/more').pipe(catchError(this.handleError('getSatelliteImagesCompare', [])));
   }
 
@@ -457,9 +426,10 @@ export class MapService {
   }
 
   public changeHttp(res) {
-    res["imageURL"] = res["imageURL"].replace('http:', 'https:');
+    res['imageURL'] = res['imageURL'].replace('http:', 'https:');
     return res;
   }
+
 
 
 

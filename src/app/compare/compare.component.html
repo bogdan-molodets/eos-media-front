@@ -1,14 +1,14 @@
 <div *ngIf="images == undefined || images.length < 2 ">
 <div    class='no-image'>
   <button class='btn compare-close' (click)='hideCompare()'>Close</button>
-  <h1 *ngIf="event !==undefined">Images of "{{event.title}}" are coming soon...</h1>
+  <h1 *ngIf="event !==undefined">Images of "{{ event.title }}" are coming soon...</h1>
   <img src="assets/Satellite.png">
 </div>
 </div>
 <div class='drop-area' (dragover)="dragOver($event, 'other')" (drop)="dropImage($event, 'other')">
 <div class='compare-header'>
   <button class='btn compare-close' (click)='hideCompare()'>Close</button>
-  <h3 *ngIf="event !==undefined">{{event.title}}</h3>
+  <h3 *ngIf="event !==undefined">{{ event.title }}</h3>
 
 </div>
 <div class='compare-container'>
@@ -24,23 +24,23 @@
   <div id='after' class='map'></div>
   <div *ngIf="leftImage !== undefined && rightImage !== undefined">
     <div class='left-date'>
-      <p>{{leftImage.date}}</p>
+      <p>{{ leftImage.date }}</p>
     </div>
     <div class='right-date'>
-      <p>{{rightImage.date}}</p>
+      <p>{{ rightImage.date }}</p>
     </div>
   </div>
 
 </div>
 <div *ngIf="event !==undefined" class='compare-info'>
   <h2>Info</h2>
-  <p>Date of start: {{event.start_date}}</p>
-  <p>Date of end: {{event.end_date}}</p>
+  <p>Date of start: {{ event.start_date }}</p>
+  <p>Date of end: {{ event.end_date }}</p>
   <h3>Place</h3>
-  <p>{{event.place}}</p>
+  <p>{{ event.place }}</p>
   <h3>Coordinates</h3>
-  <p>Latitude: {{event.event_lat}}</p>
-  <p>Longtitude: {{event.event_lon}}</p>
+  <p>Latitude: {{ event.event_lat }}</p>
+  <p>Longtitude: {{ event.event_lon }}</p>
 
   
 </div>
@@ -48,7 +48,7 @@
   <ngx-carousel [inputs]="carouselOne" (carouselLoad)="myfunc($event)">
     <ngx-tile draggable="true" NgxCarouselItem *ngFor="let image of images" (dragstart)="dragStart($event, image)">
       <img src='{{image.imageURL}}'>
-      <p>{{image.satelliteName}} | {{image.date}} | {{image.cloudCoverage}}</p>
+      <p>{{ image.satelliteName }} | {{ image.date }} | {{ image.cloudCoverage }}</p>
     </ngx-tile>
 
     <button NgxCarouselPrev class='leftRs'>&lt;</button>

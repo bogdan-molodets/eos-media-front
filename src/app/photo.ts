@@ -1,4 +1,4 @@
 export class Photo {
-  urlImage:string;
-  urlNews:string;
+  urlImage: string;
+  urlNews: string;
 }
