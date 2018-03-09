@@ -166,19 +166,17 @@ export class MapService {
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
    * @param {Event} e
-   * @param {number} ln longtitude
-   * @param {number} lt latitude
    * @constructor
    */
-  OnCardClick(e: Event, ln: number, lt: number): void {
+  OnCardClick(e: Event): void {
     // center and zoom map to chosen event
     this.map.flyTo({
-      center: [ln, lt],
+      center: [e.event_lon, e.event_lat],
       zoom: 10
     });
 
     // check if event has an aoi and draw it
-    if (e.affected_area && e.affected_area['coordinates'].length > 0) {
+    if (e.affected_area && e.affected_area['coordinates'].length > 0 && this.map.getSource('polygon')) {
       this.map.getSource('polygon').setData({
         type: 'Feature',
         geometry: {
@@ -186,7 +184,7 @@ export class MapService {
           coordinates: e.affected_area['coordinates'][0]
         }
       });
-    } else {
+    } else if(this.map.getSource('polygon')){
       // hot fix
       this.map.getSource('polygon').setData({
         type: 'Feature',
@@ -198,6 +196,7 @@ export class MapService {
     }
     this.MakeActive(e);
     // scroll to card  
+    //console.log(document.getElementById(e.id + 'card'));
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -275,7 +274,7 @@ export class MapService {
 
         const s = this;
         el.addEventListener('click', function () {
-          s.OnCardClick(event, event.event_lon, event.event_lat);
+          s.OnCardClick(event);
         });
       }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { Event } from '../event';
 import { MapService } from '../services/map.service';
 import { TweetService } from '../services/tweet.service';
@@ -21,6 +21,9 @@ declare const twttr: any;
 })
 export class CardComponent implements OnInit {
   @Input() event: any;
+
+  @Output()
+  update: EventEmitter<string[]> = new EventEmitter();
 
   private url;
   private accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
@@ -45,13 +48,22 @@ export class CardComponent implements OnInit {
     this.twitter_link = `https://twitter.com/share?url=https%3A%2F%2Fnews-dev.eos.com%2Fevent?id=${this.event.id}&hashtags=${this.event.event_type}%2C${this.event.title.replace(/ /g,'')}%2CEOSmedia%2CEOS&text=That%20${this.event.event_type}%20happened%20in%20${this.event.place}%20on%20${this.event.start_date}`;
   }
 
+  ngAfterViewInit(){
+    if(this.id == this.event.id){
+      this.update.emit(this.event.id);
+    }
+    
+  }
+
+
+
   /**
    * makes card active, center and zoom map to event marker. Loads tweets for chosen event
    * @param event clicked event
    */
   onClick(event: any) {
 
-    this.mapService.OnCardClick(event, event.event_lon, event.event_lat);
+    this.mapService.OnCardClick(event);
 
     this.tweetService.getTweetsByEventId(event.id);
     
