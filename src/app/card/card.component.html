@@ -8,6 +8,6 @@
     
     <a class='share-btn' (click)='shareFacebook()'><img src='assets/Facebook.png'></a>
     <a class='share-btn' target='_blank' href='{{twitter_link}}'><img src='assets/Twitter.png'></a>
-    <a class='btn compare-open' (click)='showCompare(event.id)'>Compare</a>
+    <a class='btn compare-open' [ngClass]="{ 'hide': compare_images == undefined || compare_images < 2 }" (click)='showCompare(event.id)'>Compare</a>
 
 </div>

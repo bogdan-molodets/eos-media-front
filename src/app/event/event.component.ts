@@ -55,7 +55,7 @@ export class EventComponent implements OnInit {
       console.log(document.getElementById(id + 'card').offsetTop);
       console.log($(`#${id}card`));
       $(`.card-container`).animate({scrollTop: $(`#${id}card`).offsetTop },500, 'swing', function() { 
-        alert("Finished animating");
+        //alert("Finished animating");
      });
     }
   }
