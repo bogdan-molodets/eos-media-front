@@ -1,6 +1,8 @@
 <div class='title left'>
 	<h3>Events</h3>
-	<div class='filter-icon-container' (click)="setVisible()"><img class='filter-icon' src='/assets/funnel.png' ></div>
+	<div class='filter-icon-container' (click)="setVisible()">
+		<img class='filter-icon' src='/assets/funnel.png'>
+	</div>
 </div>
 <div class='target'></div>
 <div class='container'>
@@ -10,7 +12,8 @@
 		<div *ngIf="events==undefined || events.length==0">
 			<h3>Event list is empty</h3>
 		</div>
-		<app-card *ngFor="let event of events; trackBy:trackByEventId" [event]="event">
+		<app-card *ngFor="let event of events; trackBy:trackByEventId" [event]="event" (update)="onLoad($event)">
 		</app-card>
+
 	</div>
 </div>

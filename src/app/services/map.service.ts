@@ -134,13 +134,11 @@ export class MapService {
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
    * @param {Event} e
-   * @param {number} ln longtitude
-   * @param {number} lt latitude
    * @constructor
    */
-  OnCardClick(e: Event, ln: number, lt: number): void {
+  OnCardClick(e: Event): void {
     // center and zoom map to chosen event
-    this.ResetZoom(ln, lt, 10);
+    this.ResetZoom(e.event_lon, e.event_lat, 10);
     this.ClearPolygonSources();
     // check for polygon existence
     if (e.affected_area && e.affected_area['coordinates'].length > 0) {
@@ -171,6 +169,8 @@ export class MapService {
 
     this.MakeActive(e);
     // scroll to card
+    // scroll to card  
+    //console.log(document.getElementById(e.id + 'card'));
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -238,7 +238,7 @@ export class MapService {
 
         const s = this;
         el.addEventListener('click', function () {
-          s.OnCardClick(event, event.event_lon, event.event_lat);
+          s.OnCardClick(event);
         });
       }
 

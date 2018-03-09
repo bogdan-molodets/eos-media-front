@@ -5,7 +5,8 @@ import { MapService } from '../services/map.service';
 import { TweetService } from '../services/tweet.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
-import { ActivatedRoute, Router  } from '@angular/router';
+import { ActivatedRoute, Router  } from "@angular/router";
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
@@ -36,8 +37,26 @@ export class EventComponent implements OnInit {
       if (params['id'] && this.current_id != params['id'] && this.filter === false) {
         this.current_id = params['id'];
         this.getPageByEventId(this.current_id);
+        /*
+        var that = this;
+        return new Promise(res=>{
+          document.getElementsByClassName("card-container")[0].addEventListener('load',()=>{
+            const event_el = document.getElementById(that.current_id + 'card').scrollIntoView({ behavior: 'smooth' });
+          });
+        });*/
+        //this.mapService.MakeActive();
       }
     });    
+  }
+
+  onLoad(id:any){
+    if(id == this.current_id){
+      console.log(document.getElementById(id + 'card').offsetTop);
+      console.log($(`#${id}card`));
+      $(`.card-container`).animate({scrollTop: $(`#${id}card`).offsetTop },500, 'swing', function() { 
+        alert("Finished animating");
+     });
+    }
   }
 
   /**
@@ -90,7 +109,8 @@ export class EventComponent implements OnInit {
           this.shown_pages = [];
           this.getEvents(`https://media-test-service.herokuapp.com/events/?page=${page['PageNum']}`, id, ' ');
         }
-      }catch (e) {
+      }catch(e) {
+        console.log(e);
         this.router.navigate(['event/not-found']);
       }
 
@@ -152,13 +172,13 @@ export class EventComponent implements OnInit {
         }
         this.mapService.OnFilter(this.events);
         if ( id == undefined ) {
-          this.mapService.MakeActive(this.events[0]);
-        }else {
-          this.mapService.MakeActive(this.events[this.events.findIndex(event => event.id == id)]);
+          this.mapService.OnCardClick(this.events[0]);
+        }else{
+          this.mapService.OnCardClick(this.events[this.events.findIndex(event => event.id == id)]);
         }
 
-      } catch (err) {
-        // console.log(err);
+        } catch (err) {
+        //console.log(err);
       }
     });
   }
