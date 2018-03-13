@@ -26,8 +26,8 @@ export class EventComponent implements OnInit {
   title = '';
   private sub: any;
   current_id: number;
+  prev_id: number; // id of previous check; need for compare previos and current choice
   shown_pages: number[] = [];
-
   constructor(private mapService: MapService, private eventService: EventsService, private tweetService: TweetService, private route: ActivatedRoute, private router: Router) {
     /**
      * Subscribe to /event route params
@@ -35,28 +35,20 @@ export class EventComponent implements OnInit {
     this.sub = this.route.queryParams.subscribe(params => {
       // check id not equal selected id
       if (params['id'] && this.current_id != params['id'] && this.filter === false) {
-        this.current_id = params['id'];
-        this.getPageByEventId(this.current_id);
-        /*
-        var that = this;
-        return new Promise(res=>{
-          document.getElementsByClassName("card-container")[0].addEventListener('load',()=>{
-            const event_el = document.getElementById(that.current_id + 'card').scrollIntoView({ behavior: 'smooth' });
-          });
-        });*/
+        this.prev_id = this.current_id;
+        this.current_id = params['id']; 
+        this.getPageByEventId(params['id']);
         //this.mapService.MakeActive();
       }
     });    
   }
 
   onLoad(id:any){
-    if(id == this.current_id){
-      console.log(document.getElementById(id + 'card').offsetTop);
-      console.log($(`#${id}card`));
+    /**if(id != this.current_id){
+      this.current_id = id;
       $(`.card-container`).animate({scrollTop: $(`#${id}card`).offsetTop },500, 'swing', function() { 
-        alert("Finished animating");
      });
-    }
+    }**/
   }
 
   /**
@@ -173,10 +165,14 @@ export class EventComponent implements OnInit {
         this.mapService.OnFilter(this.events);
         if ( id == undefined ) {
           this.mapService.OnCardClick(this.events[0]);
-        }else{
+          this.prev_id = this.events[0].id;
+          //this.current_id = this.events[0].id;
+        }else if( id != this.prev_id ){
           this.mapService.OnCardClick(this.events[this.events.findIndex(event => event.id == id)]);
+          this.prev_id = id;
+          //this.current_id = this.events[this.events.findIndex(event => event.id == id)].id;
         }
-
+        
         } catch (err) {
         //console.log(err);
       }

@@ -667,7 +667,9 @@ label {
     position: absolute;
     right: 15px;
 }
-
+.hide{
+    display: none;
+}
 .compare-close {
     position: absolute;
     right: 10px;

@@ -72,7 +72,6 @@ export class CompareComponent implements OnInit {
   }
 
   getImages(page: string) {
-    console.log(this);
     this.mapService.getSatelliteImages(page).subscribe(res => {
       this.next_page = res['next'];
       this.prev_page = res['previous'];
