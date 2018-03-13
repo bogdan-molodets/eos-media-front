@@ -8,12 +8,12 @@ export class Register {
     /**
      *
      */
-    constructor(fName:string,lName:string,pass:string,repeatpass:string,mail:string,uName:string) {    
-        this.first_name=fName;
-        this.last_name=lName;
-        this.repeat_password=repeatpass;
-        this.password=pass;
-        this.email=mail;
-        this.username=uName;
+    constructor(fName: string, lName: string, pass: string, repeatpass: string, mail: string, uName: string) {
+        this.first_name = fName;
+        this.last_name = lName;
+        this.repeat_password = repeatpass;
+        this.password = pass;
+        this.email = mail;
+        this.username = uName;
     }
 }

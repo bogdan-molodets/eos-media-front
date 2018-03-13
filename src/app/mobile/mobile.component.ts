@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MobileComponent implements OnInit {
 
-  //activeBar: string;
+  // activeBar: string;
 
   constructor() { }
 

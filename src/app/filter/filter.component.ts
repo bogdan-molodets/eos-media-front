@@ -12,7 +12,7 @@ export class FilterComponent implements OnInit {
   @Input() event_types: string[];
   @Input() active_types: string[];
   @Input() title: string;
-  //checked_event_types: string[] = this.event_types;
+  // checked_event_types: string[] = this.event_types;
 
 
   @Output()
@@ -29,16 +29,16 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
   }
 
-  CheckType(e: any, event_type: string): any{
-    if (this.active_types.indexOf(event_type) !== -1){
+  CheckType(e: any, event_type: string): any {
+    if (this.active_types.indexOf(event_type) !== -1) {
       this.active_types.splice(this.active_types.indexOf(event_type), 1);
-    }else{
+    }else {
       this.active_types.push(event_type);
     }
     this.changeActiveTypes.emit(this.active_types);
   }
 
-  CheckTitle(e: any, title: string): any{
+  CheckTitle(e: any, title: string): any {
     this.title = title;
     this.changeTitle.emit(this.title);
   }

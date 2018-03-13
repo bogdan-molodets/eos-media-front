@@ -10,27 +10,27 @@ import { Event } from '../event';
 export class ClientComponent implements OnInit {
 
   activeBar = '';
-  visible:boolean = false;
-  event:Event;
+  visible = false;
+  event: Event;
 
   constructor(private mapService: MapService) { }
 
   ngOnInit() {
-    this.mapService.currentCompare.subscribe(visible=>{
+    this.mapService.currentCompare.subscribe(visible => {
       this.visible = visible;
-      if(visible){        
-        this.mapService.currentEvent.subscribe(event=>{
+      if (visible) {
+        this.mapService.currentEvent.subscribe(event => {
           this.event = event;
         });
-      }      
+      }
     }
     );
   }
 
-  setActiveBar(active: string){
-    if (this.activeBar === active){
+  setActiveBar(active: string) {
+    if (this.activeBar === active) {
       this.activeBar = '';
-    }else{
+    }else {
       this.activeBar = active;
     }
   }

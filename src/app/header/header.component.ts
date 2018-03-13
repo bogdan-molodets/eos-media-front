@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  token:any;
+  token: any;
 
   constructor(private oauthService: OAuthService, private router: Router) { }
 
@@ -16,17 +16,17 @@ export class HeaderComponent implements OnInit {
     console.log(this.token);
   }
 
-  logOut(){
+  logOut() {
     this.oauthService.logOut();
     this.token = this.oauthService.getAccessToken();
   }
 
-  logIn(){
+  logIn() {
     this.router.navigateByUrl('/auth');
     this.token = this.oauthService.getAccessToken();
   }
 
-  signUp(){
+  signUp() {
     this.router.navigateByUrl('/reg');
     this.token = this.oauthService.getAccessToken();
   }

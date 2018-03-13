@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { RegisterService } from '../services/register.service';
 import { Register } from '../register';
-import { Router  } from "@angular/router";
+import { Router  } from '@angular/router';
 
 @Component({
   selector: 'app-reg',
@@ -22,11 +22,11 @@ import { Router  } from "@angular/router";
 })
 export class RegComponent implements OnInit {
   public regForm: FormGroup;
-  //Init form reg fields
+  // Init form reg fields
   firstName = new FormControl('', Validators.required);
   lastName = new FormControl('', Validators.required);
   userName = new FormControl('', [Validators.required, Validators.maxLength(150)]);
-  email = new FormControl('', [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]);
+  email = new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]);
   firstField = new FormControl('', [Validators.required, Validators.minLength(8)]);
   secondField = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
@@ -52,7 +52,7 @@ export class RegComponent implements OnInit {
         firstField: this.firstField,
         secondField: this.secondField
       })
-    })
+    });
   }
 
   /**
@@ -72,7 +72,7 @@ export class RegComponent implements OnInit {
       }).subscribe(res => {
         this.router.navigateByUrl('');
       },
-        error => { console.log(error) });
+        error => { console.log(error); });
     } else {
       console.log('error');
     }

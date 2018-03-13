@@ -21,7 +21,7 @@ declare const twttr: any;
 })
 export class CardComponent implements OnInit {
   @Input() event: any;
-
+  
   @Output()
   update: EventEmitter<string[]> = new EventEmitter();
 
@@ -29,7 +29,6 @@ export class CardComponent implements OnInit {
   private accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
   twitter_link;
   public compare_images: number;
-
   constructor(private mapService: MapService, private tweetService: TweetService, private router: Router) {
     const state: RouterState = router.routerState;
     const root: ActivatedRoute = state.root;
@@ -40,6 +39,9 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     this.hasImages(this.event.id);
+    if (this.id == this.event.id) {
+      this.update.emit(this.event.id);
+    }
     // subscribe for event change and make card active
     this.mapService.currentEvent.subscribe(event => {
       try {
@@ -47,14 +49,10 @@ export class CardComponent implements OnInit {
       } catch (e) {
       }
     });
-    this.twitter_link = `https://twitter.com/share?url=https%3A%2F%2Fnews-dev.eos.com%2Fevent?id=${this.event.id}&hashtags=${this.event.event_type}%2C${this.event.title.replace(/ /g, '')}%2CEOSmedia%2CEOS&text=That%20${this.event.event_type}%20happened%20in%20${this.event.place}%20on%20${this.event.start_date}`;
-
+    this.twitter_link = `https://twitter.com/share?url=https%3A%2F%2Fnews-dev.eos.com%2Fevent?id=${this.event.id}&hashtags=${this.event.event_type}%2C${this.event.title.replace(/( )|(\|)/g, '')}%2CEOSmedia%2CEOS&text=That%20${this.event.event_type}%20happened%20in%20${this.event.place}%20on%20${this.event.start_date}`;
   }
 
   ngAfterViewInit() {
-    if (this.id == this.event.id) {
-      this.update.emit(this.event.id);
-    }
 
   }
 

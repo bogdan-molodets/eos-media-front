@@ -36,7 +36,7 @@ export class CoverageComponent implements OnInit {
   timer = false;
 
 
-  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService,private photosService: PhotosService) {
+  constructor(private newsService: NewsService, private tweetService: TweetService, private twitterEl: ElementRef, private mapService: MapService, private photosService: PhotosService) {
 
 
   }
@@ -57,7 +57,7 @@ export class CoverageComponent implements OnInit {
 
         this.getNewsByEventId(event.id);
 
-        //remove all child nodes
+        // remove all child nodes
         this.emptyCoverage();
 
         this.getTweets(event.id, null);
@@ -67,7 +67,7 @@ export class CoverageComponent implements OnInit {
 
         this.news = [];
         this.emptyCoverage();
-this.photos=[];
+this.photos = [];
       }
     });
 
@@ -82,9 +82,9 @@ this.photos=[];
   /**
    * remove all child elements from div
    */
-  emptyCoverage(){
+  emptyCoverage() {
     const elem = document.getElementById('twitter-card');
-    while (elem.firstChild){
+    while (elem.firstChild) {
       elem.removeChild(elem.firstChild);
     }
   }
@@ -92,28 +92,28 @@ this.photos=[];
 
 
 
-  
+
   getNewsByEventId(id: number): void {
     this.newsService.getNewsByEventId(id).subscribe(news => {
       this.news = Object.values(news);
-      //change url of image( http to https)
-      this.news.map((article)=>{       
-        article['urlToImage'] = article['urlToImage'].replace('http:','https:');
+      // change url of image( http to https)
+      this.news.map((article) => {
+        article['urlToImage'] = article['urlToImage'].replace('http:', 'https:');
       });
     });
   }
 
   getPhotosByEventId(id: number): void {
-    this.photosService.getPhotosByEventId(id).subscribe(photos=> {
-      
+    this.photosService.getPhotosByEventId(id).subscribe(photos => {
+
       this.photos = Object.values(photos);
-      
-     
+
+
     });
   }
 
   getTweets(id: number, next_page: string): void {
-    this.tweetService.getTweetsIdsByEventId(id,next_page).subscribe(ids => {
+    this.tweetService.getTweetsIdsByEventId(id, next_page).subscribe(ids => {
 
       this.next_page = ids['next'];
       this.ids = ids['results'];
