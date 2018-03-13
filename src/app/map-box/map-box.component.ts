@@ -45,5 +45,9 @@ export class MapBoxComponent implements OnInit {
 
   }
 
+  close(){
+    this.mapService.deleteAll();
+  }
+
 
 }
