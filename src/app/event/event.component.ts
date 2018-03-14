@@ -38,17 +38,8 @@ export class EventComponent implements OnInit {
         this.prev_id = this.current_id;
         this.current_id = params['id']; 
         this.getPageByEventId(params['id']);
-        //this.mapService.MakeActive();
       }
     });    
-  }
-
-  onLoad(id:any){
-    /**if(id != this.current_id){
-      this.current_id = id;
-      $(`.card-container`).animate({scrollTop: $(`#${id}card`).offsetTop },500, 'swing', function() { 
-     });
-    }**/
   }
 
   /**
@@ -72,7 +63,6 @@ export class EventComponent implements OnInit {
     if (this.current_id == undefined) {
       this.getEvents(this.next_page, this.current_id, '');
     }
-    // this.getEvents(this.next_page, this.current_id, '');
     this.getEventTypes();
   }
 
@@ -115,7 +105,10 @@ export class EventComponent implements OnInit {
    * @param event
    */
   trackByEventId(index: number, event: any): number {
-    return event.id;
+    try{
+      return event.id;
+    }catch(e){return null}
+    
   }
 
   /**
@@ -164,17 +157,11 @@ export class EventComponent implements OnInit {
         }
         this.mapService.OnFilter(this.events);
         if ( id == undefined ) {
-          this.mapService.OnCardClick(this.events[0]);
-          this.prev_id = this.events[0].id;
-          //this.current_id = this.events[0].id;
-        }else if( id != this.prev_id ){
+          this.mapService.OnCardClick(this.events[0],'init');
+        }else {
           this.mapService.OnCardClick(this.events[this.events.findIndex(event => event.id == id)]);
-          this.prev_id = id;
-          //this.current_id = this.events[this.events.findIndex(event => event.id == id)].id;
         }
-        
         } catch (err) {
-        //console.log(err);
       }
     });
   }

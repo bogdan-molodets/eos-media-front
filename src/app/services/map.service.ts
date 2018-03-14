@@ -155,17 +155,21 @@ export class MapService {
     } else if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
-      this.router.navigate(['event'], { queryParams: { id: event.id } });
+      
     }
   }
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
    * @param {Event} e
-   * @constructor
+   * @param init - show init/noinit state  
    */
-  OnCardClick(e: Event): void {
+  OnCardClick(e: Event, init?: any): void {
     // center and zoom map to chosen event
-    this.ResetZoom(e.event_lon, e.event_lat, 10);
+    if(init != 'init'){
+      this.ResetZoom(e.event_lon, e.event_lat, 10);
+      this.router.navigate(['event'], { queryParams: { id: e.id } });
+    }
+    
     this.ClearPolygonSources();
     // check for polygon existence
     if (e.affected_area && e.affected_area['coordinates'].length > 0) {
@@ -192,12 +196,8 @@ export class MapService {
         }
       });
     }
-
-
     this.MakeActive(e);
     // scroll to card
-    // scroll to card  
-    //console.log(document.getElementById(e.id + 'card'));
     const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
   }
 

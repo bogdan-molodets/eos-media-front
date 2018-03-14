@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Event } from '../event';
 import { MapService } from '../services/map.service';
 import { TweetService } from '../services/tweet.service';
@@ -22,8 +22,6 @@ declare const twttr: any;
 export class CardComponent implements OnInit {
   @Input() event: any;
   
-  @Output()
-  update: EventEmitter<string[]> = new EventEmitter();
 
   private url;
   private accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
@@ -39,9 +37,6 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     this.hasImages(this.event.id);
-    if (this.id == this.event.id) {
-      this.update.emit(this.event.id);
-    }
     // subscribe for event change and make card active
     this.mapService.currentEvent.subscribe(event => {
       try {
@@ -53,7 +48,13 @@ export class CardComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-
+    /**
+     * check if we have active id before card views init 
+     */
+    if(this.event.id == this.id ){
+      this.mapService.OnCardClick(this.event, 'init');
+    }
+    
   }
 
 
