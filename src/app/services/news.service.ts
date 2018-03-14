@@ -19,6 +19,10 @@ export class NewsService {
   getNewsByEventId(id: number): Observable<News[]> {
     return this.httpClient.get<any>(this.news_event_url + id).pipe(catchError(this.handleError('getNewsByEventId', [])));
   }
+  
+  getNews(next_page: string): Observable<any> {
+    return this.httpClient.get<any>(next_page).pipe(catchError(this.handleError('getNews', [])));
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

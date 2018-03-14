@@ -2,7 +2,6 @@ import { Component, OnInit, Input, HostListener, OnDestroy } from '@angular/core
 import { Event } from '../event';
 import { EventsService } from '../services/events.service';
 import { MapService } from '../services/map.service';
-import { TweetService } from '../services/tweet.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
 import { ActivatedRoute, Router  } from "@angular/router";
@@ -28,7 +27,7 @@ export class EventComponent implements OnInit {
   current_id: number;
   prev_id: number; // id of previous check; need for compare previos and current choice
   shown_pages: number[] = [];
-  constructor(private mapService: MapService, private eventService: EventsService, private tweetService: TweetService, private route: ActivatedRoute, private router: Router) {
+  constructor(private mapService: MapService, private eventService: EventsService, private route: ActivatedRoute, private router: Router) {
     /**
      * Subscribe to /event route params
      */
@@ -38,6 +37,8 @@ export class EventComponent implements OnInit {
         this.prev_id = this.current_id;
         this.current_id = params['id']; 
         this.getPageByEventId(params['id']);
+      }else if (this.current_id == undefined) {
+        this.getEvents(this.next_page, this.current_id, 'init');
       }
     });    
   }
@@ -60,9 +61,6 @@ export class EventComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.current_id == undefined) {
-      this.getEvents(this.next_page, this.current_id, 'init');
-    }
     this.getEventTypes();
   }
 
@@ -236,7 +234,7 @@ export class EventComponent implements OnInit {
 
       if (this.events.length > 0) {
         this.current_id = this.events[0].id;
-        this.mapService.MakeActive(this.events[0]);
+        //this.mapService.MakeActive(this.events[0]);
       } else {
         this.mapService.MakeActive(null);
       }

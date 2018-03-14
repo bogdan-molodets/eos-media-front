@@ -65,7 +65,7 @@ export class CardComponent implements OnInit {
    */
   onClick(event: any) {
 
-    this.mapService.OnCardClick(event);
+    this.mapService.OnCardClick(event, 'pagination');
 
     this.tweetService.getTweetsByEventId(event.id);
 

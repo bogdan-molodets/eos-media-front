@@ -149,12 +149,13 @@ export class MapService {
     // Check if we choose the same event twice
     if (event == null) {
       this.eventSource.next(event);
-      this.router.navigate(['event']);
+      
     } else if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
       
     }
+    this.router.navigate(['event']);
   }
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
@@ -169,7 +170,7 @@ export class MapService {
      * pagination - after share, after manual url changing (change id)
      */
     if(state == 'init'){
-      this.MakeActive(e);
+      //this.MakeActive(e);
     }else if(state == 'pagination' || state == 'pinpress'){
       this.MakeActive(e);
       // center and zoom map to chosen event
