@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -29,12 +29,14 @@ import { MapService } from './services/map.service';
 import { TweetService } from './services/tweet.service';
 import { NewsService } from './services/news.service';
 import { PhotosService } from './services/photos.service';
-import { RegisterService } from './services/register.service';
+import { AuthService } from './services/auth.service';
 import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
 
 import { CompareComponent } from './compare/compare.component';
-import { OAuthService, OAuthModule } from 'angular-oauth2-oidc';
+import { TokenInterceptor } from './auth/token.interceptor';
+//import { OAuthService, OAuthModule, UrlHelperService } from 'angular-oauth2-oidc';
+
 
 import { RegComponent } from './reg/reg.component';
 
@@ -81,18 +83,14 @@ const appRoutes: Routes = [
 
   ],
   imports: [
+    HttpClientXsrfModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: ['http://www.angular.at/api'],
-        sendAccessToken: true
-      }
-    }),
+   // OAuthModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,
       {
@@ -102,7 +100,13 @@ const appRoutes: Routes = [
     NgxCarouselModule
     // AngularOpenlayersModule
   ],
-  providers: [EventsService, MapService, TweetService, NewsService, PhotosService, RegisterService, OAuthService],
+  providers: [EventsService, MapService, TweetService, NewsService, PhotosService, AuthService,
+  {
+    provide:HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi:true
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

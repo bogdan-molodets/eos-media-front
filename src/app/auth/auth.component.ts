@@ -49,13 +49,14 @@ export class AuthComponent implements OnInit {
    * Submit auth form event
    */
   onSubmit() {
-    this.oauthService.fetchTokenUsingPasswordFlow(this.authForm.value.userName, this.authForm.value.password).then(() => {
-      this.router.navigateByUrl('');
-     // let claims = this.oauthService.getIdentityClaims();
-     // if (claims) console.debug('given_name', claims);
-    }).catch(err => {
-      console.log(err);
-    });
+   
+    // this.oauthService.fetchTokenUsingPasswordFlow(this.authForm.value.userName, this.authForm.value.password).then(() => {
+    //   this.router.navigateByUrl('');
+    //  // let claims = this.oauthService.getIdentityClaims();
+    //  // if (claims) console.debug('given_name', claims);
+    // }).catch(err => {
+    //   console.log(err);
+    // });
 
   }
 }

@@ -11,7 +11,7 @@ import {
   Validators,
   ReactiveFormsModule
 } from '@angular/forms';
-import { RegisterService } from '../services/register.service';
+//import { RegisterService } from '../services/register.service';
 import { Register } from '../register';
 import { Router  } from '@angular/router';
 
@@ -31,7 +31,7 @@ export class RegComponent implements OnInit {
   secondField = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
 
-  constructor(private registerService: RegisterService, private router: Router) {
+  constructor(private router: Router) {
     this.initForm();
   }
 
@@ -62,20 +62,20 @@ export class RegComponent implements OnInit {
 
     if (this.regForm.valid) {
 
-      this.registerService.register({
-        first_name: this.regForm.value.name.firstName,
-        last_name: this.regForm.value.name.lastName,
-        password: this.regForm.value.password.firstField,
-        repeat_password: this.regForm.value.password.secondField,
-        email: this.regForm.value.email,
-        username: this.regForm.value.userName
-      }).subscribe(res => {
-        this.router.navigateByUrl('');
-      },
-        error => { console.log(error); });
-    } else {
-      console.log('error');
-    }
+    //   this.registerService.register({
+    //     first_name: this.regForm.value.name.firstName,
+    //     last_name: this.regForm.value.name.lastName,
+    //     password: this.regForm.value.password.firstField,
+    //     repeat_password: this.regForm.value.password.secondField,
+    //     email: this.regForm.value.email,
+    //     username: this.regForm.value.userName
+    //   }).subscribe(res => {
+    //     this.router.navigateByUrl('');
+    //   },
+    //     error => { console.log(error); });
+    // } else {
+    //   console.log('error');
+     }
 
   }
 
