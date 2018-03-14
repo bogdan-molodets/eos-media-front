@@ -52,7 +52,7 @@ export class CardComponent implements OnInit {
      * check if we have active id before card views init 
      */
     if(this.event.id == this.id ){
-      this.mapService.OnCardClick(this.event, 'init');
+      this.mapService.OnCardClick(this.event, 'pagination');
     }
     
   }

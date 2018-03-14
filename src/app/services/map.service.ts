@@ -172,13 +172,24 @@ export class MapService {
   /**
    * zoom and center map on card/marker click. Scroll to card if it is not visible on page
    * @param {Event} e
-   * @param init - show init/noinit state  
+   * @param state - show init/pagination/pinpress state  
    */
-  OnCardClick(e: Event, init?: any): void {
-    // center and zoom map to chosen event
-    if (init != 'init') {
+  OnCardClick(e: Event, state?: any): void {
+    /** 
+     * Check state of event page:
+     * init - initialize page( url without id)
+     * pinpress - press any pin
+     * pagination - after share, after manual url changing (change id)
+     */
+    if(state == 'init'){
+      this.MakeActive(e);
+    }else if(state == 'pagination' || state == 'pinpress'){
+      this.MakeActive(e);
+      // center and zoom map to chosen event
       this.ResetZoom(e.event_lon, e.event_lat, 10);
       this.router.navigate(['event'], { queryParams: { id: e.id } });
+      // scroll to card
+      const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
     }
 
     this.ClearPolygonSources();
@@ -207,9 +218,7 @@ export class MapService {
         }
       });
     }
-    this.MakeActive(e);
-    // scroll to card
-    const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
+    
   }
 
   /**
@@ -276,7 +285,7 @@ export class MapService {
 
         const s = this;
         el.addEventListener('click', function () {
-          s.OnCardClick(event);
+          s.OnCardClick(event,'pinpress');
         });
       }
 
