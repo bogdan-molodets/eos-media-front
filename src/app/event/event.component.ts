@@ -61,7 +61,7 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.current_id == undefined) {
-      this.getEvents(this.next_page, this.current_id, '');
+      this.getEvents(this.next_page, this.current_id, 'init');
     }
     this.getEventTypes();
   }
@@ -89,7 +89,7 @@ export class EventComponent implements OnInit {
         if (this.shown_pages.findIndex(pages => pages == page['PageNum']) == -1) {
           this.events = [];
           this.shown_pages = [];
-          this.getEvents(`https://media-test-service.herokuapp.com/events/?page=${page['PageNum']}`, id, ' ');
+          this.getEvents(`https://media-test-service.herokuapp.com/events/?page=${page['PageNum']}`, id, 'pagination');
         }
       }catch(e) {
         console.log(e);
@@ -142,6 +142,7 @@ export class EventComponent implements OnInit {
           /**
            * First adding event(in ngOnInit), set next and previous page
            */
+          case 'init':
           default: {
             this.next_page = eventpages['next'];
             this.previous_page = eventpages['previous'];
@@ -157,9 +158,9 @@ export class EventComponent implements OnInit {
         }
         this.mapService.OnFilter(this.events);
         if ( id == undefined ) {
-          this.mapService.OnCardClick(this.events[0],'init');
-        }else {
-          this.mapService.OnCardClick(this.events[this.events.findIndex(event => event.id == id)]);
+          this.mapService.OnCardClick(this.events[0],type);
+        }else{
+          this.mapService.OnCardClick(this.events[this.events.findIndex(event => event.id == id)], type);
         }
         } catch (err) {
       }
