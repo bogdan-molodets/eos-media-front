@@ -96,6 +96,36 @@ app-compare {
     -khtml-user-drag: element;
     -webkit-user-drag: element;
   }
+  .calculate-box{
+    position: absolute;
+    background-color: #F5F5F5;
+    /*min-width: 150px;*/
+    width: 220px;
+    font-size: 15px;
+    bottom: 0;
+    min-height: 50px;
+    padding: 5px 5px;
+    margin: 0 0 10px 10px;
+    left: calc(50% - 110px);
+  }
+  #calculated-area{
+      width: 90%;
+  }
+  #calculated-area>p{
+    margin: 0 5px!important;
+    float: left!important;
+
+  }
+  .calculate-close{
+      position: absolute!important;
+      float: right;
+      right:0;
+      border-radius: 100%!important;
+      width: 32px;
+      height: 32px;
+      padding: 0!important;
+  }
+  
   /**
   *FOR Carousel
   *TODO: crete own cariusel after getting design
@@ -204,38 +234,6 @@ app-compare {
 }
 
 
-/*.compare-image{
-	min-width: 190px;
-	width: calc(25% - 20px);
-	height: inherit;
-	background: darkorange;
-	margin-left: 10px;
-	left: 30%;
-	float: left;
-}
-.carousel-items{
-	width: 5000px;
-	height: inherit;
-}
-.cursor-left{
-	position: absolute;
-	left: 10px;
-	width: 20px;
-	height: 20px;
-	top: 85px;
-	border-radius: 50%;
-	background: grey;
-}
-.cursor-right{
-	position: absolute;
-	right: 10px;
-	width: 20px;
-	top: 85px;
-	height: 20px;
-
-	border-radius: 50%;
-	background: grey;
-}*/
 
 .compare-header>h3 {
     margin: 7px 0 0 0;
@@ -452,20 +450,12 @@ app-compare {
 }
 
 .search {
-    /*position: fixed;
-	left: 240px;
-	top: 60px;
-	width: 200px;*/
-    /*width: 100%;*/
     top: 30px;
-    /*left:15px;*/
     padding: 0 15px;
     width: calc(100% - 30px);
 }
 
 .search>input[type='search'] {
-    /*position: absolute;
-	width: 100%;*/
     width: 100%;
     padding: 10px 5px;
     margin: 15px 0 0 0;
@@ -853,14 +843,12 @@ fieldset{
     top: -5000px;
     position: fixed;
     padding: 10px 0;
-    /*width: 230px;*/
     background: #eee;
     min-height: 100px;
     z-index: 30;
     overflow: hidden;
     transition: .5s ease;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-    /*min-height: 100px;*/
 }
 
 .show {
@@ -1053,9 +1041,6 @@ fieldset{
         margin: 15px 15px;
     }
     .filter>li>span {
-        /*position: relative;
-		margin: 0;
-		padding: 0;*/
         display: none;
     }
     .tab {

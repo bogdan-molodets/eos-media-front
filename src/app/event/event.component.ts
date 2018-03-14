@@ -115,7 +115,10 @@ export class EventComponent implements OnInit {
    * @param event
    */
   trackByEventId(index: number, event: any): number {
-    return event.id;
+    try{
+      return event.id;
+    }catch(e){return null}
+    
   }
 
   /**

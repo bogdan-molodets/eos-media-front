@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.token = this.oauthService.getAccessToken();
-    console.log(this.token);
   }
 
   logOut() {
