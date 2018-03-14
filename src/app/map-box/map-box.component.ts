@@ -24,7 +24,7 @@ export class MapBoxComponent implements OnInit {
   layer: any;
   source: any;
 
-  next_page= 'https://media-test-service.herokuapp.com/events/?page=1';
+  next_page = 'https://media-test-service.herokuapp.com/events/?page=1';
 
   constructor(private eventService: EventsService, private mapService: MapService) {
     (mapboxgl as any).accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
@@ -45,7 +45,10 @@ export class MapBoxComponent implements OnInit {
 
   }
 
-  close(){
+  showFeature() {
+    this.mapService.fitToBounds();
+  } 
+  close() {
     this.mapService.deleteAll();
   }
 
