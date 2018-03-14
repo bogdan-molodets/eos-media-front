@@ -96,6 +96,9 @@ app-compare {
     -khtml-user-drag: element;
     -webkit-user-drag: element;
   }
+  #box{
+      visibility: hidden;
+  }
   .calculate-box{
     position: absolute;
     background-color: #F5F5F5;
