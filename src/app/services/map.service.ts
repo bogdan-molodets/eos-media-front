@@ -16,7 +16,7 @@ import * as Compare from 'mapbox-gl-compare';
 import { Router } from '@angular/router';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as turf from 'turf';
-
+import * as ext from 'turf-extent'
 
 @Injectable()
 export class MapService {
@@ -28,7 +28,7 @@ export class MapService {
   feature: any;
   draw: any;
   area: any;
-  area_mi:any;
+  area_mi: any;
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
@@ -123,15 +123,26 @@ export class MapService {
     // convert to km2 if area more than 1000000
     if (area < (1e6)) {
       // restrict to area to 2 decimal points
-      this.area=Math.round(area * 100) / 100+'m'+'2'.sup();
-     // answer.innerHTML = '<p><strong>' + Math.round(area * 100) / 100 + '</strong></p><p>square meters</p>';
+      this.area = Math.round(area * 100) / 100 + ' m' + '2'.sup();
+      answer.innerHTML = '<p><strong>' + this.area + '</strong></p>';
     } else {
-      this.area=Math.round((area * 1e-6) * 100) / 100+'km'+'2'.sup();
-      this.area_mi=Math.round((area * 3.86e-7) * 100) / 100+'km'+'2'.sup();
-     // answer.innerHTML = '<p><strong>' + Math.round((area * 1e-6) * 100) / 100 + '</strong></p><p>square km</p>';
+      this.area = Math.round((area * 1e-6) * 100) / 100 + ' km' + '2'.sup();
+      this.area_mi = Math.round((area * 3.86e-7) * 100) / 100 + ' mi' + '2'.sup();
+      answer.innerHTML = '<p><strong>' + this.area + '</strong></p>';
     }
     document.getElementById('box').style.visibility = 'visible';
 
+    this.fitToBounds();
+  }
+
+  /**
+   * zoom to feature
+   */
+  fitToBounds() {
+    let b = turf.bbox(this.feature);
+    this.map.fitBounds(b, {
+      padding: 20
+    });
   }
 
   deleteAll() {
@@ -155,7 +166,7 @@ export class MapService {
     } else if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
-      
+
     }
   }
   /**
@@ -165,11 +176,11 @@ export class MapService {
    */
   OnCardClick(e: Event, init?: any): void {
     // center and zoom map to chosen event
-    if(init != 'init'){
+    if (init != 'init') {
       this.ResetZoom(e.event_lon, e.event_lat, 10);
       this.router.navigate(['event'], { queryParams: { id: e.id } });
     }
-    
+
     this.ClearPolygonSources();
     // check for polygon existence
     if (e.affected_area && e.affected_area['coordinates'].length > 0) {

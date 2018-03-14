@@ -97,6 +97,7 @@ app-compare {
     -webkit-user-drag: element;
   }
   #box{
+      cursor: pointer;
       visibility: hidden;
   }
   .calculate-box{
