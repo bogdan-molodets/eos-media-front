@@ -28,6 +28,7 @@ export class MapService {
   feature: any;
   draw: any;
   area: any;
+  area_mi:any;
   // used for binding event(event card) and marker on map
   private eventSource = new BehaviorSubject<Event>(null);
   currentEvent = this.eventSource.asObservable();
@@ -123,10 +124,11 @@ export class MapService {
     if (area < (1e6)) {
       // restrict to area to 2 decimal points
       this.area=Math.round(area * 100) / 100+'m'+'2'.sup();
-      answer.innerHTML = '<p><strong>' + Math.round(area * 100) / 100 + '</strong></p><p>square meters</p>';
+     // answer.innerHTML = '<p><strong>' + Math.round(area * 100) / 100 + '</strong></p><p>square meters</p>';
     } else {
       this.area=Math.round((area * 1e-6) * 100) / 100+'km'+'2'.sup();
-      answer.innerHTML = '<p><strong>' + Math.round((area * 1e-6) * 100) / 100 + '</strong></p><p>square km</p>';
+      this.area_mi=Math.round((area * 3.86e-7) * 100) / 100+'km'+'2'.sup();
+     // answer.innerHTML = '<p><strong>' + Math.round((area * 1e-6) * 100) / 100 + '</strong></p><p>square km</p>';
     }
     document.getElementById('box').style.visibility = 'visible';
 
