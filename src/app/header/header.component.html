@@ -1,3 +1,8 @@
 <div id='header'class="logo">
 	<h1>EOS media</h1>
 </div>
+<div class='header-btn'>	
+	<a *ngIf='token == undefined'  href='https://auth.eos.com/#!/sign-in?return_url={{address}}' (click)='logIn()' class='btn'>Log In</a>
+	<a *ngIf='token == undefined'  href='https://auth.eos.com/#!/sign-up?return_url={{address}}' (click)='signUp()' class='btn'>Sign Up</a>
+	<button *ngIf='token != undefined' (click)='logOut()' class='btn'>Log out</button>
+</div>

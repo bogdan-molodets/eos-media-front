@@ -1,0 +1,71 @@
+<!--<pre>{{myform.value | json}}</pre>-->
+<form class='fields' [formGroup]="regForm" (submit)='onSubmit()' novalidate>
+  <h3>Sign up to EOS-media</h3>
+  <fieldset formGroupName="name">
+    
+      <input [ngClass]="{
+        'error': firstName.invalid && (firstName.dirty || firstName.touched),
+        'success': firstName.valid && (firstName.dirty || firstName.touched)
+      }"
+      type="text" formControlName='firstName' required placeholder="First name">
+      <div class="alert" *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+        <p *ngIf="firstName.errors.required">First name is required</p>
+      </div>
+
+      <input [ngClass]="{
+        'error': lastName.invalid && (lastName.dirty || lastName.touched),
+        'success': lastName.valid && (lastName.dirty || lastName.touched)
+      }"
+      type="text" formControlName='lastName' required placeholder="Last name" >
+      <div class="alert" *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+        <p *ngIf="lastName.errors.required">Last name is required</p>
+      </div>
+
+  </fieldset>
+
+    <input [ngClass]="{
+      'error': userName.invalid && (userName.dirty || userName.touched),
+      'success': userName.valid && (userName.dirty || userName.touched)
+    }"
+    type="text" formControlName='userName' required placeholder="User Name" >
+    <div class="alert" *ngIf="userName.errors && (userName.dirty || userName.touched)">
+      <p *ngIf="userName.errors.required">User Name is required</p>
+      <p *ngIf="userName.errors.maxlength">Limit of characters is 150</p>
+    </div>
+
+    <input [ngClass]="{
+      'error': email.invalid && (email.dirty || email.touched),
+      'success': email.valid && (email.dirty || email.touched)
+    }"
+    type="email" formControlName='email' required placeholder="Email" >
+    <div class="alert" *ngIf="email.errors && (email.dirty || email.touched)">
+      <p *ngIf="email.errors.required">Email is required</p>
+      <p *ngIf="email.errors.pattern">Email must have @</p>
+    </div>
+
+  <fieldset formGroupName="password">
+    
+      <input [ngClass]="{
+        'error': firstField.invalid && (firstField.dirty || firstField.touched),
+        'success': firstField.valid && (firstField.dirty || firstField.touched)
+      }"
+      type="password" formControlName='firstField' required placeholder="Password" #p1>
+      <div class="alert" *ngIf="firstField.errors && (firstField.dirty || firstField.touched)">
+        <p *ngIf="firstField.errors.required">Password is required</p>
+        <p *ngIf="firstField.errors.minlength">Password must be 8 characters long</p>
+      </div>
+    
+      <input [ngClass]="{
+        'error': secondField.invalid && (secondField.dirty || secondField.touched),
+        'success': secondField.valid && (secondField.dirty || secondField.touched)
+      }"
+      type="password" formControlName='secondField' required placeholder="Repeat password" #p2>
+      <div class="alert" *ngIf="secondField.errors && (secondField.dirty || secondField.touched)">
+        <p *ngIf="secondField.errors.required">Password is required</p>
+        <p *ngIf="secondField.errors.minlength">Password must be 8 characters long</p>
+      </div>
+    
+  </fieldset>
+  <p class="alert" *ngIf='firstField.valid  && secondField.valid && p1.value != p2.value'>Passwords arent equal! </p>
+  <input [disabled]='regForm.invalid || p1.value != p2.value' class='btn' type="submit" value='Sign up'>
+</form>

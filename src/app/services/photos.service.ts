@@ -4,24 +4,25 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { News } from '../news';
 import { catchError } from 'rxjs/operators';
+import { Photo } from '../photo';
 import { environment } from '../../environments/environment';
 @Injectable()
-export class NewsService {
+export class PhotosService {
 
-  private news_url= environment.apiUrl+'news/';
-  private news_event_url= environment.apiUrl+'news/event/';
+
+  private photos_event_url= environment.apiUrl+'photos/event/';
   constructor(private httpClient: HttpClient) { }
 
   /**
-   * get news for event
+   * get photos for event
    * @param id event pk
    */
-  getNewsByEventId(id: number): Observable<News[]> {
-    return this.httpClient.get<any>(this.news_event_url + id).pipe(catchError(this.handleError('getNewsByEventId', [])));
+  getPhotosByEventId(id: number): Observable<Photo[]> {
+    return this.httpClient.get<any>(this.photos_event_url + id).pipe(catchError(this.handleError('getPhotosByEventId', [])));
   }
-  
-  getNews(next_page: string): Observable<any> {
-    return this.httpClient.get<any>(next_page).pipe(catchError(this.handleError('getNews', [])));
+
+  getPhotos(next_page: string): Observable<any> {
+    return this.httpClient.get<any>(next_page).pipe(catchError(this.handleError('getPhotos', [])));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

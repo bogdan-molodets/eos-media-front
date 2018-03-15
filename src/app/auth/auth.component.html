@@ -1,6 +1,6 @@
-<div class='fields'>
+<form class='fields' [formGroup]='authForm' (submit)='onSubmit()' novalidate>
   <h3>Sign in to EOS-media</h3>
-  <input type = "email" placeholder = "Email">
-  <input type = "password" placeholder = "Password">
+  <input formControlName='userName' type = "text" placeholder = "User name" required>
+  <input formControlName='password' type = "password" placeholder = "Password" required>
   <input class='btn' type="submit" value='Sign in'>
-</div>
+</form>

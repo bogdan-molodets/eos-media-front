@@ -1,9 +1,23 @@
 <div class='block' id='{{event.id+"card"}}' [ngClass]="{'active': id === event.id}" (click)="onClick(event)">
     <div class='card-title-header'>
-        <div class='card-title-image'><img src='/assets/{{event.event_type}}.png'></div>
-        <p class='card-title'>{{ event.title }}</p>    
-    </div>    
+        <div class='card-title-image'>
+            <img src='/assets/{{event.event_type}}.png'>
+        </div>
+        <div *ngIf="event !==undefined">
+            <p class='card-title'>{{ event.title }}</p>
+        </div>
+
+    </div>
+    <!--<p class='card-content indent-3'>Event id: {{ event.id }}</p>-->
     <p class='card-content indent-3'>Event type: {{ event.event_type }}</p>
     <p class='card-content indent-3'>Date of start: {{ event.start_date }}</p>
-    <button class='btn compare-open' (click)='showCompare(event.id)'>Compare</button>
+
+    <a class='share-btn' (click)='shareFacebook()'>
+        <img src='assets/Facebook.png'>
+    </a>
+    <a class='share-btn' target='_blank' href='{{twitter_link}}'>
+        <img src='assets/Twitter.png'>
+    </a>
+    <a class='btn compare-open' [ngClass]="{ 'hide': compare_images == undefined || compare_images < 2 }" (click)='showCompare(event.id)'>Compare</a>
+
 </div>

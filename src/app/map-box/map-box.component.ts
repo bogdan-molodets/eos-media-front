@@ -1,14 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Event } from '../event';
-
 import * as mapboxgl from 'mapbox-gl';
-
 import { EventsService } from '../services/events.service';
-
 import { MapService } from '../services/map.service';
-
 import { Observable } from 'rxjs/Observable';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-map-box',
   templateUrl: './map-box.component.html',
@@ -24,11 +20,10 @@ export class MapBoxComponent implements OnInit {
   layer: any;
   source: any;
 
-  next_page= 'https://media-test-service.herokuapp.com/events/?page=1';
 
   constructor(private eventService: EventsService, private mapService: MapService) {
-    (mapboxgl as any).accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
-
+    
+    (mapboxgl as any).accessToken = environment.mapbox.accessToken;
   }
 
   ngOnInit(): void {
@@ -43,6 +38,13 @@ export class MapBoxComponent implements OnInit {
     // init map in service
     this.map = this.mapService.InitMap(-102, 35, 4);
 
+  }
+
+  showFeature() {
+    this.mapService.fitToBounds();
+  } 
+  close() {
+    this.mapService.deleteAll();
   }
 
 

@@ -5,50 +5,33 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Tweet } from '../tweet';
 import { Event } from '../event';
-import { EventPages } from '../event-pages';
 import { Type } from '../type';
-
+import { environment } from '../../environments/environment';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
 export class EventsService {
-  private url = 'https://media-test-service.herokuapp.com/events/';
-  private tweets_url = 'https://gruz-test-blog.herokuapp.com/api/tweet_view/';
-  private types_url = 'https://media-test-service.herokuapp.com/event-types/';
-  private filters_url = 'https://media-test-service.herokuapp.com/events/many_filter/';
+  private url = environment.apiUrl+'events/';
+  private types_url = environment.apiUrl+'event-types/';
+  private filters_url = environment.apiUrl+'events/many_filter/';
+  private page_url = environment.apiUrl+'event-id/';
 
-  /*
-    stateFire = new BehaviorSubject<boolean>(true);
-    currentFire = this.stateFire.asObservable();
-    stateFlood = new BehaviorSubject<boolean>(true);
-    currentFlood = this.stateFlood.asObservable();*/
+
   constructor(private httpClient: HttpClient) {
   }
 
-  /**changeStatesta(state:boolean):Observable<boolean>{
-    return (!state)<boolean>;
-  }**/
+
   getEventTypes(): Observable<Type[]> {
     return this.httpClient.get<Type[]>(this.types_url).pipe(catchError(this.handleError('getEventTypes', [])));
   }
 
-  getEventsByDate(from: any, to: any): Observable<Event[]> {
-    const date_url = this.url + from + '/' + to + '/';
-    return this.httpClient.get<Event[]>(date_url).map(res => {
-      return res['results'];
-    }).pipe(catchError(this.handleError('getEventsByDate', [])));
-  }
 
   getEvents(url: string): Observable<any> {
     return this.httpClient.get(url).pipe(catchError(this.handleError('getEvents', [])));
   }
-
-
-
   getEvent(id: number): Observable<Event> {
     const url_one = `${this.url}${id}/`;
     return this.httpClient.get<Event>(url_one)
@@ -57,14 +40,6 @@ export class EventsService {
       );
   }
 
-  getEventByName(name: string): Observable<Event[]> {
-    const url_name = `${this.url}title/${name}/`;
-    return this.httpClient.get<Event[]>(url_name).map(res => {
-      return res['results'];
-    }).pipe(
-      catchError(this.handleError<Event[]>(`getEventByName name=${name}`))
-      );
-  }
 
   /**
    * multiple events filtration
@@ -76,15 +51,16 @@ export class EventsService {
    */
   getEventsByFilters(title: string, place: string, types: string, start_date: string, end_date: string): Observable<any> {
 
-    const url_filter = `${this.filters_url}${title}/${place}/${types}/${start_date}/${end_date}`;
-    //console.log(url_filter);
+    const url_filter = `${this.filters_url}${title}/${place}/${types}/${start_date}/${end_date}`;   
     return this.httpClient.get(url_filter).pipe(
       catchError(this.handleError(`getEventsByFilters name=${name}`))
       );
   }
 
 
-
+  getPageByEventId(id: number): Observable<any> {
+    return this.httpClient.get(this.page_url + id).pipe(catchError(this.handleError(`getEventsByFilters name=${name}`)));
+  }
 
   /**
    * Handle Http operation that failed.

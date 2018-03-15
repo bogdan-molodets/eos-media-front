@@ -11,10 +11,14 @@
 			<app-tweet *ngFor="let tweet of tweets" [tweet]="tweet" >
 			</app-tweet>		
 	</div>-->
+	
 	<div [ngClass]='{noActiveContainer:  selectedTab !== "twitter" }' id='twitter'>
 			<!-- <div *ngIf="tweet_articles==undefined || tweet_articles.length==0">
 					<h3>No tweets for this event!</h3>
 			</div> -->
+			<div *ngIf="ids === undefined || ids.length === 0">
+				<h3>Be the first one who will tell about it!</h3>
+			</div>
 		<div id='twitter-card' >
 	
 		</div>
@@ -27,7 +31,10 @@
 		<app-news *ngFor="let article of news" [article]='article'></app-news>
 	</div>
 	<div [ngClass]='{noActiveContainer:  selectedTab !== "photos" }' class='photos-container'>
-		<app-photos></app-photos>
+			<div *ngIf="photos==undefined || photos.length==0">
+					<h3>No photos for this event!</h3>
+			</div>
+		<app-photos *ngFor="let photo of photos" [photo]='photo'></app-photos>
 	</div>
 </div>
 

@@ -1,7 +1,11 @@
 <app-header></app-header>
-<app-event [ngClass]='{activeSideBar: activeBar === "event"}'></app-event>
-<app-coverage [ngClass]='{activeSideBar: activeBar === "menu"}'></app-coverage>
-<app-map-box [ngClass]= "{hidenMap: activeBar !== '' }"></app-map-box>
+<!--<app-event id='event-container' [ngClass]='{activeSideBar: activeBar === "event"}'></app-event>-->
+<!--<app-coverage [ngClass]='{activeSideBar: activeBar === "menu"}'></app-coverage>-->
+<!--<app-map-box [ngClass]= "{hidenMap: activeBar !== '' }"></app-map-box>-->
+<router-outlet name = 'event'></router-outlet>
+<router-outlet name = 'map'></router-outlet>
+<router-outlet name = 'coverage'></router-outlet>
+<router-outlet name = 'error'></router-outlet>
 <div [ngClass]="{shadowCompare : visible === true}"></div>
 <app-compare [ngClass]="{activeCompare: visible === true}" [event]="event"></app-compare>
 <button id ='events-btn' class='btn mobile-btn' (click)='setActiveBar("event")'>Events</button>
