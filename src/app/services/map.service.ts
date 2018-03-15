@@ -403,17 +403,17 @@ export class MapService {
     let part_url = this.url;
     switch (obj.satelliteName) {
       case 'modis':
-        part_url += 'MODIS/' + obj.sceneID + '/RED,GREEN,BLUE/{z}/{x}/{y}';
+        part_url += 'MODIS/' + obj.sceneID + '/B01,B04,B03/{z}/{x}/{y}';
         break;
       case 'Sentinel-2A':
       case 'Sentinel-2B':
-        part_url += 'S2' + obj.sceneID + '/RED,GREEN,BLUE/{z}/{x}/{y}';
+        part_url += 'S2' + obj.sceneID + '/B04,B03,B02/{z}/{x}/{y}';
         break;
       case 'landsat-7':
-        part_url += 'L7/' + obj.sceneID + '/RED,GREEN,BLUE/{z}/{x}/{y}';
+        part_url += 'L7/' + obj.sceneID + '/B3,B2,B1/{z}/{x}/{y}';
         break;
       case 'landsat-8':
-        part_url += 'L8/' + obj.sceneID + '/RED,GREEN,BLUE/{z}/{x}/{y}';
+        part_url += 'L8/' + obj.sceneID + '/B4,B3,B2/{z}/{x}/{y}';
         break;
 
 
