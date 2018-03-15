@@ -161,7 +161,7 @@ export class MapService {
   MakeActive(event: Event) {
     // Check if we choose the same event twice
     if (event == null) {
-      this.eventSource.next(event);
+      //this.eventSource.next(event);
       console.log('make active null');
       
     } else if (this.current_id !== event.id) {
