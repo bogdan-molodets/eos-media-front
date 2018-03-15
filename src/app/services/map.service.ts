@@ -162,11 +162,12 @@ export class MapService {
     // Check if we choose the same event twice
     if (event == null) {
       this.eventSource.next(event);
+      console.log('make active null');
       
     } else if (this.current_id !== event.id) {
       this.eventSource.next(event);
       this.current_id = event.id;
-
+      console.log('make active else');
     }
     this.router.navigate(['event']);
   }
@@ -183,11 +184,20 @@ export class MapService {
      * pagination - after share, after manual url changing (change id)
      */
     if(state == 'init'){
-      //this.MakeActive(e);
+      this.MakeActive(e);
     }else if(state == 'pagination' || state == 'pinpress'){
+      console.log('pagination and pinpress');
       this.MakeActive(e);
       // center and zoom map to chosen event
       this.ResetZoom(e.event_lon, e.event_lat, 10);
+      this.router.navigate(['event'], { queryParams: { id: e.id } });
+      // scroll to card
+      const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });
+    }else if(state=='scroll'){
+      console.log('scroll');
+      this.MakeActive(e);
+      // center and zoom map to chosen event
+      //this.ResetZoom(e.event_lon, e.event_lat, 10);
       this.router.navigate(['event'], { queryParams: { id: e.id } });
       // scroll to card
       const event_el = document.getElementById(e.id + 'card').scrollIntoView({ behavior: 'smooth' });

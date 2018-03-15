@@ -156,8 +156,11 @@ export class EventComponent implements OnInit {
         }
         this.mapService.OnFilter(this.events);
         if ( id == undefined ) {
+          console.log('id undefined');
+         // this.mapService.MakeActive(this.events[0]);
           this.mapService.OnCardClick(this.events[0],type);
         }else{
+          console.log('here event');
           this.mapService.OnCardClick(this.events[this.events.findIndex(event => event.id == id)], type);
         }
         } catch (err) {
@@ -234,7 +237,8 @@ export class EventComponent implements OnInit {
 
       if (this.events.length > 0) {
         this.current_id = this.events[0].id;
-        //this.mapService.MakeActive(this.events[0]);
+        this.mapService.MakeActive(this.events[0]);
+        console.log('after null select');
       } else {
         this.mapService.MakeActive(null);
       }
