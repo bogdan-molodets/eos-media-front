@@ -16,7 +16,7 @@ import * as Compare from 'mapbox-gl-compare';
 import { Router } from '@angular/router';
 import * as MapboxDraw from '@mapbox/mapbox-gl-draw';
 import * as turf from 'turf';
-import * as ext from 'turf-extent'
+
 
 @Injectable()
 export class MapService {
