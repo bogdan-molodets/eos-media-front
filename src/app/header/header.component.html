@@ -3,6 +3,6 @@
 </div>
 <div class='header-btn'>	
 	<a *ngIf='token == undefined'  href='https://auth.eos.com/#!/sign-in?return_url={{address}}' (click)='logIn()' class='btn'>Log In</a>
-	<button *ngIf='token == undefined' (click)='signUp()' class='btn'>Sign Up</button>
+	<a *ngIf='token == undefined'  href='https://auth.eos.com/#!/sign-up?return_url={{address}}' (click)='signUp()' class='btn'>Sign Up</a>
 	<button *ngIf='token != undefined' (click)='logOut()' class='btn'>Log out</button>
 </div>

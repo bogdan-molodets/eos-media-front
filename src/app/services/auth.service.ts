@@ -19,24 +19,26 @@ export class AuthService {
   private logout_url = 'https://auth.eos.com/api/v1/user/logout/';
 
   constructor(private httpClient: HttpClient) { }
-token:any;
+  token: any;
   // register(registerData: any): Observable<any> {
   //   return this.httpClient.post(this.register_url, registerData).pipe(catchError(this.handleError('register', [])));
   // }
   getToken() {
-    return this.httpClient.get(this.token_url,{withCredentials:true}).pipe(catchError(this.handleError('getToken', [])));
+    return this.httpClient.get(this.token_url, { withCredentials: true }).pipe(catchError(this.handleError('getToken', [])));
   }
 
-  logout():Observable<any>{
-    return this.httpClient.post(this.logout_url, {withCredentials:true}).pipe(catchError(this.handleError('logout', [])));
+  logout(token: any): Observable<any> {
+    let headers = new HttpHeaders().set('x-csrftoken', token);
+    //let options = new Http ({ headers: headers, withCredentials: true });
+    return this.httpClient.post(this.logout_url,null, { withCredentials: true }).pipe(catchError(this.handleError('logout', [])));
   }
 
-  getDetails():Observable<any>{
+  getDetails(): Observable<any> {
     return this.httpClient.get(this.details_url).pipe(catchError(this.handleError('getDetails', [])));
   }
 
-  isAuthenticated():Observable<any>{
-    return this.httpClient.get(this.is_authenticated_url).pipe(catchError(this.handleError('isAuthenticated', [])));  
+  isAuthenticated(): Observable<any> {
+    return this.httpClient.get(this.is_authenticated_url).pipe(catchError(this.handleError('isAuthenticated', [])));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
