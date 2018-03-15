@@ -7,17 +7,17 @@ import { catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Event } from '../event';
 import { Type } from '../type';
-
+import { environment } from '../../environments/environment';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
 export class EventsService {
-  private url = 'https://media-test-service.herokuapp.com/events/';
-  private types_url = 'https://media-test-service.herokuapp.com/event-types/';
-  private filters_url = 'https://media-test-service.herokuapp.com/events/many_filter/';
-  private page_url = 'https://media-test-service.herokuapp.com/event-id/';
+  private url = environment.apiUrl+'events/';
+  private types_url = environment.apiUrl+'event-types/';
+  private filters_url = environment.apiUrl+'events/many_filter/';
+  private page_url = environment.apiUrl+'event-id/';
 
 
   constructor(private httpClient: HttpClient) {

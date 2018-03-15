@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Type } from '../type';
 import { ActivatedRoute, Router  } from "@angular/router";
 import * as $ from "jquery";
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-event', templateUrl: './event.component.html', styleUrls: ['./event.component.css']
 })
@@ -18,7 +18,7 @@ export class EventComponent implements OnInit {
   event: Event;
   event_types: string[];
   active_types: string[];
-  next_page = 'https://media-test-service.herokuapp.com/events/?page=1';
+  next_page = environment.apiUrl+'events/?page=1';
   previous_page = null;
   visible = false;
   filter = false;
@@ -87,7 +87,7 @@ export class EventComponent implements OnInit {
         if (this.shown_pages.findIndex(pages => pages == page['PageNum']) == -1) {
           this.events = [];
           this.shown_pages = [];
-          this.getEvents(`https://media-test-service.herokuapp.com/events/?page=${page['PageNum']}`, id, 'pagination');
+          this.getEvents(`${environment.apiUrl}events/?page=${page['PageNum']}`, id, 'pagination');
         }
       }catch(e) {
         console.log(e);

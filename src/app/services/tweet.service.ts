@@ -5,16 +5,16 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import { catchError } from 'rxjs/operators';
-
+import { environment } from '../../environments/environment';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
 export class TweetService {
-  private url = 'https://media-test-service.herokuapp.com/tweets';
-  private twitter_event_url = 'https://media-test-service.herokuapp.com/tweets/event/';
-  private twit_ids= 'https://media-test-service.herokuapp.com/tweets/event/';
+  private url = environment.apiUrl+'tweets';
+  private twitter_event_url = environment.apiUrl+'tweets/event/';
+  private twit_ids=environment.apiUrl+ 'tweets/event/';
 
   constructor(private httpClient: HttpClient) {
   }

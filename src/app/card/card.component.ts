@@ -9,6 +9,7 @@ import {
   animate,
   transition
 } from '@angular/animations';
+import { environment } from '../../environments/environment';
 import { Router, ActivatedRoute, RouterState } from '@angular/router';
 
 declare const FB: any;
@@ -24,7 +25,7 @@ export class CardComponent implements OnInit {
   
 
   private url;
-  private accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
+  //private accessToken = 'pk.eyJ1IjoiYm9nZGFubW9sb2RldHMiLCJhIjoiY2pjMG9kZ3NjMDNhazJ4cXltNWdhYXh0diJ9.RbZ5rCF0N3-n5GKfGyrI3w';
   twitter_link;
   public compare_images: number;
   constructor(private mapService: MapService, private tweetService: TweetService, private router: Router) {
@@ -83,7 +84,7 @@ export class CardComponent implements OnInit {
           'og:description': `That ${this.event.event_type} happend in ${this.event.place} on ${this.event.start_date}`,
           'og:og:image:width': '512',
           'og:image:height': '512',
-          'og:image:url': `https://api.mapbox.com/v4/mapbox.streets-basic/url-https%3A%2F%2Fnews-dev.eos.com%2Fassets%2F${this.event.event_type}.png(${this.event.event_lon},${this.event.event_lat})/${this.event.event_lon},${this.event.event_lat},10/512x512.png?access_token=${this.accessToken}`,
+          'og:image:url': `https://api.mapbox.com/v4/mapbox.streets-basic/url-https%3A%2F%2Fnews-dev.eos.com%2Fassets%2F${this.event.event_type}.png(${this.event.event_lon},${this.event.event_lat})/${this.event.event_lon},${this.event.event_lat},10/512x512.png?access_token=${environment.mapbox.accessToken}`,
         }
       })
     },

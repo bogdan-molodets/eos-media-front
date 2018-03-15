@@ -5,12 +5,12 @@ import { of } from 'rxjs/observable/of';
 import { News } from '../news';
 import { catchError } from 'rxjs/operators';
 import { Photo } from '../photo';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class PhotosService {
 
 
-  private photos_event_url= 'https://media-test-service.herokuapp.com/photos/event/';
+  private photos_event_url= environment.apiUrl+'photos/event/';
   constructor(private httpClient: HttpClient) { }
 
   /**

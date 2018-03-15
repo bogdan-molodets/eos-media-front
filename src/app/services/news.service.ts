@@ -4,12 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { News } from '../news';
 import { catchError } from 'rxjs/operators';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class NewsService {
 
-  private news_url= 'https://media-test-service.herokuapp.com/news/';
-  private news_event_url= 'https://media-test-service.herokuapp.com/news/event/';
+  private news_url= environment.apiUrl+'news/';
+  private news_event_url= environment.apiUrl+'news/event/';
   constructor(private httpClient: HttpClient) { }
 
   /**
